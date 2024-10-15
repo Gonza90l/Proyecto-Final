@@ -1,16 +1,20 @@
-/* General Styles */
+/* Importamos los colores desde colors.css */
+@import url(colors.css);
+
+/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--negro-intenso);
+    color: var(--naranja-claro);
     text-align: center;
 }
 
+/* Estilos para el encabezado */
 header {
-    background-color: orange;
-    color: #333;
+    background-color: var(--marron-claro);
+    color: var(--negro-intenso);
     padding: 1rem 0;
     text-align: center;
 }
@@ -19,13 +23,14 @@ header h1 {
     margin: 0;
 }
 
+/* Estilos para la barra de navegación */
 nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     justify-content: center;
-    background-color: #333;
+    background-color: var(--negro-intenso);
 }
 
 nav ul li {
@@ -35,22 +40,47 @@ nav ul li {
 nav ul li a {
     display: block;
     padding: 1rem;
-    color: white;
+    color: var(--blanco);
     text-decoration: none;
 }
 
 nav ul li a:hover {
-    background-color: #575757;
+    background-color: var(--gris-claro);
 }
 
-main {
-    padding: 2rem;
-    text-align: center;
+/* Estilos para el menú de comidas y bebidas */
+.menu-section {
+    margin: 40px auto;
+    max-width: 800px;
 }
 
+/* Estilos de los ítems del menú */
+.menu-item {
+    background-color: var(--gris-claro); /* Color de fondo del ítem */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.menu-item h3 {
+    margin: 0;
+    color: var(--rojo-oscuro); /* Color del título */
+}
+
+.menu-item p {
+    margin: 5px 0;
+    color: var(--negro-intenso); /* Color de la descripción para mayor contraste */
+}
+
+.menu-item .price {
+    color: var(--marron-claro);
+    font-weight: bold;
+}
+
+/* Estilos para el pie de página */
 footer {
-    background-color: #333;
-    color: white;
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
     text-align: center;
     padding: 1rem 0;
     position: fixed;
@@ -62,43 +92,23 @@ footer p {
     margin: 0;
 }
 
+/* Estilos para spinner (si es necesario) */
 .spinner {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 1.5em; /* Ajusta el tamaño según sea necesario */
-    color: #007bff; /* Cambia el color según tu tema */
+    color: var(--azul-oscuro); /* Cambiado el color a uno del tema */
 }
 
-/* Login Styles */
-#login-container {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    margin: 50px auto; /* Centrar el contenedor horizontalmente */
-}
-
-h2 {
-    margin-bottom: 20px;
-}
-
+/* Estilos para formulario (si es necesario en otra página) */
 form {
     display: flex;
     flex-direction: column;
 }
 
-label {
-    margin-bottom: 5px;
-    text-align: left;
-}
-
-input[type="text"],
-input[type="password"] {
+input[type="text"], input[type="password"] {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -108,15 +118,15 @@ input[type="password"] {
 
 button {
     padding: 10px;
-    background: #007bff;
-    color: #fff;
+    background: var(--azul-oscuro);
+    color: var(--blanco);
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background: #0056b3;
+    background: var(--marron-claro);
 }
 
 #error-message {
