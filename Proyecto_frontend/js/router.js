@@ -1,22 +1,10 @@
 import { authService } from './authService.js';
+import { routeConfig } from './routes.js';
 
 const routes = {};
 const protectedRoutes = new Set();
 const roleBasedRoutes = {}; // Rutas basadas en roles
 const fragmentCache = {};
-
-// Registrar rutas de forma declarativa
-const routeConfig = [
-    { path: '/', view: '/views/home.html' },
-    { path: '/menu', view: '/views/menu.html', protected: true, role: 'user' },
-    { path: '/about', view: '/views/about.html' },
-    { path: '/landing', view: '/views/landing.html' },
-    { path: '/404', view: '/views/404.html' },
-    { path: '/login', view: '/views/login.html' },
-    { path: '/register', view: '/views/register.html' },
-    { path: '/dashboard', view: '/views/user-dashboard.html', protected: true, role: 'user' }, // Dashboard para usuario regular
-    { path: '/admin-dashboard', view: '/views/admin-dashboard.html', protected: true, role: 'admin' }, // Dashboard para admins
-];
 
 // Registrar rutas en base a configuración
 routeConfig.forEach(({ path, view, protected: isProtected, role }) => {
