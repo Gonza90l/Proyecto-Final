@@ -7,76 +7,11 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <title>Sistema para pedidos de comidas</title>
 </head>
-
-<body id="app">
-    <header>
-        <h1>Sistema para pedidos de comidas</h1>
-    </header>
-
-    <nav>
-        <ul id="navigator">
-            <!-- El menú de gestión se genera dinámicamente -->
-            PRUEBA
-        </ul>
-    </nav>
-
-    <main>
-        <!-- Sección de comidas -->
-        <div class="menu-section">
-            <h2>Comidas</h2>
-
-            <div class="menu-item">
-                <h3>Pasta al Pesto</h3>
-                <p>Deliciosa pasta con salsa de pesto fresco y queso parmesano.</p>
-                <p class="price">$8.50</p>
-            </div>
-
-            <div class="menu-item">
-                <h3>Hamburguesa Especial</h3>
-                <p>Hamburguesa de res con queso cheddar, bacon, y salsa especial de la casa.</p>
-                <p class="price">$10.00</p>
-            </div>
-
-            <div class="menu-item">
-                <h3>Pizza Margarita</h3>
-                <p>Clásica pizza con tomate, albahaca y mozzarella fresca.</p>
-                <p class="price">$12.00</p>
-            </div>
-        </div>
-
-        <!-- Sección de bebidas -->
-        <div class="menu-section">
-            <h2>Bebidas</h2>
-
-            <div class="menu-item">
-                <h3>Coca-Cola</h3>
-                <p>Refresco clásico.</p>
-                <p class="price">$2.00</p>
-            </div>
-
-            <div class="menu-item">
-                <h3>Limonada Casera</h3>
-                <p>Limonada fresca con un toque de menta.</p>
-                <p class="price">$3.00</p>
-            </div>
-
-            <div class="menu-item">
-                <h3>Café Espresso</h3>
-                <p>Café espresso 100% arábica.</p>
-                <p class="price">$1.50</p>
-            </div>
-        </div>
-    </main>
-
-    <!-- Pie de página -->
-    <footer>
-        <p>Sistema de pedido de comidas<br>
-            Grupo 1: Gonzalo Lastra, Rodrigo Santander y Paula Riquelme <br>
-            Todos los derechos reservados - <span id="footerYear"></span>
-        </p>
-    </footer>
-
-    <!-- Scripts dinámicos -->
-    <!-- <script type="module" src="/js/app.js?v3"></script> -->
+<body>
+    <header data-fragment="pageheader"></header>
+    <main id="app"></main>
+    <footer data-fragment="pagefooter"></footer>
+    <!-- Scripts principal -->
+    <script type="module" src="/js/app.js?v11"></script>
 </body>
 </html>

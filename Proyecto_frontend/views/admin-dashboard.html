@@ -1,0 +1,61 @@
+<!-- dashboard view -->
+<section class="dashboard-section">
+    <h2>Estadísticas</h2>
+    <div class="stats">
+        <div class="stat-item">
+            <h3>Total de Pedidos</h3>
+            <p id="total-orders">0</p>
+        </div>
+        <div class="stat-item">
+            <h3>Ingresos Totales</h3>
+            <p id="total-revenue">$0.00</p>
+        </div>
+        <div class="stat-item">
+            <h3>Pedidos Pendientes</h3>
+            <p id="pending-orders">0</p>
+        </div>
+    </div>
+</section>
+<section class="dashboard-section">
+    <h2>Gestión del Menú</h2>
+    <form class="menu-form" id="menu-form">
+        <input type="text" id="dish-name" placeholder="Nombre del plato" required>
+        <textarea id="dish-description" placeholder="Descripción del plato" required></textarea>
+        <input type="number" id="dish-price" placeholder="Precio" required>
+        <input type="text" id="dish-category" placeholder="Categoría" required>
+        <button type="submit">Agregar/Actualizar Plato</button>
+    </form>
+    <table class="menu-table" id="menu-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se insertarán los platos del menú -->
+        </tbody>
+    </table>
+</section>
+<section class="dashboard-section">
+    <h2>Gestión de Pedidos</h2>
+    <table class="orders-table" id="orders-table">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Platos</th>
+                <th>Cantidad</th>
+                <th>Precio Total</th>
+                <th>Fecha y Hora</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se insertarán los pedidos -->
+        </tbody>
+    </table>
+</section>

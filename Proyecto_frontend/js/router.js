@@ -1,58 +1,141 @@
-import { ApiClient } from './apiClient.js';
 import { authService } from './authService.js';
 
-const routes = {
-    '/': '/views/home.html',
-    '/menu': '/views/menu.html',
-    '/about': '/views/about.html',
-    '/landing': '/views/landing.html',
-    '/404': '/views/404.html',
-    '/login': '/views/login.html',
-    '/register': '/views/register.html',
-    '/dashboard': '/views/dashboard.html' // Añadir la ruta del dashboard
-};
+const routes = {};
+const protectedRoutes = new Set();
+const roleBasedRoutes = {}; // Rutas basadas en roles
+const fragmentCache = {};
 
-const publicRoutes = ['/', '/about', '/landing', '/404', '/login', '/register'];
+// Registrar rutas de forma declarativa
+const routeConfig = [
+    { path: '/', view: '/views/home.html' },
+    { path: '/menu', view: '/views/menu.html', protected: true, role: 'user' },
+    { path: '/about', view: '/views/about.html' },
+    { path: '/landing', view: '/views/landing.html' },
+    { path: '/404', view: '/views/404.html' },
+    { path: '/login', view: '/views/login.html' },
+    { path: '/register', view: '/views/register.html' },
+    { path: '/dashboard', view: '/views/user-dashboard.html', protected: true, role: 'user' }, // Dashboard para usuario regular
+    { path: '/admin-dashboard', view: '/views/admin-dashboard.html', protected: true, role: 'admin' }, // Dashboard para admins
+];
 
-const apiClient = new ApiClient(window.location.origin);
+// Registrar rutas en base a configuración
+routeConfig.forEach(({ path, view, protected: isProtected, role }) => {
+    registerRoute(path, view, isProtected, role);
+});
 
-async function isAuthenticated() {
-    return await authService.isAuthenticated();
+function registerRoute(path, view, isProtected = false, role = null) {
+    routes[path] = { view, role };
+    if (isProtected) protectedRoutes.add(path);
+    if (role) roleBasedRoutes[path] = role;
 }
 
+// Función para verificar autenticación
+async function isAuthenticated() {
+    return true
+    try {
+        return await authService.isAuthenticated();
+    } catch (err) {
+        console.error('Error checking authentication:', err);
+        return false;
+    }
+}
+
+// Función para obtener el rol del usuario
+async function getRole() {
+    return 'user';
+    try {
+        return await authService.getRole();
+    } catch (err) {
+        console.error('Error fetching user role:', err);
+        return null;
+    }
+}
+
+// Router principal
 export async function router() {
     const path = window.location.pathname;
     const route = routes[path] || routes['/404'];
-
     const authenticated = await isAuthenticated();
 
-    if (publicRoutes.includes(path)) {
-        if (authenticated) {
-            if (path === '/' || path === '/login' || path === '/register') {
-                // Redirigir al dashboard si está autenticado y está en la página de home, login o registro
-                window.history.pushState({}, '', '/dashboard');
-                loadView(routes['/dashboard']);
-                return;
-            }
-        }
-    } else {
+    if (protectedRoutes.has(path)) {
         if (!authenticated) {
-            // Redirigir al login si no está autenticado y está intentando acceder a una ruta protegida
-            window.history.pushState({}, '', '/login');
-            loadView(routes['/login']);
+            redirectToLogin();
+            return;
+        }
+
+        const userRole = await getRole();
+        if (route.role && route.role !== userRole) {
+            // Si el usuario no tiene el rol correcto, redirigir a acceso denegado o dashboard
+            redirectToDashboard(userRole);
             return;
         }
     }
 
-    loadView(route);
+    // Si el usuario está autenticado y accede a login o registro, redirigir al dashboard
+    if (authenticated && ['/','/login','/register'].includes(path)) {
+        const userRole = await getRole();
+        redirectToDashboard(userRole);
+        return;
+    }
+
+    loadView(route.view);
 }
 
-function loadView(route) {
-    apiClient.get(route)
-        .then(html => {
-            document.getElementById('app').innerHTML = html;
-        })
-        .catch(err => console.error('Error loading view:', err));
+// Cargar una vista
+async function loadView(route) {
+    try {
+        const response = await fetch(route);
+        if (!response.ok) throw new Error('Vista no generada para esta ruta.');
+        const html = await response.text();
+        document.getElementById('app').innerHTML = html;
+    } catch (err) {
+        console.error('Error loading view:', err);
+        showError('Error al cargar la vista.');
+    }
+}
+
+// Redirigir a login
+function redirectToLogin() {
+    window.history.pushState({}, '', '/login');
+    loadView(routes['/login'].view);
+}
+
+// Redirigir al dashboard adecuado según el rol
+function redirectToDashboard(userRole) {
+    if (userRole === 'admin') {
+        window.history.pushState({}, '', '/admin-dashboard');
+        loadView(routes['/admin-dashboard'].view);
+    } else {
+        window.history.pushState({}, '', '/dashboard');
+        loadView(routes['/dashboard'].view);
+    }
+}
+
+// Cargar fragmentos HTML y almacenarlos en caché
+async function loadFragments() {
+    const fragments = document.querySelectorAll('[data-fragment]');
+    await Promise.all([...fragments].map(async (fragment) => {
+        const fragmentName = fragment.getAttribute('data-fragment');
+        const url = `./views/fragments/${fragmentName}.html`;
+
+        try {
+            if (!fragmentCache[fragmentName]) {
+                console.log(`Loading fragment from ${url}`);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`No se pudo cargar ${fragmentName}`);
+                fragmentCache[fragmentName] = await response.text();
+            }
+            fragment.innerHTML = fragmentCache[fragmentName];
+        } catch (err) {
+            console.error(`Error loading fragment: ${fragmentName}`, err);
+            fragment.innerHTML = '<p>Error al cargar fragmento.</p>';
+        }
+    }));
+}
+
+// Mostrar un mensaje de error
+function showError(message) {
+    document.getElementById('app').innerHTML = `<div class="error">${message}</div>`;
 }
 
 // Manejar cambios en la URL
@@ -65,3 +148,6 @@ document.addEventListener('click', (event) => {
         router();
     }
 });
+
+// Cargar fragmentos al inicio
+document.addEventListener('DOMContentLoaded', loadFragments);
