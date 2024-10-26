@@ -1,6 +1,6 @@
 # app/controllers/controller.py
-from app.controllers.base_controller import BaseController
-from app.services.user_service import UserService
+from flaskr.controllers.base_controller import BaseController
+from flaskr.services.user_service import UserService
 from app.auth import token_required
 from injector import inject
 
