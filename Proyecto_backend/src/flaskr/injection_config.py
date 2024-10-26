@@ -1,6 +1,7 @@
 # flaskr/injection_config.py
 from injector import singleton
 
+
 def configure(binder):
     from app.services.user_service import UserService
     from app.repositories.user_repository import UserRepository

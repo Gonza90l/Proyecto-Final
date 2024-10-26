@@ -1,5 +1,5 @@
 from flask import Blueprint
-from app.controllers.controller import ExampleController, UserController
+from flaskr.controllers.controller import ExampleController, UserController
 from injector import inject
 
 main = Blueprint('main', __name__)
