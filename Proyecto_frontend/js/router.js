@@ -1,4 +1,3 @@
-import { authService } from './authService.js';
 import { routeConfig } from './routes.js';
 
 const routes = {};

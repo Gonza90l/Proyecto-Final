@@ -1,3 +1,5 @@
+// Tipo de instancia: Transient (cada vez que se instancia se crea una nueva instancia)
+
 export class ApiClient {
     constructor(baseURL) {
         this.baseURL = baseURL;
