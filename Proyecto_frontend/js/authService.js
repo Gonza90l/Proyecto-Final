@@ -34,7 +34,7 @@ class AuthService {
      * @param {string} password - La contraseña del usuario.
      * @returns {Promise<boolean>} - Retorna una promesa que resuelve a true si el login es exitoso, de lo contrario lanza un error.
      */
-    login(username, password) {
+    async login(username, password) {
         return fetch('/api/login', {
             method: 'POST',
             headers: {
