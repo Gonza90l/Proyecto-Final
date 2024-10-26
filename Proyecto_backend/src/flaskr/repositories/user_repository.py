@@ -1,6 +1,9 @@
+from flaskr.models.user import User
+from flaskr.dtos.dtos import RegisterDTO, UpdateUserDTO
+
 
 class UserRepository:
-    def __init__(self, db: Session):
+    def __init__(self, db):
         self.db = db
 
     def create_user(self, register_dto: RegisterDTO):

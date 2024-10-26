@@ -102,3 +102,11 @@ class LoginResponseDTO:
 class RegisterResponseDTO:
     def __init__(self, user):
         self.user = user
+
+# UpdateUserDTO
+# Clase que representa la actualización de un usuario
+class UpdateUserDTO:
+    def __init__(self, email, first_name, last_name):
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name

@@ -1,4 +1,6 @@
 from flaskr.repositories.user_repository import UserRepository
+from flaskr.dtos.dtos import RegisterDTO, UpdateUserDTO
+
 
 class UserService:
     def __init__(self, user_repository: UserRepository):
