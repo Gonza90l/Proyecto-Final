@@ -46,7 +46,7 @@ class Router {
     }
 
     async getRole() {
-        return 'admin';
+        return 'user';
         try {
             return await authService.getRole();
         } catch (err) {
