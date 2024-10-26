@@ -1,21 +1,32 @@
 // Tipo de instancia: Transient (cada vez que se instancia se crea una nueva instancia)
 
 export class ApiClient {
-    constructor(baseURL) {
+    constructor(baseURL, token) {
         this.baseURL = baseURL;
+        this.token = token;
+    }
+
+    _getHeaders(contentType = 'application/json') {
+        const headers = {
+            'Content-Type': contentType
+        };
+        if (this.token) {
+            headers['Authorization'] = `Bearer ${this.token}`;
+        }
+        return headers;
     }
 
     async get(endpoint) {
-        const response = await fetch(`${this.baseURL}${endpoint}`);
+        const response = await fetch(`${this.baseURL}${endpoint}`, {
+            headers: this._getHeaders()
+        });
         return this._handleResponse(response);
     }
 
     async post(endpoint, data) {
         const response = await fetch(`${this.baseURL}${endpoint}`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: this._getHeaders(),
             body: JSON.stringify(data)
         });
         return this._handleResponse(response);
@@ -24,9 +35,7 @@ export class ApiClient {
     async put(endpoint, data) {
         const response = await fetch(`${this.baseURL}${endpoint}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: this._getHeaders(),
             body: JSON.stringify(data)
         });
         return this._handleResponse(response);
@@ -34,7 +43,8 @@ export class ApiClient {
 
     async delete(endpoint) {
         const response = await fetch(`${this.baseURL}${endpoint}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: this._getHeaders()
         });
         return this._handleResponse(response);
     }

@@ -1,10 +1,11 @@
-import { router } from './router.js';
+import { routerInstance } from './router.js';
 import authService from './authService.js';
 import orderService from './orderService.js';
 import menuService from './menuService.js';
 import notificationService from './notificationService.js';
 import checkoutService from './checkoutService.js';
 import reviewService from './reviewService.js';
+import './customCode.js'; 
 
 document.addEventListener("DOMContentLoaded", () => {
     // Inicializar la aplicación
@@ -14,5 +15,5 @@ document.addEventListener("DOMContentLoaded", () => {
     notificationService.init();
     checkoutService.init();
     reviewService.init();
-    router();
+    routerInstance.router();
 });
