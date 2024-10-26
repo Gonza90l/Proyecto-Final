@@ -1,8 +1,7 @@
-# app/__init__.py
+# flaskr/__init__.py
 from flask import Flask
 from flask_injector import FlaskInjector
-from injector import inject, singleton
-from .middlewares import log_request , log_response
+from .middlewares import log_request, log_response
 
 def create_app():
     app = Flask(__name__)
@@ -17,10 +16,7 @@ def create_app():
     app.register_blueprint(main)
 
     # Configurar Flask-Injector
-    def configure(binder):
-        from app.services.user_service import UserService
-        binder.bind(UserService, to=UserService, scope=singleton)
-
+    from .injection_config import configure
     FlaskInjector(app=app, modules=[configure])
 
     return app
