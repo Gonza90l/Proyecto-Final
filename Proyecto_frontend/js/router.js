@@ -26,6 +26,7 @@ class Router {
 
         // Cargar fragmentos al inicio
         document.addEventListener('DOMContentLoaded', this.loadFragments.bind(this));
+        console.log('Router initialized');
     }
 
     registerRoute(path, view, isProtected = false, role = null) {
@@ -107,6 +108,9 @@ class Router {
             }
     
             appElement.innerHTML = html;
+
+            // Cargar fragmentos después de cargar la vista
+            await this.loadFragments();
         } catch (err) {
             console.error('Error loading view:', err);
             this.showError(`Error al cargar la vista: ${err.message}`);
@@ -133,18 +137,31 @@ class Router {
         await Promise.all([...fragments].map(async (fragment) => {
             const fragmentName = fragment.getAttribute('data-fragment');
             const url = `./views/fragments/${fragmentName}.html`;
-
+    
             try {
                 if (!this.fragmentCache[fragmentName]) {
                     console.log(`Loading fragment from ${url}`);
                     const response = await fetch(url);
                     if (!response.ok) throw new Error(`No se pudo cargar ${fragmentName}`);
-                    this.fragmentCache[fragmentName] = await response.text();
+                    
+                    const html = await response.text();
+    
+                    // Verificar si la respuesta es una página de error genérica
+                    if (html.includes('<title>Sistema para pedidos de comidas</title>')) {
+                        throw new Error('Fragmento no encontrado, asegúrate de que el fragmento existe y está en la carpeta correcta.');
+                    }
+    
+                    this.fragmentCache[fragmentName] = html;
                 }
                 fragment.innerHTML = this.fragmentCache[fragmentName];
             } catch (err) {
                 console.error(`Error loading fragment: ${fragmentName}`, err);
-                fragment.innerHTML = '<p>Error al cargar fragmento.</p>';
+                fragment.innerHTML = `
+                    <div class="error-fragment">
+                        <h2>Fragmento no encontrado</h2>
+                        <p>Lo sentimos, el fragmento "${fragmentName}" no se pudo cargar.</p>
+                    </div>
+                `;
             }
         }));
     }
