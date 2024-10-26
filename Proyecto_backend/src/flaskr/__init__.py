@@ -1,22 +1,52 @@
-# flaskr/__init__.py
 from flask import Flask
 from flask_injector import FlaskInjector
+from flask_mysqldb import MySQL
+from dotenv import load_dotenv
+import os
 from .middlewares import log_request, log_response
+from .injection_config import configure
+
+# Initialize MySQL
+mysql = MySQL()
 
 def create_app():
-    app = Flask(__name__)
+    # Load environment variables from .env file
+    load_dotenv()
 
-    # Registrar el middleware entrante
+    app = Flask(__name__)
+    app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
+    app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
+    app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
+    app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
+    app.config['MYSQL_CURSORCLASS'] = os.getenv('MYSQL_CURSORCLASS')
+
+    mysql.init_app(app)
+
+    # Create users table if it doesn't exist
+    with app.app_context():
+        cursor = mysql.connection.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(80) NOT NULL UNIQUE,
+                email VARCHAR(120) NOT NULL UNIQUE,
+                password_hash VARCHAR(128) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        mysql.connection.commit()
+        cursor.close()
+
+    # Register the incoming middleware
     app.before_request(log_request)
-    # Registrar el middleware saliente
+    # Register the outgoing middleware
     app.after_request(log_response)
 
-    # Importar y registrar las rutas
+    # Import and register routes
     from .routes.routes import main
     app.register_blueprint(main)
 
-    # Configurar Flask-Injector
-    from .injection_config import configure
-    FlaskInjector(app=app, modules=[configure])
+    # Configure Flask-Injector
+    FlaskInjector(app=app, modules=[lambda binder: configure(binder, mysql)])
 
     return app
