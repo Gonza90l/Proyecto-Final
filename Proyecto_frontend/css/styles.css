@@ -1,5 +1,6 @@
 /* Importamos los colores desde colors.css */
 @import url(colors.css);
+@import url(error.css);
 
 /* Estilos generales */
 body {
