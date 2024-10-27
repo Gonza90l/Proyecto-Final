@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_injector import FlaskInjector
 from flask_mysqldb import MySQL
-from dotenv import load_dotenv
 import os
 from .middlewares import log_request, log_response
 from .injection_config import configure
@@ -21,8 +20,6 @@ def cleanup_cache():
         cache.cleanup()
 
 def create_app():
-    # Leer las variables de entorno desde el archivo .env
-    load_dotenv()
 
     # Crear la aplicación Flask
     app = Flask(__name__)
@@ -32,6 +29,8 @@ def create_app():
     app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
     app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
     app.config['MYSQL_CURSORCLASS'] = os.getenv('MYSQL_CURSORCLASS')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  # Ensure this line is present
+
 
     # Inicializar la extensión MySQL como singleton
     mysql.init_app(app)

@@ -1,6 +1,7 @@
 from flaskr.models.user import User
 from flaskr.dtos.register_dto import  RegisterDTO
 from flaskr.dtos.update_user_dto import UpdateUserDTO
+from flaskr.dtos.login_request_dto import LoginRequestDTO
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app as app
 import jwt
@@ -67,14 +68,29 @@ class UsersService:
             return True
         return False
 
-    def login(self, email, password):
+    def login(self, login_request_dto: LoginRequestDTO):
+        errors = login_request_dto.validate()
+        if errors:
+            raise Exception(f"Validation errors: {errors}")
+
+        email = login_request_dto.email
+        password = login_request_dto.password
+
+        #encodeamos la contraseña
+        #hacemos un print de la contraseña encriptada
+        print(generate_password_hash(password))
+
         user = User(self.mysql)
         if user.find_by_email(email) and check_password_hash(user.password, password):
+            secret_key = app.config.get('SECRET_KEY')
+            if not secret_key or not isinstance(secret_key, str):
+                raise Exception("SECRET_KEY is not set or is not a string")
+
             token = jwt.encode({
                 'id': user.id,
                 'rol': user.role,
                 'exp': datetime.utcnow() + timedelta(hours=24)
-            }, app.config['SECRET_KEY'])
+            }, secret_key, algorithm='HS256')
             return token
         return None
 
