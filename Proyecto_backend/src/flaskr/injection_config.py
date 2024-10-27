@@ -1,9 +1,10 @@
 # flaskr/injection_config.py
 from injector import singleton, Binder
 from flask_mysqldb import MySQL
-from .services.user_service import UserService
+from .services.users_service import UsersService
 from .repositories.user_repository import UserRepository
-from .controllers.controller import ExampleController, UserController
+from .controllers.controller import ExampleController
+from .controllers.users_controller import UsersController
 
 def configure(binder: Binder, mysql: MySQL):
     # Vincular UserRepository a su implementación
@@ -11,13 +12,10 @@ def configure(binder: Binder, mysql: MySQL):
     binder.bind(UserRepository, to=user_repository, scope=singleton)
     
     # Vincular UserService a su implementación
-    user_service = UserService(user_repository)
-    binder.bind(UserService, to=user_service, scope=singleton)
+    user_service = UsersService(user_repository)
+    binder.bind(UsersService, to=user_service, scope=singleton)
     
     # Vincular ExampleController a su implementación
-    example_controller = ExampleController(user_service)
+    example_controller = ExampleController(mysql)
     binder.bind(ExampleController, to=example_controller, scope=singleton)
     
-    # Vincular UserController a su implementación
-    user_controller = UserController(user_service)
-    binder.bind(UserController, to=user_controller, scope=singleton)
