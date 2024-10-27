@@ -1,9 +1,13 @@
-class BaseModel:
-    def __init__(self, mysql, table, fields):
+import importlib # Importar módulos dinámicamente nos permite hacer uso de la reflexión en Python
+from flask_mysqldb import MySQL
+import json
+
+class BaseModel():
+    def __init__(self, mysql: MySQL, table: str, fields: list):
         self.mysql = mysql
         self.table = table
         self.fields = fields  # Campos específicos del modelo derivado
-        self.data = {}  # Almacena los valores de los campos
+        self.data = {}  # Almacenamos los valores de los campos
 
     def __getattr__(self, name):
         """Permite acceder a un campo como una propiedad"""
@@ -84,3 +88,28 @@ class BaseModel:
         result = cursor.fetchall()
         cursor.close()
         return result
+
+    # Método mágico para serializar el objeto
+    def __str__(self):
+        return str(self.data)
+
+    # Método para convertir el objeto a un DTO y serializarlo a JSON
+    # Requiere que exista un módulo DTO correspondiente en el directorio dtos
+    # Usamos  reflection para importar dinámicamente el módulo DTO correspondiente
+    def to_json_dto(self):
+        dto_class_name = f"{self.__class__.__name__}DTO"
+        try:
+            # Importar dinámicamente el módulo DTO correspondiente
+            dto_module = importlib.import_module(f"flaskr.dtos.{self.__class__.__name__.lower()}_dto")
+            # Obtener la clase DTO
+            dto_class = getattr(dto_module, dto_class_name)
+            # Crear una instancia del DTO
+            dto_instance = dto_class()
+            # Copiar los atributos del modelo al DTO
+            for field in self.fields:
+                if hasattr(dto_instance, field):
+                    setattr(dto_instance, field, self.data.get(field))
+            # Serializar el DTO a JSON
+            return json.dumps(dto_instance.__dict__)
+        except (ModuleNotFoundError, AttributeError) as e:
+            raise ImportError(f"DTO class '{dto_class_name}' not found for model '{self.__class__.__name__}'") from e
