@@ -1,6 +1,6 @@
 from flaskr.controllers.base_controller import BaseController
 from flaskr.services.users_service import UsersService
-from flaskr.auth import token_required
+from flaskr.auth import token_required, role_required
 from injector import inject
 
 class UsersController(BaseController):
@@ -9,6 +9,7 @@ class UsersController(BaseController):
         self.users_service = users_service
 
     @token_required
+    @role_required(['admin'])
     def get_users(self):
         users = self.users_service.get_users()
         return self.respond_success(data=users)

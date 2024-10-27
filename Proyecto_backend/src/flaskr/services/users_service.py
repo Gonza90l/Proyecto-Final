@@ -108,16 +108,20 @@ class UsersService:
 
         return user
 
-    def login (self, email, password):
-        #buscamos si no existe un usuario con el mismo email usando mysql
-        #debemos generar un token para el usuario
+    def login(self, email, password):
+        # Buscamos si existe un usuario con el mismo email usando MySQL
         cur = self.mysql.connection.cursor()
-        cur.execute("SELECT * FROM users WHERE email = %s", (email))
+        cur.execute("SELECT * FROM users WHERE email = %s", (email,))
         user = cur.fetchone()
         cur.close()
 
         if user and check_password_hash(user['password'], password):
-            token = jwt.encode({'id': user['id'], 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)}, app.config['SECRET_KEY'])
+            # Generar el token JWT incluyendo el campo 'rol'
+            token = jwt.encode({
+                'id': user['id'],
+                'rol': user['rol'],  # Asegúrate de que 'rol' esté en los datos del usuario
+                'exp': datetime.utcnow() + timedelta(hours=24)
+            }, app.config['SECRET_KEY'])
             return token
         else:
             return None

@@ -5,9 +5,20 @@ from dotenv import load_dotenv
 import os
 from .middlewares import log_request, log_response
 from .injection_config import configure
+import threading
+from .cache.memory_cache import MemoryCache
+import time
 
 # Inicializar la extensión MySQL
 mysql = MySQL()
+# Crear una instancia de la cache
+cache = MemoryCache()
+
+def cleanup_cache():
+    """Función para limpiar la cache"""
+    while True:
+        time.sleep(600)  # Intervalo de limpieza en segundos
+        cache.cleanup()
 
 def create_app():
     # Leer las variables de entorno desde el archivo .env
@@ -53,5 +64,9 @@ def create_app():
 
     # Configurar la inyección de dependencias
     FlaskInjector(app=app, modules=[lambda binder: configure(binder, mysql)])
+
+     # Iniciar el hilo de limpieza de la cache
+    cleanup_thread = threading.Thread(target=cleanup_cache, daemon=True)
+    cleanup_thread.start()
 
     return app
