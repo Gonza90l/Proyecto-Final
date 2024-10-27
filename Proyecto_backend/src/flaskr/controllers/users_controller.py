@@ -1,5 +1,6 @@
 from flaskr.controllers.base_controller import BaseController
 from flaskr.services.users_service import UsersService
+from flaskr.dtos.login_request_dto import LoginRequestDTO
 from flaskr.auth import token_required, role_required
 from injector import inject
 
@@ -8,6 +9,8 @@ class UsersController(BaseController):
     def __init__(self, users_service: UsersService):
         self.users_service = users_service
 
+    @token_required
+    @role_required('ADMIN')
     def get_users(self):
         users = self.users_service.get_users()
         return self.respond_success(data=users)
@@ -27,6 +30,22 @@ class UsersController(BaseController):
     def delete_user(self, user_id):
         user = self.users_service.delete_user(user_id)
         return self.respond_success(data=user)
+
+    #login
+    def login(self):
+        #mapemaos el objeto json a un dto
+        data = self.get_json_data()
+        login_request = LoginRequestDTO(**data)
+        #validamos el dto
+        errors = login_request.validate()
+        if errors:
+            return self.respond_error(errors)
+        #llamamos al servicio que nos devuelve el token
+        token = self.users_service.login(login_request)
+        return self.respond_success(data=token)
+
+
+
 
     # verify-token
     @token_required
