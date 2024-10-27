@@ -32,4 +32,5 @@ class UsersController(BaseController):
 
     # verify-token
     @token_required
-    
+    def verify_token(self):
+        return self.respond_success(data={'message': 'Token is valid'})
