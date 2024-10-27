@@ -64,9 +64,18 @@ class BaseModel():
         return result
 
     def find_all(self):
-        """Recupera todos los registros de la tabla."""
+        """Recupera todos los registros de la tabla y los convierte en instancias del modelo."""
         query = f"SELECT * FROM {self.table}"
-        return self.fetch_all(query)
+        results = self.fetch_all(query)
+        
+        # Convertir cada resultado en una instancia del modelo actual
+        model_instances = []
+        for result in results:
+            instance = self.__class__(self.mysql)  # Crear una instancia del modelo
+            instance.set(**result)  # Cargar los datos en la instancia
+            model_instances.append(instance)
+        
+        return model_instances
 
     # Métodos de utilidad para consultas SQL
     def execute_query(self, query, params=None):
@@ -89,7 +98,6 @@ class BaseModel():
         cursor.close()
         return result
 
-    # Método mágico para serializar el objeto
     def __str__(self):
         return str(self.data)
 
@@ -125,3 +133,11 @@ class BaseModel():
                     raise AttributeError(f"DTO JSON has no attribute '{key}'")
         except json.JSONDecodeError as e:
             raise ValueError("Invalid JSON format") from e
+
+    def from_dict(self, data):
+        """Convierte un diccionario a un modelo."""
+        for key, value in data.items():
+            if key in self.fields:
+                self.data[key] = value
+            else:
+                raise AttributeError(f"Dictionary has no attribute '{key}'")

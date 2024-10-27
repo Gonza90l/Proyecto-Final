@@ -26,6 +26,13 @@ class BaseDTO:
                     errors.append(f"Field {field} must be after {constraints['after']}")
                 if 'allowed_values' in constraints and value not in constraints['allowed_values']:
                     errors.append(f"Field {field} must be one of {constraints['allowed_values']}")
+                if isinstance(value, str):
+                    if 'min_length' in constraints and len(value) < constraints['min_length']:
+                        errors.append(f"Field {field} must be at least {constraints['min_length']} characters long")
+                    if 'max_length' in constraints and len(value) > constraints['max_length']:
+                        errors.append(f"Field {field} must be at most {constraints['max_length']} characters long")
+                    if 'must_contain_special' in constraints and not re.search(r'[!@#$%^&*(),.?":{}|<>]', value):
+                        errors.append(f"Field {field} must contain at least one special character")
 
         return errors
 

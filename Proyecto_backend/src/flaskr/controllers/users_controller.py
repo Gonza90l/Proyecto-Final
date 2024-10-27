@@ -8,8 +8,6 @@ class UsersController(BaseController):
     def __init__(self, users_service: UsersService):
         self.users_service = users_service
 
-    @token_required
-    @role_required(['admin'])
     def get_users(self):
         users = self.users_service.get_users()
         return self.respond_success(data=users)
