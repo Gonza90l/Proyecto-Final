@@ -113,3 +113,15 @@ class BaseModel():
             return json.dumps(dto_instance.__dict__)
         except (ModuleNotFoundError, AttributeError) as e:
             raise ImportError(f"DTO class '{dto_class_name}' not found for model '{self.__class__.__name__}'") from e
+
+    def from_json_dto(self, json_dto):
+        """Convierte un JSON DTO a un modelo."""
+        try:
+            dto_data = json.loads(json_dto)
+            for key, value in dto_data.items():
+                if key in self.fields:
+                    self.data[key] = value
+                else:
+                    raise AttributeError(f"DTO JSON has no attribute '{key}'")
+        except json.JSONDecodeError as e:
+            raise ValueError("Invalid JSON format") from e

@@ -23,7 +23,10 @@ class ExampleController(BaseController):
         user.name = "Juan"
         user.email = "juan@example.com"
         user.password = "1234"
-        user_dict = user.to_json_dto()  # Convertir el objeto User a un diccionario
-        return self.respond_success(data=user_dict)
+        user.role = "admin"
+        user.lastname = "Perez"
+        user.insert()
+
+        return self.respond_success(data=user.to_json_dto())
 
 

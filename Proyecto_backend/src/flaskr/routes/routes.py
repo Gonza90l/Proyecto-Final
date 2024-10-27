@@ -10,7 +10,20 @@ main = Blueprint('main', __name__)
 def example_route(example_controller: ExampleController):
     return example_controller.handle_request()
 
-@main.route('/user/<int:user_id>', methods=['GET'])
+#rutas de registro y login
+@main.route('/users', methods=['POST'])
 @inject
-def get_user(user_id, user_controller: UsersController):
-    return user_controller.get_user(user_id)
+def register_route(users_controller: UsersController):
+    return users_controller.register()
+
+@main.route('/login', methods=['POST'])
+@inject
+def login_route(users_controller: UsersController):
+    return users_controller.login()
+
+#rutas de usuarios
+@main.route('/users', methods=['GET'])
+@inject
+def get_users_route(users_controller: UsersController):
+    return users_controller.get_users()
+    

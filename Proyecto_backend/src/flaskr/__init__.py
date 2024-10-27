@@ -22,17 +22,20 @@ def create_app():
     app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
     app.config['MYSQL_CURSORCLASS'] = os.getenv('MYSQL_CURSORCLASS')
 
-    # Inicializar la extensión MySQL
+    # Inicializar la extensión MySQL como singleton
     mysql.init_app(app)
     # Crear la tabla de usuarios si no existe
+    #campos = ['id', 'name', 'lastname', 'email', 'password', 'role']
     with app.app_context():
         cursor = mysql.connection.cursor()
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(80) NOT NULL UNIQUE,
-                email VARCHAR(120) NOT NULL UNIQUE,
-                password_hash VARCHAR(128) NOT NULL,
+                name VARCHAR(100) NOT NULL,
+                lastname VARCHAR(100) NOT NULL,
+                email VARCHAR(100) NOT NULL,
+                password VARCHAR(100) NOT NULL,
+                role VARCHAR(100) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
