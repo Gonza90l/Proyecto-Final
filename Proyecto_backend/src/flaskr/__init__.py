@@ -21,7 +21,6 @@ def create_app():
     app.config['MYSQL_CURSORCLASS'] = os.getenv('MYSQL_CURSORCLASS')
 
     mysql.init_app(app)
-
     # Create users table if it doesn't exist
     with app.app_context():
         cursor = mysql.connection.cursor()
