@@ -12,7 +12,7 @@ class LoginController(BaseController):
         self.user_service = user_service
 
     def login(self):
-        login_dto = LoginDTO(**self.get_json_data())
+        login_dto = LoginDTO(**self.get_json_data()) # Desempaquetar los datos del json
         login_response = self.login_service.login(login_dto)
         return self.respond_success(data=login_response)
 
