@@ -23,13 +23,3 @@ class ExampleController(BaseController):
             "headers": headers,
             "cookies": cookies
         })
-
-class UserController(BaseController):
-    @inject
-    def __init__(self, user_service: UserService):
-        self.user_service = user_service
-
-    @token_required
-    def get_user(self, user_id):
-        user = self.user_service.get_user(user_id)
-        return self.respond_success(data=user)

@@ -6,22 +6,25 @@ import os
 from .middlewares import log_request, log_response
 from .injection_config import configure
 
-# Initialize MySQL
+# Inicializar la extensión MySQL
 mysql = MySQL()
 
 def create_app():
-    # Load environment variables from .env file
+    # Leer las variables de entorno desde el archivo .env
     load_dotenv()
 
+    # Crear la aplicación Flask
     app = Flask(__name__)
+    # Configurar la conexión a la base de datos
     app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
     app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
     app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
     app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
     app.config['MYSQL_CURSORCLASS'] = os.getenv('MYSQL_CURSORCLASS')
 
+    # Inicializar la extensión MySQL
     mysql.init_app(app)
-    # Create users table if it doesn't exist
+    # Crear la tabla de usuarios si no existe
     with app.app_context():
         cursor = mysql.connection.cursor()
         cursor.execute("""
@@ -36,16 +39,16 @@ def create_app():
         mysql.connection.commit()
         cursor.close()
 
-    # Register the incoming middleware
+    # Registrando los middlewares entrantes
     app.before_request(log_request)
-    # Register the outgoing middleware
+    # Registrando los middlewares salientes
     app.after_request(log_response)
 
-    # Import and register routes
+    # Importaamos las rutas de la aplicación
     from .routes.routes import main
     app.register_blueprint(main)
 
-    # Configure Flask-Injector
+    # Configurar la inyección de dependencias
     FlaskInjector(app=app, modules=[lambda binder: configure(binder, mysql)])
 
     return app
