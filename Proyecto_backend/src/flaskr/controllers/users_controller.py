@@ -29,3 +29,7 @@ class UsersController(BaseController):
     def delete_user(self, user_id):
         user = self.users_service.delete_user(user_id)
         return self.respond_success(data=user)
+
+    # verify-token
+    @token_required
+    

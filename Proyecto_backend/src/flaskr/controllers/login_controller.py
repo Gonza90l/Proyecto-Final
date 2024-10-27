@@ -21,4 +21,9 @@ class LoginController(BaseController):
         user = self.user_service.register(register_dto)
         return self.respond_success(data=user)
 
+    #verify-token
+    @token_required
+    def verify_token(self):
+        return self.respond_success(data={})
+
         
