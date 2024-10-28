@@ -8,7 +8,7 @@ class User(BaseModel):
 
     def find_by_email(self, email):
         """Busca un usuario por su email"""
-        query = f"SELECT * FROM {self.table} WHERE email = %s AND deleted_flag = 0"
+        query = f"SELECT * FROM {self._table} WHERE email = %s AND deleted_flag = 0"
         result = self.fetch_one(query, (email,))
         if result:
             self.set(**result)

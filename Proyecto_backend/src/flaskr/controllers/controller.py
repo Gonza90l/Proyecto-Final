@@ -8,7 +8,7 @@ from flaskr.models.user import User
 class ExampleController(BaseController):
     @inject
     def __init__(self, mysql):
-        self.mysql = mysql
+        self._mysql = mysql
 
     def handle_request(self):
         #data = self.get_json_data()  # Acceder a los datos JSON de la solicitud
@@ -19,7 +19,7 @@ class ExampleController(BaseController):
         #retornamos un json con los datos de la solicitud
         #creamos un usuario en la base de datos
 
-        user = User(self.mysql)
+        user = User(self._mysql)
         user.name = "Juan"
         user.email = "juan@example.com"
         user.password = "1234"

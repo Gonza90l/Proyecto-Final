@@ -12,14 +12,14 @@ class UsersService:
     ADMIN_ROL = 'ADMIN'
 
     def __init__(self, mysql):
-        self.mysql = mysql
+        self._mysql = mysql
 
     def register(self, register_dto: RegisterDTO):
         errors = register_dto.validate()
         if errors:
             raise Exception(f"Validation errors: {errors}")
         
-        user = User(self.mysql)
+        user = User(self._mysql)
         user.set(**register_dto.to_dict())
         user.password = generate_password_hash(user.password)
         user.role = self.USER_ROL
@@ -38,7 +38,7 @@ class UsersService:
         if not self.has_permission(current_user_id, user_id):
             raise Exception("No permission to update this user")
 
-        user = User(self.mysql)
+        user = User(self._mysql)
         if not user.find_by_id(user_id):
             raise Exception("User does not exist")
 
@@ -47,13 +47,13 @@ class UsersService:
         return user
 
     def get_user(self, user_id):
-        user = User(self.mysql)
+        user = User(self._mysql)
         if user.find_by_id(user_id):
             return user
         return None
 
     def get_users(self):
-        user = User(self.mysql)
+        user = User(self._mysql)
         users = user.find_all()
         return [u.to_json_dto() for u in users]
 
@@ -61,7 +61,7 @@ class UsersService:
         if not self.has_permission(current_user_id, user_id):
             raise Exception("No permission to delete this user")
 
-        user = User(self.mysql)
+        user = User(self._mysql)
         if user.find_by_id(user_id):
             user.deleted_flag = 1
             user.update()
@@ -80,7 +80,7 @@ class UsersService:
         #hacemos un print de la contraseña encriptada
         print(generate_password_hash(password))
 
-        user = User(self.mysql)
+        user = User(self._mysql)
         if user.find_by_email(email) and check_password_hash(user.password, password):
             secret_key = app.config.get('SECRET_KEY')
             if not secret_key or not isinstance(secret_key, str):
@@ -102,6 +102,6 @@ class UsersService:
         return None
 
     def has_permission(self, current_user_id, target_user_id):
-        user = User(self.mysql)
+        user = User(self._mysql)
         current_user = user.find_by_id(current_user_id)
         return current_user and (current_user.role == self.ADMIN_ROL or current_user_id == target_user_id)

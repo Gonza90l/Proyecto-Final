@@ -3,9 +3,11 @@ from flask import request, jsonify, current_app
 import jwt
 import time
 from flaskr.cache.memory_cache import MemoryCache
+from flaskr.cache.cache_interface import CacheInterface
+
 
 # Crear una instancia de la cache
-cache = MemoryCache()
+cache: CacheInterface = MemoryCache()
 
 
 def decode_and_cache_token():
