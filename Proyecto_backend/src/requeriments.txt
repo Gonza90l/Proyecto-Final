@@ -1,4 +1,5 @@
-Flask-Injector
+flask
+flask_injector
 flask_mysqldb
 python-dotenv
 PyJWT
