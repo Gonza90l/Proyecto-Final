@@ -14,11 +14,7 @@ class UsersService:
     def __init__(self, mysql):
         self._mysql = mysql
 
-    def register(self, register_dto: RegisterDTO):
-        errors = register_dto.validate()
-        if errors:
-            raise Exception(f"Validation errors: {errors}")
-        
+    def register(self, register_dto: RegisterDTO):      
         user = User(self._mysql)
         user.set(**register_dto.to_dict())
         user.password = generate_password_hash(user.password)
@@ -69,10 +65,7 @@ class UsersService:
         return False
 
     def login(self, login_request_dto: LoginRequestDTO):
-        errors = login_request_dto.validate()
-        if errors:
-            raise Exception(f"Validation errors: {errors}")
-
+        
         email = login_request_dto.email
         password = login_request_dto.password
 
@@ -88,7 +81,7 @@ class UsersService:
 
             token = jwt.encode({
                 'id': user.id,
-                'rol': user.role,
+                'role': user.role,
                 'exp': datetime.utcnow() + timedelta(hours=24)
             }, secret_key, algorithm='HS256')
             print("login",token)

@@ -11,6 +11,7 @@ class UserDTO(BaseDTO):
 
     def get_required_fields(self):
         return {
+            'id': int,
             'name': str,
             'lastname': str,
             'email': str,
@@ -20,7 +21,6 @@ class UserDTO(BaseDTO):
     def get_field_constraints(self):
         return {
             'role': {
-                'min': 1,
-                'max': 50
+                'allowed_values': ['admin', 'user']
             }
         }

@@ -42,18 +42,15 @@ class UsersController(BaseController):
         #respondemos con 200 OK
         return self.respond_success(data=user)
 
-    #login
+    # login
     def login(self):
         try:
             data = self.get_json_data()
-            login_request = LoginRequestDTO(**data)
+            login_request, errors = LoginRequestDTO.from_json(data)
 
-            # Validación del DTO
-            errors = login_request.validate()
             if errors:
                 return self.respond_error(message="Validation errors", errors=errors, status_code=422)
 
-            # Llamada al servicio para obtener el token
             token = self.users_service.login(login_request)
 
             if not token:
@@ -64,11 +61,7 @@ class UsersController(BaseController):
 
         except Exception as e:
             return self.respond_error(message="An unexpected error occurred", errors=str(e), status_code=500)
-
-
-
-
-    # verify-token
-    @token_required
-    def verify_token(self):
-        return self.respond_success(data={'message': 'Token is valid'})
+        # verify-token
+        @token_required
+        def verify_token(self):
+            return self.respond_success(data={'message': 'Token is valid'})
