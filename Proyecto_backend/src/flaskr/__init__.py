@@ -5,13 +5,11 @@ import os
 from .middlewares import log_request, log_response
 from .injection_config import configure
 import threading
-from .cache.memory_cache import MemoryCache
 import time
 
 # Inicializar la extensión MySQL
 mysql = MySQL()
-# Crear una instancia de la cache
-cache = MemoryCache()
+
 
 def cleanup_cache():
     """Función para limpiar la cache"""

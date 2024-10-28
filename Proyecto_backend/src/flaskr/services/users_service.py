@@ -91,6 +91,7 @@ class UsersService:
                 'rol': user.role,
                 'exp': datetime.utcnow() + timedelta(hours=24)
             }, secret_key, algorithm='HS256')
+            print("login",token)
             return token
         return None
 

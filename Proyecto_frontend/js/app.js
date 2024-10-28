@@ -17,3 +17,5 @@ document.addEventListener("DOMContentLoaded", () => {
     reviewService.init();
     routerInstance.router();
 });
+
+
