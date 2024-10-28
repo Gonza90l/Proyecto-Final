@@ -1,15 +1,11 @@
 from flask import Flask
 from flask_injector import FlaskInjector
-from flask_mysqldb import MySQL
+from .database.database import FlaskMySQLDatabase, MySQLConnectorDatabase
 import os
 from .middlewares import log_request, log_response
 from .injection_config import configure
 import threading
 import time
-
-# Inicializar la extensión MySQL
-mysql = MySQL()
-
 
 def cleanup_cache():
     """Función para limpiar la cache"""
@@ -22,24 +18,30 @@ def create_app():
     # Crear la aplicación Flask
     app = Flask(__name__)
     # Configurar la conexión a la base de datos
-    app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
-    app.config['MYSQL_PORT'] = 3306
-    app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
-    app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
-    app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
-    app.config['MYSQL_CURSORCLASS'] = os.getenv('MYSQL_CURSORCLASS')
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  # Ensure this line is present
-    app.config['MYSQL_USE_TLS'] = False  # Asegúrate de no usar TLS
-    app.config['MYSQL_SSL_CA'] = None    # Configura sin certificados SSL
-    app.config['MYSQL_SSL_CERT'] = None
-    app.config['MYSQL_SSL_KEY'] = None
+    app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST', 'localhost')
+    app.config['MYSQL_PORT'] = int(os.getenv('MYSQL_PORT', 3306))
+    app.config['MYSQL_USER'] = os.getenv('MYSQL_USER', 'root')
+    app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD','')
+    app.config['MYSQL_DB'] = os.getenv('MYSQL_DB','flaskapp')
+    app.config['MYSQL_CURSORCLASS'] = os.getenv('MYSQL_CURSORCLASS','DictCursor')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY','clavesecreta')  # Ensure this line is present
 
     # Inicializar la extensión MySQL como singleton
-    mysql.init_app(app)
+    # Seleccionar la implementación de la base de datos
+    use_flask_mysqldb = os.getenv('USE_FLASK_MYSQLDB', 'True').lower() in ['true', '1', 't', 'y', 'yes']
+    if use_flask_mysqldb:
+        print("Using Flask-MySQLdb")
+        db = FlaskMySQLDatabase()
+    else:
+        print("Using MySQL Connector")
+        db = MySQLConnectorDatabase()
+    
+    db.init_app(app)
+
     # Crear la tabla de usuarios si no existe
-    #campos = ['id', 'name', 'lastname', 'email', 'password', 'role']
+    # Crear la tabla de usuarios si no existe
     with app.app_context():
-        cursor = mysql.connection.cursor()
+        cursor = db.connection.cursor()
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +53,7 @@ def create_app():
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
-        mysql.connection.commit()
+        db.connection.commit()
         cursor.close()
 
     # Registrando los middlewares entrantes
@@ -64,7 +66,7 @@ def create_app():
     app.register_blueprint(main)
 
     # Configurar la inyección de dependencias
-    FlaskInjector(app=app, modules=[lambda binder: configure(binder, mysql)])
+    FlaskInjector(app=app, modules=[lambda binder: configure(binder, db)])
 
      # Iniciar el hilo de limpieza de la cache
     cleanup_thread = threading.Thread(target=cleanup_cache, daemon=True)
