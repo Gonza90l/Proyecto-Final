@@ -1,3 +1,4 @@
+#__init__.py
 from flask import Flask
 from flask_injector import FlaskInjector
 from .database.database import FlaskMySQLDatabase, MySQLConnectorDatabase
@@ -6,6 +7,10 @@ from .middlewares import log_request, log_response
 from .injection_config import configure
 import threading
 import time
+from .cache.cache_interface import CacheInterface
+from .cache.memory_cache import MemoryCache
+
+cache: CacheInterface = MemoryCache() # Instancia de la cache
 
 def cleanup_cache():
     """Función para limpiar la cache"""
@@ -24,7 +29,7 @@ def create_app():
     app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD','')
     app.config['MYSQL_DB'] = os.getenv('MYSQL_DB','flaskapp')
     app.config['MYSQL_CURSORCLASS'] = os.getenv('MYSQL_CURSORCLASS','DictCursor')
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY','clavesecreta')  # Ensure this line is present
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY','clavesecreta')
 
     # Inicializar la extensión MySQL como singleton
     # Seleccionar la implementación de la base de datos
