@@ -3,7 +3,7 @@ from .base_model import BaseModel
 class User(BaseModel):
     def __init__(self, mysql):
         fields = ['id', 'name', 'lastname', 'email', 'password', 'role', 'created_at', 'deleted_flag']
-        table = 'users'
+        table = 'user'
         super().__init__(mysql, table, fields)
 
     def find_by_email(self, email):
