@@ -20,7 +20,5 @@ class UserDTO(BaseDTO):
 
     def get_field_constraints(self):
         return {
-            'role': {
-                'allowed_values': ['admin', 'user']
-            }
+                
         }

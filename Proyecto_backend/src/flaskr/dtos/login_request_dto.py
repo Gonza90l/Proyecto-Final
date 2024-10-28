@@ -10,5 +10,5 @@ class LoginRequestDTO(BaseDTO):
     def get_field_constraints(self):
         return {
             'email': {'min_length': 3},
-            'password': {'min_length': 6}
+            'password': {'min_length': 6, 'max_length': 50}
         }

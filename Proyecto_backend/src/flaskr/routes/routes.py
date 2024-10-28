@@ -1,5 +1,4 @@
 from flask import Blueprint
-from flaskr.controllers.controller import ExampleController
 from flaskr.controllers.users_controller import UsersController
 from injector import inject
 
