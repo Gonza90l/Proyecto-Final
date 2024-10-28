@@ -23,12 +23,16 @@ def create_app():
     app = Flask(__name__)
     # Configurar la conexión a la base de datos
     app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
+    app.config['MYSQL_PORT'] = 3306
     app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
     app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
     app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
     app.config['MYSQL_CURSORCLASS'] = os.getenv('MYSQL_CURSORCLASS')
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  # Ensure this line is present
-
+    app.config['MYSQL_USE_TLS'] = False  # Asegúrate de no usar TLS
+    app.config['MYSQL_SSL_CA'] = None    # Configura sin certificados SSL
+    app.config['MYSQL_SSL_CERT'] = None
+    app.config['MYSQL_SSL_KEY'] = None
 
     # Inicializar la extensión MySQL como singleton
     mysql.init_app(app)
