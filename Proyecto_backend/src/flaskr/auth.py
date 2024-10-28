@@ -4,7 +4,12 @@ import jwt
 import time
 from flaskr.cache.memory_cache import MemoryCache
 
+# Crear una instancia de la cache
+cache = MemoryCache()
+
+
 def decode_and_cache_token():
+
     token = request.headers.get('Authorization')
 
     if not token:

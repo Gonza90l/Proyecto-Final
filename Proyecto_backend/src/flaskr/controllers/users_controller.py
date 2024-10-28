@@ -44,18 +44,26 @@ class UsersController(BaseController):
 
     #login
     def login(self):
-        #mapemaos el objeto json a un dto
-        data = self.get_json_data()
-        login_request = LoginRequestDTO(**data)
-        #validamos el dto
-        errors = login_request.validate()
-        if errors:
-            return self.respond_error(errors)
-        #llamamos al servicio que nos devuelve el token
-        token = self.users_service.login(login_request)
-        #armamos el dto de respuesta
-        response = LoginResponseDTO(token)
-        return self.respond_success(data=response.to_json())
+        try:
+            data = self.get_json_data()
+            login_request = LoginRequestDTO(**data)
+
+            # Validación del DTO
+            errors = login_request.validate()
+            if errors:
+                return self.respond_error(message="Validation errors", errors=errors, status_code=422)
+
+            # Llamada al servicio para obtener el token
+            token = self.users_service.login(login_request)
+
+            if not token:
+                return self.respond_error(message="Invalid credentials", status_code=401)
+
+            response = LoginResponseDTO(token=token)
+            return self.respond_success(data=response.to_json())
+
+        except Exception as e:
+            return self.respond_error(message="An unexpected error occurred", errors=str(e), status_code=500)
 
 
 
