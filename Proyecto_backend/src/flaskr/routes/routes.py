@@ -26,7 +26,7 @@ def verify_token(users_controller: UsersController):
 
 ############################################################################################################
 
-# Rutas para el CRUD de usuarios
+# Rutas para obtener usuarios
 
 @main.route('/users', methods=['GET'])
 @inject
@@ -39,3 +39,4 @@ def get_user(users_controller: UsersController, user_id):
     return users_controller.get_user(user_id)
 
 
+############################################################################################################

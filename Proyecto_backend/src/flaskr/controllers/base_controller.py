@@ -25,3 +25,4 @@ class BaseController:
 
     def respond_error(self, message="An error occurred", status_code=400, errors=None):
         return ApiResponse.error(message=message, status_code=status_code, errors=errors)
+
