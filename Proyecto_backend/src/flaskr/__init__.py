@@ -43,24 +43,6 @@ def create_app():
     
     db.init_app(app)
 
-    # Crear la tabla de usuarios si no existe
-    # Crear la tabla de usuarios si no existe
-    with app.app_context():
-        cursor = db.connection.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(100) NOT NULL,
-                lastname VARCHAR(100) NOT NULL,
-                email VARCHAR(100) NOT NULL,
-                password VARCHAR(100) NOT NULL,
-                role VARCHAR(100) NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-        """)
-        db.connection.commit()
-        cursor.close()
-
     # Registrando los middlewares entrantes
     app.before_request(log_request)
     # Registrando los middlewares salientes
