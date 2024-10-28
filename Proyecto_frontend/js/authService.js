@@ -12,7 +12,10 @@ class AuthService {
         // Inicializa el token y la fecha de expiración a null
         this.apiClient = new ApiClient('https://proyecto_frontend.test:5000');
         this.token = null;
-        this.tokenExpiry = null;
+        this.authCache = {
+            isAuthenticated: false,
+            expiry: 0
+        };
     }
 
     /**
@@ -98,15 +101,28 @@ class AuthService {
      * @returns {Promise<boolean>} - Retorna una promesa que resuelve a true si el token es válido, de lo contrario resuelve a false.
      */
     async isAuthenticated() {
+        const now = Date.now();
+
         if (!this.token || this.isTokenExpired()) {
             return false;
+        }
+
+        // Verificar si el estado de autenticación está en caché y no ha expirado
+        if (this.authCache.expiry > now) {
+            return this.authCache.isAuthenticated;
         }
 
         try {
             const data = await this.apiClient.post('/verify_token', {});
             // Si la respuesta es exitosa, el token es válido
+            const isAuthenticated = data.status === 200;
             console.log('Token verification:', data);
-            return data.status === 200;
+
+            // Actualizar la caché con el nuevo estado de autenticación y su tiempo de expiración
+            this.authCache.isAuthenticated = isAuthenticated;
+            this.authCache.expiry = now + 5 * 60 * 1000; // Caché válida por 5 minutos
+
+            return isAuthenticated;
         } catch (error) {
             console.error('Token verification failed:', error);
             return false;

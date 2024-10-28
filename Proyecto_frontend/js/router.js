@@ -59,6 +59,9 @@ class Router {
     async router() {
         const path = window.location.pathname;
         const route = this.routes[path] || this.routes['/404'];
+
+        this.showLoading(); // Mostrar el elemento de carga
+
         const authenticated = await this.isAuthenticated();
 
         if (this.protectedRoutes.has(path)) {
@@ -83,9 +86,14 @@ class Router {
         }
 
         await this.loadView(route.view);
+        
+
+
         if (this.onViewLoaded) {
+            console.log('Calling onViewLoaded callback');
             this.onViewLoaded();
         }
+        this.hideLoading(); // Ocultar el elemento de carga
     }
 
     async loadView(route) {
@@ -124,6 +132,7 @@ class Router {
     redirectToLogin() {
         window.history.pushState({}, '', '/login');
         this.loadView(this.routes['/login'].view);
+        this.hideLoading(); // Ocultar el elemento de carga
     }
 
     redirectToDashboard(userRole) {
@@ -134,6 +143,7 @@ class Router {
             window.history.pushState({}, '', '/dashboard');
             this.loadView(this.routes['/dashboard'].view);
         }
+        this.hideLoading(); // Ocultar el elemento de carga
     }
 
     async loadFragments() {
@@ -168,6 +178,22 @@ class Router {
                 `;
             }
         }));
+    }
+
+    showLoading() {
+        const loadingElement = document.createElement('div');
+        loadingElement.className = 'loading-overlay';
+        loadingElement.innerHTML = `
+            <div class="spinner"></div>
+        `;
+        document.body.appendChild(loadingElement);
+    }
+
+    hideLoading() {
+        const loadingElement = document.querySelector('.loading-overlay');
+        if (loadingElement) {
+            loadingElement.remove();
+        }
     }
 
     showError(message) {

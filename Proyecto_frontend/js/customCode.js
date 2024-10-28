@@ -5,8 +5,7 @@ import { routerInstance } from './router.js';
 
 routerInstance.onViewLoaded = () => {
     // Código que se ejecutará después de que el router haya cargado completamente las vistas
-    console.log('Vista cargada completamente');
-    // Aquí puedes agregar el código que necesites ejecutar
+    // Aquí agregar el código que necesites ejecutar una vez que la vista se haya cargado
 
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
@@ -19,9 +18,22 @@ routerInstance.onViewLoaded = () => {
         });
     }
 
+    
+    //logout agregar evento al botón de logout
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async () => {
+            await authService.logout();
+            window.history.pushState({}, '', '/login');
+            routerInstance.router();
+        });
+    }
+
 };
 
+//login, esta función se encarga de hacer el login del usuario
 async function login(email, password) {
+    routerInstance.showLoading();
     try {
         const isAuthenticated = await authService.login(email, password);
         if (isAuthenticated) {
@@ -33,4 +45,5 @@ async function login(email, password) {
     } catch (error) {
         console.error('Login error:', error);
     }
+    routerInstance.hideLoading();
 }
