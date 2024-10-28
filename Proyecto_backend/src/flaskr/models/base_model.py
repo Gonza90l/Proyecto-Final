@@ -3,11 +3,12 @@ from flask_mysqldb import MySQL
 import json
 
 class BaseModel():
-    def __init__(self, mysql: MySQL, table: str, fields: list):
+    def __init__(self, mysql: MySQL, table: str, fields: list, deleted_flag: str = None):
         self._mysql = mysql
         self._table = table
         self._fields = fields  # Campos específicos del modelo derivado
         self._data = {}  # Almacenamos los valores de los campos
+        self._deleted_flag = deleted_flag  # Campo de bandera de eliminación
 
     def __getattr__(self, name):
         """Permite acceder a un campo como una propiedad"""
@@ -17,7 +18,7 @@ class BaseModel():
 
     def __setattr__(self, name, value):
         """Permite establecer un valor en un campo como una propiedad"""
-        if name in ['_mysql', '_table', '_fields', '_data']:  # Atributos internos
+        if name in ['_mysql', '_table', '_fields', '_data', '_deleted_flag']:  # Atributos internos
             super().__setattr__(name, value)
         elif name in self._fields: # Campos permitidos para el modelo 
             self._data[name] = value
@@ -37,7 +38,18 @@ class BaseModel():
         columns = ', '.join(self._data.keys())
         placeholders = ', '.join(['%s'] * len(self._data))
         query = f"INSERT INTO {self._table} ({columns}) VALUES ({placeholders})"
-        self.execute_query(query, tuple(self._data.values()))
+        cursor = self.execute_query(query, tuple(self._data.values()), return_cursor=True)
+        # Obtener el ID del nuevo registro
+        new_id = cursor.lastrowid
+        cursor.close()  # Cerrar el cursor después de obtener el ID
+
+        #si existe un campo id en el modelo, lo seteamos con el id generado
+        if 'id' in self._fields:
+            self._data['id'] = new_id
+            # Cargar los datos del registro insertado
+            self.find_by_id(new_id)
+
+        return new_id
 
     def update(self):
         """Actualiza el registro en la base de datos usando `self._data`. Requiere que `id` esté en `self._data`."""
@@ -52,12 +64,17 @@ class BaseModel():
         """Elimina el registro de la base de datos usando el `id` en `self._data`."""
         if 'id' not in self._data:
             raise ValueError("El campo 'id' debe estar definido para eliminar un registro.")
-        query = f"DELETE FROM {self._table} WHERE id = %s"
+        if self._deleted_flag:
+            query = f"UPDATE {self._table} SET {self._deleted_flag} = 1 WHERE id = %s"
+        else:
+            query = f"DELETE FROM {self._table} WHERE id = %s"
         self.execute_query(query, (self._data['id'],))
 
     def find_by_id(self, record_id):
         """Encuentra un registro por su `id` y carga los valores en `self._data`."""
         query = f"SELECT * FROM {self._table} WHERE id = %s"
+        if self._deleted_flag:
+            query += f" AND {self._deleted_flag} = 0"
         result = self.fetch_one(query, (record_id,))
         if result:
             self.set(**result)
@@ -66,22 +83,26 @@ class BaseModel():
     def find_all(self):
         """Recupera todos los registros de la tabla y los convierte en instancias del modelo."""
         query = f"SELECT * FROM {self._table}"
+        if self._deleted_flag:
+            query += f" WHERE {self._deleted_flag} = 0"
         results = self.fetch_all(query)
         
         # Convertir cada resultado en una instancia del modelo actual
         model_instances = []
         for result in results:
-            instance = self.__class__(self._mysql)  # Crear una instancia del modelo
+            instance = self.__class__(self._mysql, self._table, self._fields, self._deleted_flag)  # Crear una instancia del modelo
             instance.set(**result)  # Cargar los datos en la instancia
             model_instances.append(instance)
         
         return model_instances
 
     # Métodos de utilidad para consultas SQL
-    def execute_query(self, query, params=None):
+    def execute_query(self, query, params=None, return_cursor=False):
         cursor = self._mysql.connection.cursor()
         cursor.execute(query, params)
         self._mysql.connection.commit()
+        if return_cursor:
+            return cursor
         cursor.close()
 
     def fetch_one(self, query, params=None):
@@ -122,17 +143,16 @@ class BaseModel():
         except (ModuleNotFoundError, AttributeError) as e:
             raise ImportError(f"DTO class '{dto_class_name}' not found for model '{self.__class__.__name__}'") from e
 
-    def from_json_dto(self, json_dto):
-        """Convierte un JSON DTO a un modelo."""
+    def from_dto(self, dto):
+        """Convierte un DTO a un modelo."""
         try:
-            dto_data = json.loads(json_dto)
-            for key, value in dto_data.items():
+            for key, value in dto.__dict__.items():
                 if key in self._fields:
                     self._data[key] = value
                 else:
-                    raise AttributeError(f"DTO JSON has no attribute '{key}'")
-        except json.JSONDecodeError as e:
-            raise ValueError("Invalid JSON format") from e
+                    raise AttributeError(f"DTO has no attribute '{key}'")
+        except Exception as e:
+            raise ValueError("Invalid DTO format") from e
 
     def from_dict(self, data):
         """Convierte un diccionario a un modelo."""

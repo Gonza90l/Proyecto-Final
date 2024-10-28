@@ -1,7 +1,7 @@
 #register_dto.py
 from flaskr.dtos.base_dto import BaseDTO
 
-class RegisterDTO(BaseDTO):
+class RegisterRequestDTO(BaseDTO):
     def __init__(self, name=None, lastname=None, email=None, password=None):
         self.name = name
         self.lastname = lastname

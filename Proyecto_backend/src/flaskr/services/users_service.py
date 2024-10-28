@@ -1,11 +1,15 @@
 from flaskr.models.user import User
-from flaskr.dtos.register_dto import  RegisterDTO
+from flaskr.dtos.register_request_dto import RegisterRequestDTO
 from flaskr.dtos.update_user_dto import UpdateUserDTO
 from flaskr.dtos.login_request_dto import LoginRequestDTO
 from werkzeug.security import generate_password_hash, check_password_hash
+from flaskr.exceptions.user_service_exceptions import UserAlreadyExistsException
+
 from flask import current_app as app
 import jwt
 from datetime import datetime, timedelta
+
+
 
 class UsersService:
     USER_ROL = 'USER'
@@ -14,17 +18,29 @@ class UsersService:
     def __init__(self, mysql):
         self._mysql = mysql
 
-    def register(self, register_dto: RegisterDTO):      
+    def register(self, register_dto: RegisterRequestDTO):      
+        #convertimos el dto a modelo
         user = User(self._mysql)
-        user.set(**register_dto.to_dict())
+        #mapeamos el dto a los campos del modelo
+        user.from_dto(register_dto)
+
+        #declaramos un nuevo modelo de usuario para verificar si ya existe
+        user2 = User(self._mysql)
+        #preguntamos si el usuario ya existe
+        if user2.find_by_email(user.email):
+            raise UserAlreadyExistsException("User already exists")
+    
+        #encriptamos la contraseña
         user.password = generate_password_hash(user.password)
-        user.role = self.USER_ROL
-
-        if user.find_by_email(user.email):
-            raise Exception("User with this email already exists")
-
+        #guardamos el usuario
         user.insert()
+
+        print("ROL",user.role)
+
         return user
+
+
+
 
     def update_user(self, user_id, update_user_dto: UpdateUserDTO, current_user_id):
         errors = update_user_dto.validate()

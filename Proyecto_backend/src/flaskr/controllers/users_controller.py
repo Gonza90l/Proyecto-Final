@@ -2,8 +2,11 @@ from flaskr.controllers.base_controller import BaseController
 from flaskr.services.users_service import UsersService
 from flaskr.dtos.login_request_dto import LoginRequestDTO
 from flaskr.dtos.login_response_dto import LoginResponseDTO
+from flaskr.dtos.register_request_dto import RegisterRequestDTO
+from flaskr.dtos.user_dto import UserDTO
 from flaskr.auth import token_required, role_required
 from injector import inject
+from flaskr.exceptions.user_service_exceptions import UserAlreadyExistsException
 
 class UsersController(BaseController):
     @inject
@@ -44,8 +47,8 @@ class UsersController(BaseController):
 
     # login
     def login(self):
+        data = self.get_json_data()
         try:
-            data = self.get_json_data()
             login_request, errors = LoginRequestDTO.from_json(data)
 
             if errors:
@@ -61,7 +64,33 @@ class UsersController(BaseController):
 
         except Exception as e:
             return self.respond_error(message="An unexpected error occurred", errors=str(e), status_code=500)
-        # verify-token
-        @token_required
-        def verify_token(self):
-            return self.respond_success(data={'message': 'Token is valid'})
+   
+    # register
+    def register(self):
+        data = self.get_json_data()
+        try:
+            register_request, errors = RegisterRequestDTO.from_json(data)
+
+            if errors:
+                return self.respond_error(message="Validation errors", errors=errors, status_code=422)
+
+            #nos retona el usuario creado
+            user = self.users_service.register(register_request)
+
+            if not user:
+                return self.respond_error(message="Registration failed", status_code=400)
+
+            #retornamos el dto de respuesta convirtiendo el modelo user a json/dto
+            return self.respond_success(data=user.to_json_dto())    
+
+        except UserAlreadyExistsException as e:
+            return self.respond_error(message="User already exists", status_code=400)
+
+        except Exception as e:
+            return self.respond_error(message="An unexpected error occurred", errors=str(e), status_code=500)
+
+
+    # verify-token
+    @token_required
+    def verify_token(self):
+        return self.respond_success(data={'message': 'Token is valid'})
