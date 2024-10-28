@@ -1,15 +1,14 @@
-#login_rquest.py
 from flaskr.dtos.base_dto import BaseDTO
 
 class LoginRequestDTO(BaseDTO):
-    def __init__(self, email, password):
-        self.email = email
-        self.password = password
+    def get_required_fields(self):
+        return {
+            'email': str,
+            'password': str
+        }
 
-    def validate(self):
-        errors = []
-        if not self.email:
-            errors.append("Email is required")
-        if not self.password:
-            errors.append("Password is required")
-        return errors
+    def get_field_constraints(self):
+        return {
+            'email': {'min_length': 3},
+            'password': {'min_length': 6}
+        }

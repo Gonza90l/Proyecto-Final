@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`user` (
   `lastname` VARCHAR(45) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  `rol` ENUM('USER', 'ADMIN') NOT NULL,
+  `role` ENUM('USER', 'ADMIN') NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
