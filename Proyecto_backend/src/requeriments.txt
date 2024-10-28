@@ -1,6 +1,7 @@
 flask
 flask_injector
 flask_mysqldb
+mysql-connector-python
 python-dotenv
 PyJWT
 flask-cors
