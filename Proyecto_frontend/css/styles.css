@@ -1,6 +1,7 @@
 /* Importamos los colores desde colors.css */
 @import url(colors.css);
 @import url(error.css);
+@import url(overlayspinner.css);
 
 /* Estilos generales */
 body {
@@ -93,15 +94,6 @@ footer p {
     margin: 0;
 }
 
-/* Estilos para spinner (si es necesario) */
-.spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.5em; /* Ajusta el tamaño según sea necesario */
-    color: var(--azul-oscuro); /* Cambiado el color a uno del tema */
-}
 
 /* Estilos para formulario (si es necesario en otra página) */
 form {
