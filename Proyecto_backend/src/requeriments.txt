@@ -2,3 +2,5 @@ Flask-Injector
 flask_mysqldb
 python-dotenv
 PyJWT
+flask-cors
+ssl

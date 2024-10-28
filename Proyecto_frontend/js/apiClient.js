@@ -1,9 +1,8 @@
-// Tipo de instancia: Transient (cada vez que se instancia se crea una nueva instancia)
-
 export class ApiClient {
-    constructor(baseURL, token) {
+    constructor(baseURL, token = null) {
         this.baseURL = baseURL;
         this.token = token;
+        this.maxRetries = 3; // Número máximo de reintentos en caso de fallo
     }
 
     _getHeaders(contentType = 'application/json') {
@@ -16,50 +15,93 @@ export class ApiClient {
         return headers;
     }
 
+    async _fetchWithRetry(url, options, retries = this.maxRetries) {
+        try {
+            const response = await fetch(url, options);
+            if (response.status === 401) {
+                console.error('Token expired or invalid');
+            }
+            return await this._handleResponse(response);
+        } catch (error) {
+            if (retries > 0 && (error.name === 'TypeError' || error.message === 'Failed to fetch')) {
+                console.warn(`Retrying... (${this.maxRetries - retries + 1}/${this.maxRetries})`);
+                return await this._fetchWithRetry(url, options, retries - 1);
+            } else {
+                console.error('Failed after maximum retries');
+                throw error;
+            }
+        }
+    }
+
     async get(endpoint) {
-        const response = await fetch(`${this.baseURL}${endpoint}`, {
+        return this._fetchWithRetry(`${this.baseURL}${endpoint}`, {
             headers: this._getHeaders()
         });
-        return this._handleResponse(response);
     }
 
     async post(endpoint, data) {
-        const response = await fetch(`${this.baseURL}${endpoint}`, {
+        return this._fetchWithRetry(`${this.baseURL}${endpoint}`, {
             method: 'POST',
             headers: this._getHeaders(),
             body: JSON.stringify(data)
         });
-        return this._handleResponse(response);
     }
 
     async put(endpoint, data) {
-        const response = await fetch(`${this.baseURL}${endpoint}`, {
+        return this._fetchWithRetry(`${this.baseURL}${endpoint}`, {
             method: 'PUT',
             headers: this._getHeaders(),
             body: JSON.stringify(data)
         });
-        return this._handleResponse(response);
+    }
+
+    async patch(endpoint, data) {
+        return this._fetchWithRetry(`${this.baseURL}${endpoint}`, {
+            method: 'PATCH',
+            headers: this._getHeaders(),
+            body: JSON.stringify(data)
+        });
     }
 
     async delete(endpoint) {
-        const response = await fetch(`${this.baseURL}${endpoint}`, {
+        return this._fetchWithRetry(`${this.baseURL}${endpoint}`, {
             method: 'DELETE',
             headers: this._getHeaders()
         });
-        return this._handleResponse(response);
     }
 
     async _handleResponse(response) {
-        if (!response.ok) {
-            const error = await response.text();
-            throw new Error(error);
+        const contentType = response.headers.get('content-type');
+        let data;
+
+        if (contentType && contentType.includes('application/json')) {
+            data = await response.json();
+            //si exiiste el campo data en la respuesta, lo devolvemos
+            if (data.data) {
+                data = data.data;
+            }
+        } else {
+            data = await response.text();
         }
 
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-            return response.json();
-        } else {
-            return response.text();
+        if (!response.ok) {
+            const error = {
+                status: response.status,
+                data: data,
+                error: response.statusText
+            };
+            throw error;
         }
+
+        return {
+            status: response.status,
+            data: data
+        };
+    }
+
+    setToken(newToken) {
+        this.token = newToken;
     }
 }
+
+export default ApiClient;

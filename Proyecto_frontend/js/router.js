@@ -7,6 +7,8 @@ class Router {
         this.protectedRoutes = new Set();
         this.roleBasedRoutes = {}; // Rutas basadas en roles
         this.fragmentCache = {};
+        this.onViewLoaded = null; // Callback para ejecutar después de cargar la vista
+
 
         // Registrar rutas en base a configuración
         routeConfig.forEach(({ path, view, protected: isProtected, role }) => {
@@ -36,7 +38,6 @@ class Router {
     }
 
     async isAuthenticated() {
-        return true;
         try {
             return await authService.isAuthenticated();
         } catch (err) {
@@ -81,7 +82,10 @@ class Router {
             return;
         }
 
-        this.loadView(route.view);
+        await this.loadView(route.view);
+        if (this.onViewLoaded) {
+            this.onViewLoaded();
+        }
     }
 
     async loadView(route) {
