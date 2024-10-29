@@ -47,3 +47,14 @@ def get_user(users_controller: UsersController, user_id):
 @inject
 def get_menus(menu_controller: MenuController):
     return menu_controller.get_menus()
+
+@main.route('/menus/<int:menu_id>', methods=['GET'])
+@inject
+def get_menu(menu_controller: MenuController, menu_id):
+    return menu_controller.get_menu(menu_id)
+
+@main.route('/menus', methods=['POST'])
+@inject
+def create_menu(menu_controller: MenuController):
+    return menu_controller.create_menu()
+    
