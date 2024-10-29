@@ -4,9 +4,8 @@
 CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`category` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
-  `decription` VARCHAR(500) NULL,
+  `description` VARCHAR(500) NULL,
   `photo` VARCHAR(255) NULL,
-  `categorycol` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
 ENGINE = InnoDB;

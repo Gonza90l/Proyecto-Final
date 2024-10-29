@@ -3,6 +3,7 @@ from flaskr.controllers.base_controller import BaseController
 from flaskr.services.menu_service import MenuService, MenuNotFoundException
 from flaskr.auth import token_required, role_required
 from flaskr.dtos.create_menu_request_dto import CreateMenuRequestDTO
+from flaskr.dtos.update_menu_request_dto import UpdateMenuRequestDTO
 
 class MenuController(BaseController):
     @inject
@@ -35,10 +36,8 @@ class MenuController(BaseController):
         data = self.get_json_data()
 
         create_menu_request_dto, errors = CreateMenuRequestDTO.from_json(data)
-        print(">>>>>>>>>>>>",type(create_menu_request_dto))
         if errors:
             return self.respond_error(message="Validation errors", errors=errors, status_code=422)
-
         try:
             menu = self._menu_service.create_menu(create_menu_request_dto)
             return self.respond_success(data=menu.to_dict_dto())
@@ -49,21 +48,27 @@ class MenuController(BaseController):
 
 
     @role_required('ADMIN')
-    def update_menu(self, id, data):
-        try:
-            menu = self._menu_service.update_menu(id, data)
-            return self.respond_success(data=menu.to_dict_dto())
-        except MenuNotFoundException as e:
-            return self.respond_error(message=str(e), status_code=404)
-        except Exception as e:
-            return self.respond_error(message=str(e))
+    def update_menu(self, id):
+        data = self.get_json_data()
+        update_menu_request_dto, errors = UpdateMenuRequestDTO.from_json(data)
+        if errors:
+            return self.respond_error(message="Validation errors", errors=errors, status_code=422)
+        
+        #try:
+        menu = self._menu_service.update_menu(id, update_menu_request_dto)
+        return self.respond_success(data=menu.to_dict_dto())
+        #except MenuNotFoundException as e:
+        #    return self.respond_error(message=str(e), status_code=404)
+        #except Exception as e:
+        #    return self.respond_error(message=str(e))
 
     @role_required('ADMIN')
     def delete_menu(self, id):
         try:
             menu = self._menu_service.delete_menu(id)
-            return self.respond_success(data=menu.to_dict_dto())
+            return self.respond_success(data="none")
         except MenuNotFoundException as e:
             return self.respond_error(message=str(e), status_code=404)
         except Exception as e:
             return self.respond_error(message=str(e))
+

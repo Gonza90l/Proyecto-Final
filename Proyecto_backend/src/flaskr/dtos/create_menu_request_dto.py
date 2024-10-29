@@ -7,8 +7,8 @@ class CreateMenuRequestDTO(BaseDTO):
             'name': str,
             'description': str,
             'price': float,
-            'image': str,
-            'category_id': str
+            'photo': str,
+            'category_id': int
         }
 
     def get_field_constraints(self):
@@ -25,12 +25,8 @@ class CreateMenuRequestDTO(BaseDTO):
                 'min_value': 0.01,
                 'max_value': 10000.00
             },
-            'image': {
+            'photo': {
                 'min_length': 0,
                 'max_length': 255
-            },
-            'category_id': {
-                'min_length': 1,
-                'max_length': 10
             }
         }

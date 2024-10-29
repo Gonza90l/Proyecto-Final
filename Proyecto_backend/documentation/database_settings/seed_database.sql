@@ -1,16 +1,3 @@
--- Insertar datos en `category`
-INSERT INTO `proyecto_informatico`.`category` (`name`, `decription`, `photo`, `categorycol`) VALUES
-('Bebidas', 'Bebidas y refrescos', 'bebidas.jpg', 'col1'),
-('Aperitivos', 'Aperitivos ligeros', 'aperitivos.jpg', 'col2'),
-('Plato Principal', 'Platos principales', 'plato_principal.jpg', 'col3'),
-('Postres', 'Platos dulces', 'postres.jpg', 'col4'),
-('Ensaladas', 'Ensaladas saludables', 'ensaladas.jpg', 'col5'),
-('Sopas', 'Sopas calientes', 'sopas.jpg', 'col6'),
-('Mariscos', 'Platos de mariscos', 'mariscos.jpg', 'col7'),
-('Vegetariano', 'Platos vegetarianos', 'vegetariano.jpg', 'col8'),
-('Vegano', 'Platos veganos', 'vegano.jpg', 'col9'),
-('Parrilla', 'Platos a la parrilla', 'parrilla.jpg', 'col10');
-
 -- Insertar datos en `menu`
 INSERT INTO `proyecto_informatico`.`menu` (`name`, `description`, `price`, `photo`, `deleted_flag`, `category_id`) VALUES
 ('Coca Cola', 'Bebida refrescante', 1.50, 'coca_cola.jpg', 0, 1),
