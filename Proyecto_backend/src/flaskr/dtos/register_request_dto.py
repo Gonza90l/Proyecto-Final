@@ -22,5 +22,16 @@ class RegisterRequestDTO(BaseDTO):
                 'min_length': 6,
                 'max_length': 50,
                 'must_contain_special': True
+            },
+            'email': {
+                'email': True
+            },
+            'name': {
+                'min_length': 2,
+                'max_length': 50
+            },
+            'lastname': {
+                'min_length': 2,
+                'max_length': 50
             }
         }

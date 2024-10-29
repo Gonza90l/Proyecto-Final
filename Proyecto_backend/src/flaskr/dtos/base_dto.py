@@ -1,3 +1,5 @@
+import re
+
 class BaseDTO:
     def __init__(self, **kwargs):
         """Constructor inicial que permite asignar campos opcionales sin requerir argumentos posicionales."""
@@ -42,11 +44,17 @@ class BaseDTO:
         for field, constraints in field_constraints.items():
             value = validated_data.get(field)
             if value is not None:  # Solo valida si el campo fue validado previamente
-                if 'min' in constraints and value < constraints['min']:
-                    errors[field] = f"Field {field} must be greater than {constraints['min']}"
-                if 'max' in constraints and value > constraints['max']:
-                    errors[field] = f"Field {field} must be less than {constraints['max']}"
-                # Otros constraints según sea necesario
+                if 'min_length' in constraints and len(value) < constraints['min_length']:
+                    errors[field] = f"Field {field} must be at least {constraints['min_length']} characters long"
+                if 'max_length' in constraints and len(value) > constraints['max_length']:
+                    errors[field] = f"Field {field} must be less than {constraints['max_length']} characters long"
+                if 'must_contain_special' in constraints and constraints['must_contain_special']:
+                    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', value):
+                        errors[field] = f"Field {field} must contain at least one special character"
+                if 'regex' in constraints and not re.match(constraints['regex'], value):
+                    errors[field] = f"Field {field} does not match the required pattern"
+                if 'email' in constraints and not re.match(r"[^@]+@[^@]+\.[^@]+", value):
+                    errors[field] = f"Field {field} must be a valid email address"
 
         if errors:
             return None, errors
