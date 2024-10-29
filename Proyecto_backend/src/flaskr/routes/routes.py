@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flaskr.controllers.users_controller import UsersController
+from flaskr.controllers.menu_controller import MenuController
 from injector import inject
 
 main = Blueprint('main', __name__)
@@ -39,3 +40,10 @@ def get_user(users_controller: UsersController, user_id):
 
 
 ############################################################################################################
+
+# Rutas para obtener menús
+
+@main.route('/menus', methods=['GET'])
+@inject
+def get_menus(menu_controller: MenuController):
+    return menu_controller.get_menus()
