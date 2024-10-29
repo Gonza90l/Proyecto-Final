@@ -41,20 +41,35 @@ def get_user(users_controller: UsersController, user_id):
 
 ############################################################################################################
 
-# Rutas para obtener menús
+# Rutas CRUD para Menús
 
+# FETCH ALL
 @main.route('/menus', methods=['GET'])
 @inject
 def get_menus(menu_controller: MenuController):
     return menu_controller.get_menus()
 
+# FETCH ONE
 @main.route('/menus/<int:menu_id>', methods=['GET'])
 @inject
 def get_menu(menu_controller: MenuController, menu_id):
     return menu_controller.get_menu(menu_id)
 
+# CREATE 
 @main.route('/menus', methods=['POST'])
 @inject
 def create_menu(menu_controller: MenuController):
     return menu_controller.create_menu()
+
+# UPDATE
+@main.route('/menus/<int:menu_id>', methods=['PUT'])
+@inject
+def update_menu(menu_controller: MenuController, menu_id):
+    return menu_controller.update_menu(menu_id)
+
+# DELETE
+@main.route('/menus/<int:menu_id>', methods=['DELETE'])
+@inject
+def delete_menu(menu_controller: MenuController, menu_id):
+    return menu_controller.delete_menu(menu_id)
     
