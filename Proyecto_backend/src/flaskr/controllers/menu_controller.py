@@ -71,4 +71,3 @@ class MenuController(BaseController):
             return self.respond_error(message=str(e), status_code=404)
         except Exception as e:
             return self.respond_error(message=str(e))
-

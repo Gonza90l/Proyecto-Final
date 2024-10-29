@@ -1,6 +1,9 @@
 from flask import Blueprint
 from flaskr.controllers.users_controller import UsersController
 from flaskr.controllers.menu_controller import MenuController
+from flaskr.controllers.menu_category_controller import MenuCategoryController
+
+
 from injector import inject
 
 main = Blueprint('main', __name__)
@@ -73,3 +76,38 @@ def update_menu(menu_controller: MenuController, menu_id):
 def delete_menu(menu_controller: MenuController, menu_id):
     return menu_controller.delete_menu(menu_id)
     
+############################################################################################################
+
+# Rutas CRUD para Categorías
+
+# FETCH ALL
+@main.route('/categories', methods=['GET'])
+@inject
+def get_categories(menu_controller: MenuController):
+    return menu_controller.get_categories()
+
+# FETCH ONE
+@main.route('/categories/<int:category_id>', methods=['GET'])
+@inject
+def get_category(menu_category_controller: MenuCategoryController, category_id):
+    return menu_category_controller.get_category(category_id)
+
+# CREATE
+@main.route('/categories', methods=['POST'])
+@inject
+def create_category(menu_category_controller: MenuCategoryController):
+    return menu_category_controller.create_category()
+
+# UPDATE
+@main.route('/categories/<int:category_id>', methods=['PUT'])
+@inject
+def update_category(menu_category_controller: MenuCategoryController, category_id):
+    return menu_category_controller.update_category(category_id)
+
+# DELETE
+@main.route('/categories/<int:category_id>', methods=['DELETE'])
+@inject
+def delete_category(menu_category_controller: MenuCategoryController, category_id):
+    return menu_category_controller.delete_category(category_id)
+
+
