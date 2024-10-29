@@ -44,10 +44,16 @@ class BaseDTO:
         for field, constraints in field_constraints.items():
             value = validated_data.get(field)
             if value is not None:  # Solo valida si el campo fue validado previamente
-                if 'min_length' in constraints and len(value) < constraints['min_length']:
-                    errors[field] = f"Field {field} must be at least {constraints['min_length']} characters long"
-                if 'max_length' in constraints and len(value) > constraints['max_length']:
-                    errors[field] = f"Field {field} must be less than {constraints['max_length']} characters long"
+                if isinstance(value, (str, list, dict)):
+                    if 'min_length' in constraints and len(value) < constraints['min_length']:
+                        errors[field] = f"Field {field} must be at least {constraints['min_length']} characters long"
+                    if 'max_length' in constraints and len(value) > constraints['max_length']:
+                        errors[field] = f"Field {field} must be less than {constraints['max_length']} characters long"
+                elif isinstance(value, (int, float)):
+                    if 'min_value' in constraints and value < constraints['min_value']:
+                        errors[field] = f"Field {field} must be at least {constraints['min_value']}"
+                    if 'max_value' in constraints and value > constraints['max_value']:
+                        errors[field] = f"Field {field} must be less than {constraints['max_value']}"
                 if 'must_contain_special' in constraints and constraints['must_contain_special']:
                     if not re.search(r'[!@#$%^&*(),.?":{}|<>]', value):
                         errors[field] = f"Field {field} must contain at least one special character"
