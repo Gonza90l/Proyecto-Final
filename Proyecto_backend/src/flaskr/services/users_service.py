@@ -67,7 +67,7 @@ class UsersService:
     def get_users(self):
         user = User(self._mysql)
         users = user.find_all()
-        return [u.to_json_dto() for u in users]
+        return [u.to_dict_dto() for u in users]
 
     def delete_user(self, user_id, current_user_id):
         if not self.has_permission(current_user_id, user_id):

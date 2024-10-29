@@ -18,7 +18,7 @@ class UsersController(BaseController):
     def get_users(self):
         users = self.users_service.get_users()
         #armamos el dto de respuesta
-        users_dto = [user.to_json_dto() for user in users]
+        users_dto = [user.to_dict_dto() for user in users]
         return self.respond_success(data=users_dto)
 
 
@@ -26,7 +26,7 @@ class UsersController(BaseController):
     def get_user(self, user_id):
         user = self.users_service.get_user(user_id)
         if user:
-            return self.respond_success(data=user.to_json_dto())
+            return self.respond_success(data=user.to_dict_dto())
         return self.respond_error(message="User not found", status_code=404)
 
 
@@ -35,7 +35,7 @@ class UsersController(BaseController):
         data = self.get_json_data()
         user = self.users_service.create_user(data)
         #retornamos el dto de respuesta
-        user_dto = user.to_json_dto()
+        user_dto = user.to_dict_dto()
         return self.respond_success(data=user_dto)
         
 
@@ -81,7 +81,7 @@ class UsersController(BaseController):
                 return self.respond_error(message="Registration failed", status_code=400)
 
             #retornamos el dto de respuesta convirtiendo el modelo user a json/dto
-            return self.respond_success(data=user.to_json_dto())    
+            return self.respond_success(data=user.to_dict_dto())    
 
         except UserAlreadyExistsException as e:
             return self.respond_error(message="User already exists", status_code=400)
