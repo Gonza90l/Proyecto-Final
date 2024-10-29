@@ -4,7 +4,8 @@ class User(BaseModel):
     def __init__(self, mysql):
         fields = ['id', 'name', 'lastname', 'email', 'password', 'role', 'created_at', 'deleted_flag']
         table = 'user'
-        super().__init__(mysql, table, fields)
+        deleted_flag = 'deleted_flag' # Campo de bandera de eliminación
+        super().__init__(mysql, table, fields, deleted_flag)
 
     def find_by_email(self, email):
         """Busca un usuario por su email"""
