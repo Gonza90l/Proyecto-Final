@@ -4,4 +4,5 @@ class Menu(BaseModel):
     def __init__(self, mysql):
         table = 'menu'
         fields = ['id', 'name', 'description', 'price', 'photo', 'deleted_flag', 'category_id']
-        super().__init__(mysql, table, fields)
+        deleted_flag = 'deleted_flag' # Campo de bandera de eliminación
+        super().__init__(mysql, table, fields, deleted_flag)

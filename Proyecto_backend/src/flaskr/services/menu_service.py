@@ -37,8 +37,7 @@ class MenuService:
     def update_menu(self, id, update_menu_request_dto: UpdateMenuRequestDTO):
         # Obtener el menú por su ID
         menu = Menu(self._mysql) #creamos un objeto menu y le pasamos la conexion
-        menu.find_by_id(id) #buscamos el obnjeto y cargamos en el objeto menu
-        if not menu: #si no existe el menu
+        if not menu.find_by_id(id):
             raise MenuNotFoundException(f"Menu with id {id} not found") #lanzamos una excepcion
 
         # Actualizar los campos del menú con los datos proporcionados en dto
