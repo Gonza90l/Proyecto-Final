@@ -21,5 +21,16 @@ class UpdateUserDTO(BaseDTO):
             'role': {
                 'min': 1,
                 'max': 50
+            },
+            'email': {
+                'email': True
+            },
+            'name': {
+                'min_length': 2,
+                'max_length': 50
+            },
+            'lastname': {
+                'min_length': 2,
+                'max_length': 50
             }
         }

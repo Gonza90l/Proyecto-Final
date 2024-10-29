@@ -1,9 +1,12 @@
 import time
+import threading
 from .cache_interface import CacheInterface
 
 class MemoryCache(CacheInterface):
-    def __init__(self):
+    def __init__(self, cleanup_interval=60):
         self.cache = {}
+        self.cleanup_interval = cleanup_interval
+        self._start_cleanup_thread()
 
     def get(self, key):
         if key in self.cache:
@@ -28,3 +31,11 @@ class MemoryCache(CacheInterface):
         for key in keys_to_delete:
             self.delete(key)
 
+    def _start_cleanup_thread(self):
+        def run_cleanup():
+            while True:
+                time.sleep(self.cleanup_interval)
+                self.cleanup()
+
+        cleanup_thread = threading.Thread(target=run_cleanup, daemon=True)
+        cleanup_thread.start()

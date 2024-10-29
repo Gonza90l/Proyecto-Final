@@ -10,14 +10,6 @@ import time
 from .cache.cache_interface import CacheInterface
 from .cache.memory_cache import MemoryCache
 
-cache: CacheInterface = MemoryCache() # Instancia de la cache
-
-def cleanup_cache():
-    """Función para limpiar la cache"""
-    while True:
-        time.sleep(600)  # Intervalo de limpieza en segundos
-        cache.cleanup()
-
 def create_app():
 
     # Crear la aplicación Flask
@@ -55,8 +47,5 @@ def create_app():
     # Configurar la inyección de dependencias
     FlaskInjector(app=app, modules=[lambda binder: configure(binder, db)])
 
-     # Iniciar el hilo de limpieza de la cache
-    cleanup_thread = threading.Thread(target=cleanup_cache, daemon=True)
-    cleanup_thread.start()
 
     return app
