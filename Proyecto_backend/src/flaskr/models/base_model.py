@@ -1,6 +1,7 @@
 import importlib
 from flask_mysqldb import MySQL
 import json
+from decimal import Decimal
 
 class BaseModel():
     def __init__(self, mysql: MySQL, table: str, fields: list, deleted_flag: str = None):
@@ -90,7 +91,7 @@ class BaseModel():
         # Convertir cada resultado en una instancia del modelo actual
         model_instances = []
         for result in results:
-            instance = self.__class__(self._mysql, self._table, self._fields, self._deleted_flag)  # Crear una instancia del modelo
+            instance = self.__class__(self._mysql)  # Crear una instancia del modelo
             instance.set(**result)  # Cargar los datos en la instancia
             model_instances.append(instance)
         
@@ -122,26 +123,37 @@ class BaseModel():
     def __str__(self):
         return str(self._data)
 
-    # Método para convertir el objeto a un DTO y serializarlo a JSON
+    import importlib
+
+    # Método para convertir el objeto a un DTO y convertirlo a diccionario
     # Requiere que exista un módulo DTO correspondiente en el directorio dtos
-    # Usamos  reflection para importar dinámicamente el módulo DTO correspondiente
-    def to_json_dto(self):
-        dto_class_name = f"{self.__class__.__name__}DTO"
-        try:
-            # Importar dinámicamente el módulo DTO correspondiente
-            dto_module = importlib.import_module(f"flaskr.dtos.{self.__class__.__name__.lower()}_dto")
-            # Obtener la clase DTO
-            dto_class = getattr(dto_module, dto_class_name)
-            # Crear una instancia del DTO
-            dto_instance = dto_class()
-            # Copiar los atributos del modelo al DTO
-            for field in self._fields:
-                if hasattr(dto_instance, field):
-                    setattr(dto_instance, field, self._data.get(field))
-            # Serializar el DTO a JSON
-            return json.dumps(dto_instance.__dict__)
-        except (ModuleNotFoundError, AttributeError) as e:
-            raise ImportError(f"DTO class '{dto_class_name}' not found for model '{self.__class__.__name__}'") from e
+    # Usamos reflection para importar dinámicamente el módulo DTO correspondiente
+    def to_dict_dto(self):
+        def serialize_instance(instance):
+            dto_class_name = f"{instance.__class__.__name__}DTO"
+            try:
+                # Importar dinámicamente el módulo DTO correspondiente
+                dto_module = importlib.import_module(f"flaskr.dtos.{instance.__class__.__name__.lower()}_dto")
+                # Obtener la clase DTO
+                dto_class = getattr(dto_module, dto_class_name)
+                # Crear una instancia del DTO
+                dto_instance = dto_class()
+                # Copiar los atributos del modelo al DTO
+                for field in instance._fields:
+                    if hasattr(dto_instance, field):
+                        value = instance._data.get(field)
+                        if isinstance(value, Decimal):
+                            value = str(value)
+                        setattr(dto_instance, field, value)
+                # Convertir el DTO a diccionario
+                return dto_instance.__dict__
+            except (ModuleNotFoundError, AttributeError) as e:
+                raise ImportError(f"DTO class '{dto_class_name}' not found for model '{instance.__class__.__name__}'") from e
+
+        if isinstance(self, list):
+            return [serialize_instance(instance) for instance in self]
+        else:
+            return serialize_instance(self)
 
     def from_dto(self, dto):
         """Convierte un DTO a un modelo."""
