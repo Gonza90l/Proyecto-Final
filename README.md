@@ -48,7 +48,6 @@ Este proyecto tiene como objetivo desarrollar un **Sistema para Pedidos de Comid
 - **Sistema de control**: Git
 - **Repositorio**: El repositorio inicial es creado por el Project Manager y los demás miembros del equipo son añadidos como colaboradores.
 
-
 ## Instrucciones de Instalación
 
 ### Clonar el Repositorio
@@ -63,10 +62,10 @@ git clone https://github.com/Gonza90l/Proyecto-Final.git
 - pip (gestor de paquetes de Python)
 
 ### Instalación de Dependencias
-Para instalar las dependencias necesarias, ejecuta este comando en la terminal desde la carpeta `/proyecto_backend/src`:
+Para instalar las dependencias necesarias, ejecuta este comando en la terminal desde la raíz del proyecto:
 
 ```bash
-pip install -r requirements.txt
+pip install -r Proyecto_backend/src/requirements.txt
 ```
 
 ### Configuración de Certificados SSL para HTTPS
@@ -88,7 +87,7 @@ Para configurar los certificados SSL, sigue estos pasos:
 
 Para configurar el archivo `.env`, sigue estos pasos:
 
-1. **Copiar el archivo `.env_example`**: copia el archivo `.env_example` y renómbralo a `.env`. Puedes hacerlo con este comando en la terminal:
+1. **Copiar el archivo `.env_example`**: copia el archivo `.env_example` y renómbralo a `.env`. Puedes hacerlo con este comando en la terminal desde la raíz del proyecto:
 
     ```bash
     cp .env_example .env
@@ -133,13 +132,13 @@ Si usas XAMPP, pon USE_FLASK_MYSQLDB=false, ya que se genera error por el uso de
 Para levantar la infraestructura de la base de datos, sigue estos pasos:
 
 1. **Navegar a la Carpeta de Configuración de la Base de Datos**:
-    - Ubicación: `Proyecto-Final/Proyecto_backend/documentation/database_settings`
+    - Ubicación: `Proyecto_backend/documentation/database_settings`
 
 2. **Crear la Base de Datos**:
     - Ejecuta el script `create_db.sql` para crear la base de datos y las tablas necesarias. Puedes hacerlo desde la línea de comandos de MySQL o usando una herramienta de administración de bases de datos como phpMyAdmin.
 
     ```sql
-    source Proyecto-Final/Proyecto_backend/documentation/database_settings/create_db.sql;
+    source Proyecto_backend/documentation/database_settings/create_db.sql;
     ```
 
 3. **Verificar la Creación de la Base de Datos**:
@@ -148,10 +147,10 @@ Para levantar la infraestructura de la base de datos, sigue estos pasos:
 Una vez completados estos pasos, la infraestructura de la base de datos estará lista para ser utilizada por la aplicación.
 
 ### Ejecución de la Aplicación
-Una vez instaladas las dependencias y configurados los certificados SSL, puedes ejecutar la aplicación con el siguiente comando:
+Una vez instaladas las dependencias y configurados los certificados SSL, puedes ejecutar la aplicación con el siguiente comando desde la raíz del proyecto:
 
 ```bash
-python app.py
+python Proyecto_backend/src/app.py
 ```
 
 La aplicación estará disponible en `https://localhost:5000`.
