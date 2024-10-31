@@ -1,9 +1,9 @@
-from flask_injector import inject
 from flaskr.controllers.base_controller import BaseController
 from flaskr.services.menu_service import MenuService, MenuNotFoundException
 from flaskr.auth import token_required, role_required
 from flaskr.dtos.create_menu_request_dto import CreateMenuRequestDTO
 from flaskr.dtos.update_menu_request_dto import UpdateMenuRequestDTO
+from flask_injector import inject
 
 class MenuController(BaseController):
     @inject

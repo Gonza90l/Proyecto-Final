@@ -5,8 +5,8 @@ from flaskr.dtos.login_response_dto import LoginResponseDTO
 from flaskr.dtos.register_request_dto import RegisterRequestDTO
 from flaskr.dtos.user_dto import UserDTO
 from flaskr.auth import token_required, role_required
-from injector import inject
 from flaskr.exceptions.user_service_exceptions import UserAlreadyExistsException
+from flask_injector import inject
 
 class UsersController(BaseController):
     @inject
