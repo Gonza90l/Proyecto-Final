@@ -150,7 +150,7 @@ Una vez completados estos pasos, la infraestructura de la base de datos estará 
 Una vez instaladas las dependencias y configurados los certificados SSL, puedes ejecutar la aplicación con el siguiente comando desde la raíz del proyecto:
 
 ```bash
-python Proyecto_backend/src/app.py
+python Proyecto_backend/src/run.py
 ```
 
 La aplicación estará disponible en `https://localhost:5000`.
