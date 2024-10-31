@@ -39,3 +39,5 @@ class MemoryCache(CacheInterface):
 
         cleanup_thread = threading.Thread(target=run_cleanup, daemon=True)
         cleanup_thread.start()
+
+cache: CacheInterface = MemoryCache() # Instancia de la cache
