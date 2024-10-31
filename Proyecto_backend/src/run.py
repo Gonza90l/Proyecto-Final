@@ -26,4 +26,4 @@ if __name__ == '__main__':
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     context.load_cert_chain(certfile=os.getenv('SSL_CERTFILE'), keyfile=os.getenv('SSL_KEYFILE'))
     
-    app.run(host='0.0.0.0', port=int(os.getenv('FLASK_RUN_PORT', 5000)), ssl_context=context, debug=os.getenv('FLASK_ENV') == 'development')
+    app.run(host=os.getenv('FLASK_HOST',0.0.0.0), port=int(os.getenv('FLASK_PORT', 5000)), ssl_context=context, debug=os.getenv('FLASK_ENV') == 'development')
