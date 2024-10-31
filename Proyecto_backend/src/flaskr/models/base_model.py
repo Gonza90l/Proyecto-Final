@@ -4,12 +4,14 @@ import json
 from decimal import Decimal
 
 class BaseModel():
-    def __init__(self, mysql: MySQL, table: str, fields: list, deleted_flag: str = None):
+    _deleted_flag = None  # Default value for _deleted_flag
+
+    def __init__(self, mysql: MySQL, **kwargs):
         self._mysql = mysql
-        self._table = table
-        self._fields = fields  # Campos específicos del modelo derivado
-        self._data = {}  # Almacenamos los valores de los campos
-        self._deleted_flag = deleted_flag  # Campo de bandera de eliminación
+        self._table = self._table  # Debe ser definido en la subclase
+        self._fields = self._fields  # Debe ser definido en la subclase
+        self._data = kwargs  # Almacenamos los valores de los campos
+        self._deleted_flag = getattr(self, '_deleted_flag', None)  # Campo de bandera de eliminación
 
     def __getattr__(self, name):
         """Permite acceder a un campo como una propiedad"""
@@ -21,7 +23,7 @@ class BaseModel():
         """Permite establecer un valor en un campo como una propiedad"""
         if name in ['_mysql', '_table', '_fields', '_data', '_deleted_flag']:  # Atributos internos
             super().__setattr__(name, value)
-        elif name in self._fields: # Campos permitidos para el modelo 
+        elif name in self._fields:  # Campos permitidos para el modelo 
             self._data[name] = value
         else:
             raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
@@ -34,6 +36,28 @@ class BaseModel():
             else:
                 raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{key}'")
 
+    @classmethod
+    def find_by_id(cls, mysql, record_id):
+        """Encuentra un registro por su `id` y devuelve una instancia del modelo."""
+        query = f"SELECT * FROM {cls._table} WHERE id = %s"
+        if cls._deleted_flag:
+            query += f" AND {cls._deleted_flag} = 0"
+        result = cls.fetch_one(mysql, query, (record_id,))
+        if result:
+            return cls(mysql, **result)
+        return None
+
+    @classmethod
+    def find_all(cls, mysql):
+        """Recupera todos los registros de la tabla y los convierte en instancias del modelo."""
+        query = f"SELECT * FROM {cls._table}"
+        if cls._deleted_flag:
+            query += f" WHERE {cls._deleted_flag} = 0"
+        results = cls.fetch_all(mysql, query)
+        
+        # Convertir cada resultado en una instancia del modelo actual
+        return [cls(mysql, **result) for result in results]
+
     def insert(self):
         """Inserta un nuevo registro en la base de datos usando `self._data`."""
         columns = ', '.join(self._data.keys())
@@ -44,11 +68,11 @@ class BaseModel():
         new_id = cursor.lastrowid
         cursor.close()  # Cerrar el cursor después de obtener el ID
 
-        #si existe un campo id en el modelo, lo seteamos con el id generado
+        # Si existe un campo id en el modelo, lo seteamos con el id generado
         if 'id' in self._fields:
             self._data['id'] = new_id
             # Cargar los datos del registro insertado
-            self.find_by_id(new_id)
+            self.find_by_id(self._mysql, new_id)
 
         return new_id
 
@@ -71,50 +95,26 @@ class BaseModel():
             query = f"DELETE FROM {self._table} WHERE id = %s"
         self.execute_query(query, (self._data['id'],))
 
-    def find_by_id(self, record_id):
-        """Encuentra un registro por su `id` y carga los valores en `self._data`."""
-        query = f"SELECT * FROM {self._table} WHERE id = %s"
-        if self._deleted_flag:
-            query += f" AND {self._deleted_flag} = 0"
-        result = self.fetch_one(query, (record_id,))
-        if result:
-            self.set(**result)
-        return result
-
-    def find_all(self):
-        """Recupera todos los registros de la tabla y los convierte en instancias del modelo."""
-        query = f"SELECT * FROM {self._table}"
-        if self._deleted_flag:
-            query += f" WHERE {self._deleted_flag} = 0"
-        results = self.fetch_all(query)
-        
-        # Convertir cada resultado en una instancia del modelo actual
-        model_instances = []
-        for result in results:
-            instance = self.__class__(self._mysql)  # Crear una instancia del modelo
-            instance.set(**result)  # Cargar los datos en la instancia
-            model_instances.append(instance)
-        
-        return model_instances
-
-    # Métodos de utilidad para consultas SQL
-    def execute_query(self, query, params=None, return_cursor=False):
-        cursor = self._mysql.connection.cursor()
+    @staticmethod
+    def execute_query(mysql, query, params=None, return_cursor=False):
+        cursor = mysql.connection.cursor()
         cursor.execute(query, params)
-        self._mysql.connection.commit()
+        mysql.connection.commit()
         if return_cursor:
             return cursor
         cursor.close()
 
-    def fetch_one(self, query, params=None):
-        cursor = self._mysql.connection.cursor()
+    @staticmethod
+    def fetch_one(mysql, query, params=None):
+        cursor = mysql.connection.cursor()
         cursor.execute(query, params)
         result = cursor.fetchone()
         cursor.close()
         return result
 
-    def fetch_all(self, query, params=None):
-        cursor = self._mysql.connection.cursor()
+    @staticmethod
+    def fetch_all(mysql, query, params=None):
+        cursor = mysql.connection.cursor()
         cursor.execute(query, params)
         result = cursor.fetchall()
         cursor.close()
@@ -122,8 +122,6 @@ class BaseModel():
 
     def __str__(self):
         return str(self._data)
-
-    import importlib
 
     # Método para convertir el objeto a un DTO y convertirlo a diccionario
     # Requiere que exista un módulo DTO correspondiente en el directorio dtos

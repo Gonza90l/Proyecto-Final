@@ -48,22 +48,22 @@ class UsersController(BaseController):
     # login
     def login(self):
         data = self.get_json_data()
-        try:
-            login_request, errors = LoginRequestDTO.from_json(data)
+        #try:
+        login_request, errors = LoginRequestDTO.from_json(data)
 
-            if errors:
-                return self.respond_error(message="Validation errors", errors=errors, status_code=422)
+        if errors:
+            return self.respond_error(message="Validation errors", errors=errors, status_code=422)
 
-            token = self.users_service.login(login_request)
+        token = self.users_service.login(login_request)
 
-            if not token:
-                return self.respond_error(message="Invalid credentials", status_code=401)
+        if not token:
+            return self.respond_error(message="Invalid credentials", status_code=401)
 
-            response = LoginResponseDTO(token=token)
-            return self.respond_success(data=response.to_json())
+        response = LoginResponseDTO(token=token)
+        return self.respond_success(data=response.to_json())
 
-        except Exception as e:
-            return self.respond_error(message="An unexpected error occurred", errors=str(e), status_code=500)
+        #xcept Exception as e:
+        #   return self.respond_error(message="An unexpected error occurred", errors=str(e), status_code=500)
    
     # register
     def register(self):
