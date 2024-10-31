@@ -15,13 +15,12 @@ class MenuService:
         self._mysql = mysql
 
     def get_menus(self):
-        menu = Menu(self._mysql)
-        menus = menu.find_all()
+        menus = Menu.find_all(self._mysql)
         return menus
 
     def get_menu(self, id):
-        menu = Menu(self._mysql)
-        if not menu.find_by_id(id):
+        menu = Menu.find_by_id(self._mysql, id)
+        if not menu:
             raise MenuNotFoundException(f"Menu with id {id} not found")
         return menu
 
@@ -29,20 +28,19 @@ class MenuService:
         menu = Menu(self._mysql)
         menu.from_dto(create_menu_request_dto)
 
-        #verificamos que exista la categoria
-        category = Category(self._mysql)
-        if not category.find_by_id(menu.category_id):
+        # Verificamos que exista la categoría
+        category = Category.find_by_id(self._mysql, menu.category_id)
+        if not category:
             raise CategoryNotFoundException(f"Category with id {menu.category_id} not found")
 
         menu.insert()
         return menu
 
-
     def update_menu(self, id, update_menu_request_dto: UpdateMenuRequestDTO):
         # Obtener el menú por su ID
-        menu = Menu(self._mysql) #creamos un objeto menu y le pasamos la conexion
-        if not menu.find_by_id(id):
-            raise MenuNotFoundException(f"Menu with id {id} not found") #lanzamos una excepcion
+        menu = Menu.find_by_id(self._mysql, id)
+        if not menu:
+            raise MenuNotFoundException(f"Menu with id {id} not found")
 
         # Actualizar los campos del menú con los datos proporcionados en dto
         menu.from_dto(update_menu_request_dto)
@@ -52,10 +50,9 @@ class MenuService:
 
         return menu
 
-
     def delete_menu(self, id):
-        menu = Menu(self._mysql)
-        if not menu.find_by_id(id):
+        menu = Menu.find_by_id(self._mysql, id)
+        if not menu:
             raise MenuNotFoundException(f"Menu with id {id} not found")
         menu.delete()
         return True
@@ -67,8 +64,8 @@ class MenuService:
         return category
 
     def update_category(self, id, update_category_request_dto: UpdateCategoryRequestDTO):
-        category = Category(self._mysql)
-        if not category.find_by_id(id):
+        category = Category.find_by_id(self._mysql, id)
+        if not category:
             raise CategoryNotFoundException(f"Category with id {id} not found")
         category.from_dto(update_category_request_dto)
         category.update()
@@ -76,30 +73,29 @@ class MenuService:
 
     def delete_category(self, id):
         print("delete_category")
-        category = Category(self._mysql)
-        if not category.find_by_id(id):
+        category = Category.find_by_id(self._mysql, id)
+        if not category:
             raise CategoryNotFoundException(f"Category with id {id} not found")
 
-        
-        connection = self._mysql.get_connection()
+        connection = self._mysql.connection
         cursor = connection.cursor()
         try:
-            # Iniciamos una transaccion
+            # Iniciamos una transacción
             connection.begin()
-            
-            # Quitamos la categoria de los items menus
+
+            # Quitamos la categoría de los ítems del menú
             cursor.execute(
                 "UPDATE menu SET category_id = NULL WHERE category_id = %s",
                 (id,)
             )
 
-            # Eliminamos la categoria
+            # Eliminamos la categoría
             cursor.execute(
                 "DELETE FROM category WHERE id = %s",
                 (id,)
             )
-            
-            # Commit a la transaccion
+
+            # Commit a la transacción
             connection.commit()
         except Exception as e:
             # Rollback en caso de error
@@ -107,19 +103,16 @@ class MenuService:
             print(e)
             return False
         finally:
-            # cerramos el cursor
+            # Cerramos el cursor
             cursor.close()
         return True
 
-        
-
     def get_categories(self):
-        category = Category(self._mysql)
-        categories = category.find_all()
+        categories = Category.find_all(self._mysql)
         return categories
 
     def get_category(self, id):
-        category = Category(self._mysql)
-        if not category.find_by_id(id):
+        category = Category.find_by_id(self._mysql, id)
+        if not category:
             raise CategoryNotFoundException(f"Category with id {id} not found")
         return category

@@ -18,29 +18,24 @@ class UsersService:
     def __init__(self, mysql):
         self._mysql = mysql
 
-    def register(self, register_dto: RegisterRequestDTO):      
-        #convertimos el dto a modelo
+    def register(self, register_dto: RegisterRequestDTO):
+        # Convertimos el dto a modelo
         user = User(self._mysql)
-        #mapeamos el dto a los campos del modelo
+        # Mapeamos el dto a los campos del modelo
         user.from_dto(register_dto)
 
-        #declaramos un nuevo modelo de usuario para verificar si ya existe
-        user2 = User(self._mysql)
-        #preguntamos si el usuario ya existe
-        if user2.find_by_email(user.email):
+        # Verificamos si el usuario ya existe
+        if User.find_by_email(self._mysql, user.email):
             raise UserAlreadyExistsException("User already exists")
-    
-        #encriptamos la contraseña
+
+        # Encriptamos la contraseña
         user.password = generate_password_hash(user.password)
-        #guardamos el usuario
+        # Guardamos el usuario
         user.insert()
 
-        print("ROL",user.role)
+        print("ROL", user.role)
 
         return user
-
-
-
 
     def update_user(self, user_id, update_user_dto: UpdateUserDTO, current_user_id):
         errors = update_user_dto.validate()
@@ -50,8 +45,8 @@ class UsersService:
         if not self.has_permission(current_user_id, user_id):
             raise Exception("No permission to update this user")
 
-        user = User(self._mysql)
-        if not user.find_by_id(user_id):
+        user = User.find_by_id(self._mysql, user_id)
+        if not user:
             raise Exception("User does not exist")
 
         user.set(**update_user_dto.to_dict())
@@ -59,38 +54,32 @@ class UsersService:
         return user
 
     def get_user(self, user_id):
-        user = User(self._mysql)
-        if user.find_by_id(user_id):
-            return user
-        return None
+        return User.find_by_id(self._mysql, user_id)
 
     def get_users(self):
-        user = User(self._mysql)
-        users = user.find_all()
+        users = User.find_all(self._mysql)
         return [u.to_dict_dto() for u in users]
 
     def delete_user(self, user_id, current_user_id):
         if not self.has_permission(current_user_id, user_id):
             raise Exception("No permission to delete this user")
 
-        user = User(self._mysql)
-        if user.find_by_id(user_id):
+        user = User.find_by_id(self._mysql, user_id)
+        if user:
             user.deleted_flag = 1
             user.update()
             return True
         return False
 
     def login(self, login_request_dto: LoginRequestDTO):
-        
         email = login_request_dto.email
         password = login_request_dto.password
 
-        #encodeamos la contraseña
-        #hacemos un print de la contraseña encriptada
+        # Encodeamos la contraseña
         print(generate_password_hash(password))
 
-        user = User(self._mysql)
-        if user.find_by_email(email) and check_password_hash(user.password, password):
+        user = User.find_by_email(self._mysql, email)
+        if user and check_password_hash(user.password, password):
             secret_key = app.config.get('SECRET_KEY')
             if not secret_key or not isinstance(secret_key, str):
                 raise Exception("SECRET_KEY is not set or is not a string")
@@ -100,7 +89,7 @@ class UsersService:
                 'role': user.role,
                 'exp': datetime.utcnow() + timedelta(hours=24)
             }, secret_key, algorithm='HS256')
-            print("login",token)
+            print("login", token)
             return token
         return None
 
@@ -111,6 +100,5 @@ class UsersService:
         return None
 
     def has_permission(self, current_user_id, target_user_id):
-        user = User(self._mysql)
-        current_user = user.find_by_id(current_user_id)
+        current_user = User.find_by_id(self._mysql, current_user_id)
         return current_user and (current_user.role == self.ADMIN_ROL or current_user_id == target_user_id)
