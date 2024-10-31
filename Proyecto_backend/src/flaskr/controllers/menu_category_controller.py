@@ -1,8 +1,7 @@
-from flask_injector import inject
 from flaskr.controllers.base_controller import BaseController
 from flaskr.services.menu_service import MenuService
 from flaskr.auth import token_required, role_required
-
+from flask_injector import inject
 from flaskr.dtos.create_category_request_dto import CreateCategoryRequestDTO
 from flaskr.dtos.update_category_request_dto import UpdateCategoryRequestDTO
 from flaskr.exceptions.menu_service_exceptions import CategoryNotFoundException

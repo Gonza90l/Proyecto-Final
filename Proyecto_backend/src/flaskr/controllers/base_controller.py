@@ -1,7 +1,7 @@
 # app/controllers/base_controller.py
 from flask import request
 from flaskr.responses.api_response import ApiResponse
-from injector import inject
+
 
 class BaseController:
     
