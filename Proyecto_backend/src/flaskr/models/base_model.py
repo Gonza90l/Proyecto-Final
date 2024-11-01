@@ -2,11 +2,14 @@ import importlib
 from flask_mysqldb import MySQL
 import json
 from decimal import Decimal
+from flask_injector import inject
+from flaskr.database.database_interface import IDatabase
 
 class BaseModel():
-    _deleted_flag = None  # Default value for _deleted_flag
+    _deleted_flag = None  # definimos en NONE para que no se aplique en los modelos que no lo requieran
 
-    def __init__(self, mysql: MySQL, **kwargs):
+    @inject
+    def __init__(self, mysql: IDatabase, **kwargs):
         self._mysql = mysql
         self._table = self._table  # Debe ser definido en la subclase
         self._fields = self._fields  # Debe ser definido en la subclase
@@ -48,14 +51,14 @@ class BaseModel():
         return None
 
     @classmethod
-    def find_all(cls, mysql):
-        """Recupera todos los registros de la tabla y los convierte en instancias del modelo."""
+    def find_all(cls, mysql: IDatabase):
+        """Retrieve all records from the table and convert them into model instances."""
         query = f"SELECT * FROM {cls._table}"
         if cls._deleted_flag:
             query += f" WHERE {cls._deleted_flag} = 0"
         results = cls.fetch_all(mysql, query)
         
-        # Convertir cada resultado en una instancia del modelo actual
+        # Convert each result into an instance of the current model
         return [cls(mysql, **result) for result in results]
 
     def insert(self):
@@ -125,7 +128,7 @@ class BaseModel():
 
     # Método para convertir el objeto a un DTO y convertirlo a diccionario
     # Requiere que exista un módulo DTO correspondiente en el directorio dtos
-    # Usamos reflection para importar dinámicamente el módulo DTO correspondiente
+    # Usamos reflexión para importar dinámicamente el módulo DTO correspondiente
     def to_dict_dto(self):
         def serialize_instance(instance):
             dto_class_name = f"{instance.__class__.__name__}DTO"

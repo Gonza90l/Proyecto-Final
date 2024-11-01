@@ -2,27 +2,27 @@ from flask import Blueprint
 from flaskr.controllers.users_controller import UsersController
 from flaskr.controllers.menu_controller import MenuController
 from flaskr.controllers.menu_category_controller import MenuCategoryController
-
-
-from injector import inject
+from flask_injector import inject
 
 main = Blueprint('main', __name__)
+
+base_url = '' #'/api/v1'
 
 ############################################################################################################
 # Rutas para el login, registro y verificación de token
 
-@main.route('/login', methods=['POST'])
+@main.route(base_url + '/login', methods=['POST'])
 @inject
 def login(users_controller: UsersController):
     return users_controller.login()
 
-@main.route('/register', methods=['POST'])
+@main.route(base_url + '/register', methods=['POST'])
 @inject
 def register(users_controller: UsersController):
     return users_controller.register()
 
 # verificación de token
-@main.route('/verify_token', methods=['POST'])
+@main.route(base_url + '/verify_token', methods=['POST'])
 @inject
 def verify_token(users_controller: UsersController):
     return users_controller.verify_token()
@@ -31,12 +31,12 @@ def verify_token(users_controller: UsersController):
 
 # Rutas para obtener usuarios
 
-@main.route('/users', methods=['GET'])
+@main.route(base_url + '/users', methods=['GET'])
 @inject
 def get_users(users_controller: UsersController):
     return users_controller.get_users()
 
-@main.route('/users/<int:user_id>', methods=['GET'])
+@main.route(base_url + '/users/<int:user_id>', methods=['GET'])
 @inject
 def get_user(users_controller: UsersController, user_id):
     return users_controller.get_user(user_id)
@@ -47,31 +47,31 @@ def get_user(users_controller: UsersController, user_id):
 # Rutas CRUD para Menús
 
 # FETCH ALL
-@main.route('/menus', methods=['GET'])
+@main.route(base_url + '/menus', methods=['GET'])
 @inject
 def get_menus(menu_controller: MenuController):
     return menu_controller.get_menus()
 
 # FETCH ONE
-@main.route('/menus/<int:menu_id>', methods=['GET'])
+@main.route(base_url + '/menus/<int:menu_id>', methods=['GET'])
 @inject
 def get_menu(menu_controller: MenuController, menu_id):
     return menu_controller.get_menu(menu_id)
 
 # CREATE 
-@main.route('/menus', methods=['POST'])
+@main.route(base_url + '/menus', methods=['POST'])
 @inject
 def create_menu(menu_controller: MenuController):
     return menu_controller.create_menu()
 
 # UPDATE
-@main.route('/menus/<int:menu_id>', methods=['PUT'])
+@main.route(base_url + '/menus/<int:menu_id>', methods=['PUT'])
 @inject
 def update_menu(menu_controller: MenuController, menu_id):
     return menu_controller.update_menu(menu_id)
 
 # DELETE
-@main.route('/menus/<int:menu_id>', methods=['DELETE'])
+@main.route(base_url + '/menus/<int:menu_id>', methods=['DELETE'])
 @inject
 def delete_menu(menu_controller: MenuController, menu_id):
     return menu_controller.delete_menu(menu_id)
@@ -81,33 +81,34 @@ def delete_menu(menu_controller: MenuController, menu_id):
 # Rutas CRUD para Categorías
 
 # FETCH ALL
-@main.route('/categories', methods=['GET'])
+@main.route(base_url + '/categories', methods=['GET'])
 @inject
 def get_categories(menu_controller: MenuController):
     return menu_controller.get_categories()
 
 # FETCH ONE
-@main.route('/categories/<int:category_id>', methods=['GET'])
+@main.route(base_url + '/categories/<int:category_id>', methods=['GET'])
 @inject
 def get_category(menu_category_controller: MenuCategoryController, category_id):
     return menu_category_controller.get_category(category_id)
 
 # CREATE
-@main.route('/categories', methods=['POST'])
+@main.route(base_url + '/categories', methods=['POST'])
 @inject
 def create_category(menu_category_controller: MenuCategoryController):
     return menu_category_controller.create_category()
 
 # UPDATE
-@main.route('/categories/<int:category_id>', methods=['PUT'])
+@main.route(base_url + '/categories/<int:category_id>', methods=['PUT'])
 @inject
 def update_category(menu_category_controller: MenuCategoryController, category_id):
     return menu_category_controller.update_category(category_id)
 
 # DELETE
-@main.route('/categories/<int:category_id>', methods=['DELETE'])
+@main.route(base_url + '/categories/<int:category_id>', methods=['DELETE'])
 @inject
 def delete_category(menu_category_controller: MenuCategoryController, category_id):
     return menu_category_controller.delete_category(category_id)
 
+############################################################################################################
 
