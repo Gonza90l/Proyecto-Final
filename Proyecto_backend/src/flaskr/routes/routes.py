@@ -4,6 +4,7 @@ from flaskr.controllers.menu_controller import MenuController
 from flaskr.controllers.menu_category_controller import MenuCategoryController
 from flask_injector import inject
 
+# Definir el Blueprint
 main = Blueprint('main', __name__)
 
 base_url = '' #'/api/v1'
