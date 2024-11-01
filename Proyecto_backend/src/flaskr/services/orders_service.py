@@ -2,6 +2,10 @@ from flask_injector import inject
 from flaskr.database.database_interface import IDatabase
 from flaskr.models.order import Order
 from flaskr.exceptions.order_service_exceptions import OrderNotFoundException
+from flaskr.models.order_has_menu import OrderHasMenu
+from flaskr.dtos.create_order_request_dto import CreateOrderRequestDTO
+from flaskr.dtos.create_order_has_menu_request_dto import CreateOrderHasMenuRequestDTO
+from datetime import datetime
 
 class OrderService:
 
@@ -29,18 +33,32 @@ class OrderService:
         return order
 
     def create_order(self, create_order_request_dto):
-        order = Order()
+        # Create the Order instance
+        order = Order(self._mysql)
         order.from_dto(create_order_request_dto)
-        order.insert(self._mysql)
-        return order
+        order.created_at = datetime.now()
 
-    def update_order(self, order_id, update_order_request_dto):
+        order.insert()
+
+        # Create OrderHasMenu instances for each item in order_items
+        order_items = create_order_request_dto.order_items
+        for item_dto in order_items:
+            order_item_dto = CreateOrderHasMenuRequestDTO(**item_dto)
+            order_item = OrderHasMenu(self._mysql)
+            print(order_item_dto)
+            order_item.from_dto(order_item_dto)
+            order_item.order_id = order.id  # Set the order_id to the newly created order's id
+            order_item.insert()
+
+        return order.id
+
+    '''def update_order(self, order_id, update_order_request_dto):
         order = Order.find_by_id(self._mysql, order_id)
         if not order:
             raise OrderNotFoundException("Order not found")
         order.set(**update_order_request_dto.to_dict())
-        order.update(self._mysql)
-        return order
+        order.update()
+        return order'''
 
     def delete_order(self, order_id):
         raise Exception("Not implemented, orders cannot be deleted, only updated and created")
