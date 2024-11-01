@@ -8,6 +8,8 @@ from flaskr.exceptions.user_service_exceptions import UserAlreadyExistsException
 from flask import current_app as app
 import jwt
 from datetime import datetime, timedelta
+from flask_injector import inject
+from flaskr.database.database_interface import IDatabase
 
 
 
@@ -15,12 +17,13 @@ class UsersService:
     USER_ROL = 'USER'
     ADMIN_ROL = 'ADMIN'
 
-    def __init__(self, mysql):
+    @inject
+    def __init__(self, mysql: IDatabase):
         self._mysql = mysql
 
     def register(self, register_dto: RegisterRequestDTO):
         # Convertimos el dto a modelo
-        user = User(self._mysql)
+        user = User()
         # Mapeamos el dto a los campos del modelo
         user.from_dto(register_dto)
 

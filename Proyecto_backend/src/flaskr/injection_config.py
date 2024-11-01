@@ -1,19 +1,15 @@
 # flaskr/injection_config.py
-from injector import singleton, Binder
-from flask_mysqldb import MySQL
-from .services.users_service import UsersService
-from .services.menu_service import MenuService
+from flask_injector import singleton, Binder
+from flaskr.database.database_interface import IDatabase
+from flaskr.services.users_service import UsersService
+from flaskr.services.menu_service import MenuService
 
-def configure(binder: Binder, mysql):
-    # Vincular UserService a su implementación
-    user_service = UsersService(mysql)
-    binder.bind(UsersService, to=user_service, scope=singleton)
+def configure(binder: Binder, db):
+    # Bind de la base de datos mediante la interfaz IDatabase
+    binder.bind(IDatabase, to=db, scope=singleton)
 
-    # Vincular MenuService a su implementación
-    menu_service = MenuService(mysql)
-    binder.bind(MenuService, to=menu_service, scope=singleton)
+    # Bind de UsersService a su implementación
+    binder.bind(UsersService, to=UsersService, scope=singleton)
 
-    # Vincular ExampleController a su implementación
-    #example_controller = ExampleController(mysql)
-    #binder.bind(ExampleController, to=example_controller, scope=singleton)
-    
+    # Bind de MenuService a su implementación
+    binder.bind(MenuService, to=MenuService, scope=singleton)

@@ -5,13 +5,15 @@ from flaskr.dtos.create_menu_request_dto import CreateMenuRequestDTO
 from flaskr.dtos.update_menu_request_dto import UpdateMenuRequestDTO
 from flaskr.dtos.create_category_request_dto import CreateCategoryRequestDTO
 from flaskr.dtos.update_category_request_dto import UpdateCategoryRequestDTO
-
+from flask_injector import inject
+from flaskr.database.database_interface import IDatabase
 from flaskr.models.category import Category
 
 
 class MenuService:
 
-    def __init__(self, mysql):
+    @inject
+    def __init__(self, mysql: IDatabase):
         self._mysql = mysql
 
     def get_menus(self):
@@ -25,7 +27,7 @@ class MenuService:
         return menu
 
     def create_menu(self, create_menu_request_dto: CreateMenuRequestDTO):
-        menu = Menu(self._mysql)
+        menu = Menu()
         menu.from_dto(create_menu_request_dto)
 
         # Verificamos que exista la categoría
@@ -58,7 +60,7 @@ class MenuService:
         return True
 
     def create_category(self, create_category_request_dto: CreateCategoryRequestDTO):
-        category = Category(self._mysql)
+        category = Category()
         category.from_dto(create_category_request_dto)
         category.insert()
         return category

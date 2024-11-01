@@ -12,14 +12,14 @@ class MenuController(BaseController):
 
     @token_required
     def get_menus(self):
-        try:
+        #try:
             menus = self._menu_service.get_menus()
             # menus es una lista así que lo recorremos convirtiendo en json_dto
             json_menus = [menu.to_dict_dto() for menu in menus]
             # serializamos la lista de json
             return self.respond_success(data=json_menus)
-        except Exception as e:
-            return self.respond_error(message=str(e))
+        #except Exception as e:
+        #    return self.respond_error(message=str(e))
 
     @token_required
     def get_menu(self, id):
