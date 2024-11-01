@@ -76,8 +76,9 @@ class BaseModel():
         """Inserta un nuevo registro en la base de datos usando `self._data`."""
         columns = ', '.join(self._data.keys())
         placeholders = ', '.join(['%s'] * len(self._data))
+        print(self._data)
         query = f"INSERT INTO {self._table} ({columns}) VALUES ({placeholders})"
-        cursor = self.execute_query(query, tuple(self._data.values()), return_cursor=True)
+        cursor = self.execute_query(self._mysql, query, tuple(self._data.values()), return_cursor=True)
         # Obtener el ID del nuevo registro
         new_id = cursor.lastrowid
         cursor.close()  # Cerrar el cursor después de obtener el ID
