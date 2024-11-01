@@ -2,6 +2,7 @@ from flask import Blueprint
 from flaskr.controllers.users_controller import UsersController
 from flaskr.controllers.menu_controller import MenuController
 from flaskr.controllers.menu_category_controller import MenuCategoryController
+from flaskr.controllers.order_controller import OrderController
 from flask_injector import inject
 
 # Definir el Blueprint
@@ -113,3 +114,34 @@ def delete_category(menu_category_controller: MenuCategoryController, category_i
 
 ############################################################################################################
 
+# Rutas CRUD para Ordenes
+
+# FETCH ALL
+@main.route(base_url + '/orders', methods=['GET'])
+@inject
+def get_orders(order_controller: OrderController):
+    return order_controller.get_orders()
+
+# FETCH ONE
+@main.route(base_url + '/orders/<int:order_id>', methods=['GET'])
+@inject
+def get_order(order_controller: OrderController, order_id):
+    return order_controller.get_order(order_id)
+
+# CREATE
+@main.route(base_url + '/orders', methods=['POST'])
+@inject
+def create_order(order_controller: OrderController):
+    return order_controller.create_order()
+
+# UPDATE
+@main.route(base_url + '/orders/<int:order_id>', methods=['PUT'])
+@inject
+def update_order(order_controller: OrderController, order_id):
+    return order_controller.update_order(order_id)
+
+# DELETE
+@main.route(base_url + '/orders/<int:order_id>', methods=['DELETE'])
+@inject
+def delete_order(order_controller: OrderController, order_id):
+    return order_controller.delete_order(order_id)
