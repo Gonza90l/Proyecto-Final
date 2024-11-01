@@ -98,7 +98,7 @@ class BaseModel():
         set_clause = ', '.join([f"{key} = %s" for key in self._data.keys()])
         query = f"UPDATE {self._table} SET {set_clause} WHERE id = %s"
         params = tuple(self._data.values()) + (self._data['id'],)
-        self.execute_query(query, params)
+        self.execute_query(self._mysql, query, params)
 
     def delete(self):
         """Elimina el registro de la base de datos usando el `id` en `self._data`."""
@@ -108,7 +108,7 @@ class BaseModel():
             query = f"UPDATE {self._table} SET {self._deleted_flag} = 1 WHERE id = %s"
         else:
             query = f"DELETE FROM {self._table} WHERE id = %s"
-        self.execute_query(query, (self._data['id'],))
+        self.execute_query(self._mysql, query, (self._data['id'],))
 
     @staticmethod
     def execute_query(mysql, query, params=None, return_cursor=False):
@@ -138,7 +138,7 @@ class BaseModel():
     def __str__(self):
         return str(self._data)
 
-    # Método para convertir el objeto a un DTO y convertirlo a diccionario
+    # Método para convertir el objeto a diccionario basado en el DTO correspondiente    
     # Requiere que exista un módulo DTO correspondiente en el directorio dtos
     # Usamos reflexión para importar dinámicamente el módulo DTO correspondiente
     def to_dict_dto(self):
