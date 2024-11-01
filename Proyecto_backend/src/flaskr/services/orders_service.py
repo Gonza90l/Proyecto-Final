@@ -10,13 +10,22 @@ class OrderService:
         self._mysql = mysql
 
     def get_orders(self):
-        return Order.find_all(self._mysql)
+        orders = Order.find_all(self._mysql)
+        for order in orders:
+            print(order)
+            order.load_related_data()
+            for order_item in order.order_items:
+                order_item.load_related_data()
+                print(order_item)
+        return orders
 
     def get_order(self, order_id):
         order = Order.find_by_id(self._mysql, order_id)
-        print("....",order)
         if not order:
             raise OrderNotFoundException("Order not found")
+        order.load_related_data()
+        for order_item in order.order_items:
+            order_item.load_related_data()
         return order
 
     def create_order(self, create_order_request_dto):

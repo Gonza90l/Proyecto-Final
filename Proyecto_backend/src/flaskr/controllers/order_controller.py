@@ -13,14 +13,14 @@ class OrderController(BaseController):
 
     @token_required
     def get_orders(self):
-        try:
-            orders = self._order_service.get_orders()
-            # orders es una lista así que lo recorremos convirtiendo en json_dto
-            json_orders = [order.to_dict_dto() for order in orders]
-            # serializamos la lista de json
-            return self.respond_success(data=json_orders)
-        except Exception as e:
-            return self.respond_error(message=str(e))
+        #try:
+        orders = self._order_service.get_orders()
+        # orders es una lista así que lo recorremos convirtiendo en json_dto
+        json_orders = [order.to_dict_dto() for order in orders]
+        # serializamos la lista de json
+        return self.respond_success(data=json_orders)
+        #except Exception as e:
+        #    return self.respond_error(message=str(e))
 
     @token_required
     def get_order(self, id):
