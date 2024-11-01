@@ -7,6 +7,7 @@ from flaskr.database.database_interface import IDatabase
 
 class BaseModel():
     _deleted_flag = None  # definimos en NONE para que no se aplique en los modelos que no lo requieran
+    _relationships = {}  # Define relationships in subclasses
 
     @inject
     def __init__(self, mysql: IDatabase, **kwargs):
@@ -15,19 +16,24 @@ class BaseModel():
         self._fields = self._fields  # Debe ser definido en la subclase
         self._data = kwargs  # Almacenamos los valores de los campos
         self._deleted_flag = getattr(self, '_deleted_flag', None)  # Campo de bandera de eliminación
+        self._related_data = {}  # Store related data
 
     def __getattr__(self, name):
         """Permite acceder a un campo como una propiedad"""
         if name in self._fields:
             return self._data.get(name)
+        if name in self._relationships:
+            return self._related_data.get(name)
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
     def __setattr__(self, name, value):
         """Permite establecer un valor en un campo como una propiedad"""
-        if name in ['_mysql', '_table', '_fields', '_data', '_deleted_flag']:  # Atributos internos
+        if name in ['_mysql', '_table', '_fields', '_data', '_deleted_flag', '_related_data', '_relationships']:  # Atributos internos
             super().__setattr__(name, value)
         elif name in self._fields:  # Campos permitidos para el modelo 
             self._data[name] = value
+        elif name in self._relationships:
+            self._related_data[name] = value
         else:
             raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
@@ -47,7 +53,9 @@ class BaseModel():
             query += f" AND {cls._deleted_flag} = 0"
         result = cls.fetch_one(mysql, query, (record_id,))
         if result:
-            return cls(mysql, **result)
+            instance = cls(mysql, **result)
+            instance.load_related_data()
+            return instance
         return None
 
     @classmethod
@@ -59,7 +67,10 @@ class BaseModel():
         results = cls.fetch_all(mysql, query)
         
         # Convert each result into an instance of the current model
-        return [cls(mysql, **result) for result in results]
+        instances = [cls(mysql, **result) for result in results]
+        for instance in instances:
+            instance.load_related_data()
+        return instances
 
     def insert(self):
         """Inserta un nuevo registro en la base de datos usando `self._data`."""
@@ -134,7 +145,8 @@ class BaseModel():
             dto_class_name = f"{instance.__class__.__name__}DTO"
             try:
                 # Importar dinámicamente el módulo DTO correspondiente
-                dto_module = importlib.import_module(f"flaskr.dtos.{instance.__class__.__name__.lower()}_dto")
+                module_name = f"flaskr.dtos.{self._to_snake_case(instance.__class__.__name__)}_dto"
+                dto_module = importlib.import_module(module_name)
                 # Obtener la clase DTO
                 dto_class = getattr(dto_module, dto_class_name)
                 # Crear una instancia del DTO
@@ -147,7 +159,14 @@ class BaseModel():
                             value = str(value)
                         setattr(dto_instance, field, value)
                 # Convertir el DTO a diccionario
-                return dto_instance.__dict__
+                dto_dict = dto_instance.__dict__
+                # Serializar datos relacionados
+                for relation, related_instances in instance._related_data.items():
+                    if isinstance(related_instances, list):
+                        dto_dict[relation] = [serialize_instance(related_instance) for related_instance in related_instances]
+                    else:
+                        dto_dict[relation] = serialize_instance(related_instances)
+                return dto_dict
             except (ModuleNotFoundError, AttributeError) as e:
                 raise ImportError(f"DTO class '{dto_class_name}' not found for model '{instance.__class__.__name__}'") from e
 
@@ -174,3 +193,29 @@ class BaseModel():
                 self._data[key] = value
             else:
                 raise AttributeError(f"Dictionary has no attribute '{key}'")
+
+    def load_related_data(self):
+        """Load related data for the model instance."""
+        for relation, details in self._relationships.items():
+            related_class_name = details['class']
+            foreign_key = details['foreign_key']
+            
+            # Convert class name to snake_case to match the file name
+            module_name = f"flaskr.models.{self._to_snake_case(related_class_name)}"
+            related_class = getattr(importlib.import_module(module_name), related_class_name)
+            
+            related_instances = related_class.find_all_by_foreign_key(self._mysql, foreign_key, self._data['id'])
+            self._related_data[relation] = related_instances
+
+    @classmethod
+    def find_all_by_foreign_key(cls, mysql, foreign_key, value):
+        """Find all records by foreign key."""
+        query = f"SELECT * FROM {cls._table} WHERE {foreign_key} = %s"
+        results = cls.fetch_all(mysql, query, (value,))
+        return [cls(mysql, **result) for result in results]
+
+    def _to_snake_case(self, name):
+        """Convert CamelCase to snake_case."""
+        import re
+        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
