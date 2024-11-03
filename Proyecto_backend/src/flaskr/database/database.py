@@ -43,4 +43,11 @@ class MySQLConnectorDatabase(IDatabase):
         return self.connection
 
     def get_cursor(self):
-        return self.connection.cursor(dictionary=True)
+        return self.connection.cursor(cursor_class=MySQLCursorDict)
+
+class MySQLCursorDict(mysql.connector.cursor.MySQLCursor):
+    def _row_to_python(self, rowdata, desc=None):
+        row = super(MySQLCursorDict, self)._row_to_python(rowdata, desc)
+        if row:
+            return dict(zip(self.column_names, row))
+        return None
