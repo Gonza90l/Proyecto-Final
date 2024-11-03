@@ -1,19 +1,11 @@
 # run.py
 from flaskr import FlaskApp
-from dotenv import load_dotenv
 import os
-import logging
-
-# Configurar el registro basado en el .env
-logging.basicConfig(level=os.getenv('LOG_LEVEL', 'INFO'))
-
-# Cargar las variables de entorno desde el archivo .env
-load_dotenv()
 
 # Crear la aplicación de Flask
-flask_app_instance = FlaskApp()
-app = flask_app_instance.get_app()
-context = flask_app_instance.get_ssl_context()
+flask_app_instance = FlaskApp() # Creamos una instancia de la clase FlaskApp
+app = flask_app_instance.get_app() # Obtenemos la aplicación de la instancia 
+context = flask_app_instance.get_ssl_context() # Obtenemos el contexto SSL de la instancia de FlaskApp
 
 # Iniciar la aplicación de Flask
 if __name__ == '__main__':

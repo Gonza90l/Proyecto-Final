@@ -3,6 +3,7 @@ from flask_mysqldb import MySQL
 import mysql.connector
 import os
 from .database_interface import IDatabase
+from mysql.connector import cursor
 
 class FlaskMySQLDatabase(IDatabase):
     def __init__(self):
@@ -42,4 +43,4 @@ class MySQLConnectorDatabase(IDatabase):
         return self.connection
 
     def get_cursor(self):
-        return self.connection.cursor()
+        return self.connection.cursor(dictionary=True)
