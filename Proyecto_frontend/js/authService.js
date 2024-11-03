@@ -128,6 +128,31 @@ class AuthService {
             return false;
         }
     }
+
+    async getRole() {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            const decodedToken = JSON.parse(jsonPayload);
+            if (!decodedToken.role) {
+                throw new Error('Role not found in token');
+            }
+            console.log('Role:', decodedToken.role);
+            return decodedToken.role;
+        } catch (error) {
+            console.error('Error getting role:', error);
+            return null;
+        }
+    }
 }
 
 // Crea una instancia de ApiClient y AuthService
