@@ -146,8 +146,9 @@ class AuthService {
             if (!decodedToken.role) {
                 throw new Error('Role not found in token');
             }
-            console.log('Role:', decodedToken.role);
-            return decodedToken.role;
+            const role = decodedToken.role.toLowerCase();
+            console.log('Role:', role);
+            return role;
         } catch (error) {
             console.error('Error getting role:', error);
             return null;
