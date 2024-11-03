@@ -47,7 +47,9 @@ class Router {
     }
 
     async getRole() {
-        return 'user';
+        //la funcion ya esta implementada, si deseas ver el resultado, 
+        //modififcar el role desde la base de datos, cerrar sesion y volver a ingresar
+        //ya que si no cerras sesion no se actualiza el valor del token JWT
         try {
             return await authService.getRole();
         } catch (err) {
