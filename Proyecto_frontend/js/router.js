@@ -85,7 +85,7 @@ class Router {
             return;
         }
 
-        await this.loadView(route.view);
+        await this.loadView(route.view + '?_=' + new Date().getTime());
         
 
 
@@ -150,7 +150,7 @@ class Router {
         const fragments = document.querySelectorAll('[data-fragment]');
         await Promise.all([...fragments].map(async (fragment) => {
             const fragmentName = fragment.getAttribute('data-fragment');
-            const url = `./views/fragments/${fragmentName}.html`;
+            const url = `./views/fragments/${fragmentName}.html?_=${new Date().getTime()}`;
     
             try {
                 if (!this.fragmentCache[fragmentName]) {
