@@ -37,7 +37,7 @@ Este proyecto tiene como objetivo desarrollar un **Sistema para Pedidos de Comid
 ### Backend
 - **Lenguaje**: Python
 - **Framework**: Flask
-- **Base de datos**: SQL (por definir)
+- **Base de datos**: SQL 
 - **API**: RESTful (formato de intercambio de datos en JSON)
 
 ### Frontend
