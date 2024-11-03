@@ -124,6 +124,7 @@ class BaseModel():
         cursor = mysql.connection.cursor()
         cursor.execute(query, params)
         result = cursor.fetchone()
+        result = BaseModel.process_cursor_result(cursor, result)
         cursor.close()
         return result
 
@@ -131,9 +132,10 @@ class BaseModel():
     def fetch_all(mysql, query, params=None):
         cursor = mysql.connection.cursor()
         cursor.execute(query, params)
-        result = cursor.fetchall()
+        results = cursor.fetchall()
+        results = [BaseModel.process_cursor_result(cursor, row) for row in results]
         cursor.close()
-        return result
+        return results
 
     def __str__(self):
         return str(self._data)
@@ -220,3 +222,18 @@ class BaseModel():
         import re
         s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
         return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+    @staticmethod
+    def process_cursor_result(cursor, row):
+        """
+        Verifica si el retorno del cursor es una tupla y la convierte a diccionario.
+        Si no, solo retorna el cursor.
+
+        :param cursor: El cursor de la base de datos.
+        :param row: La tupla que se desea convertir.
+        :return: Un diccionario con los nombres de las columnas como claves y los valores de la tupla como valores, o el cursor.
+        """
+        if isinstance(row, tuple):
+            columns = [column[0] for column in cursor.description]
+            return dict(zip(columns, row))
+        return row
