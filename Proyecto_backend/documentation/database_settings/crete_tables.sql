@@ -1,3 +1,5 @@
+USE `proyecto_informatico` ;
+
 -- -----------------------------------------------------
 -- Table `proyecto_informatico`.`category`
 -- -----------------------------------------------------
@@ -21,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`menu` (
   `price` DECIMAL(10,2) NOT NULL,
   `photo` VARCHAR(255) NULL,
   `deleted_flag` TINYINT(1) NOT NULL DEFAULT 0,
-  `category_id` INT NOT NULL,
+  `category_id` INT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_menu_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_menu_category_idx` (`category_id` ASC) VISIBLE,
@@ -43,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`user` (
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `role` ENUM('USER', 'ADMIN') NOT NULL,
+  `deleted_flag` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
@@ -135,6 +138,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`order_has_menu` (
   `order_id` BIGINT UNSIGNED NOT NULL,
   `menu_id` BIGINT UNSIGNED NOT NULL,
+  `quantity` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`order_id`, `menu_id`),
   INDEX `fk_order_has_menu_menu1_idx` (`menu_id` ASC) VISIBLE,
   INDEX `fk_order_has_menu_order1_idx` (`order_id` ASC) VISIBLE,
