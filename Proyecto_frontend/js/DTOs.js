@@ -91,21 +91,5 @@ export class NotificationDTO {
     }
 }
 
-//LoginRequestDTO
-//Clase que representa un request de login
-export class LoginRequestDTO {
-    constructor(email, password) {
-        this.email = email;
-        this.password = password;
-    }
-}
 
-//RegisterRequestDTO
-//Clase que representa un request de registro
-export class RegisterRequestDTO {
-    constructor(name, email, password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-}
+
