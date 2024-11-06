@@ -1,4 +1,8 @@
 import ApiClient from './apiClient.js';
+import LoguinRequestDto from './dtos/LoguinRequestDto.js';
+import config from './config.js'; // Importa la configuración
+
+
 // AuthService
 // Tipo de instancia: Singleton
 
@@ -10,7 +14,7 @@ class AuthService {
 
     constructor() {
         // Inicializa el token y la fecha de expiración a null
-        this.apiClient = new ApiClient('https://proyecto_frontend.test:5000');
+        this.apiClient = new ApiClient(config.apiBaseUrl);
         this.token = null;
         this.authCache = {
             isAuthenticated: false,
@@ -34,6 +38,39 @@ class AuthService {
     }
 
     /**
+     * Realiza el registro de un nuevo usuario.
+     * Envía una solicitud POST al endpoint /api/register con el correo electrónico, la contraseña, el nombre y el apellido del usuario.
+     * 
+     * @param {string} email - El correo electrónico del usuario.
+     * @param {string} password - La contraseña del usuario.
+     * @param {string} name - El nombre del usuario.
+     * @param {string} lastname - El apellido del usuario.
+     * 
+     * @returns {Promise<boolean>} - Retorna una promesa que resuelve a true si el registro es exitoso, de lo contrario lanza un error.
+     */
+    async register(email, password, name, lastname) {
+        try {
+            const response = await ApiClient.post('/register', {
+                email: email,
+                password: password,
+                name: name,
+                lastname: lastname
+            });
+
+            if (response.status !== 200) {
+                console.error('Register error:', response.data);
+                return false;
+            }
+
+            return true;
+
+        } catch (error) {
+            console.error('Register error:', error);
+            return false;
+        }
+    }
+
+    /**
      * Realiza el login del usuario.
      * Envía una solicitud POST al endpoint /api/login con el nombre de usuario y la contraseña.
      * Si la autenticación es exitosa, guarda el token y su fecha de expiración en localStorage.
@@ -44,7 +81,10 @@ class AuthService {
      */
     async login(email, password) {
         try {
-            const response = await this.apiClient.post('/login', { email, password });
+            // creamnos un dto con los datos del usuario
+            const loguinRequestDto = new LoguinRequestDto(email, password);
+
+            const response = await this.apiClient.post('/login', loguinRequestDto);
 
             // Verificamos el código de estado antes de llamar a response.json()
             if (response.status === 200) {
