@@ -76,11 +76,16 @@ async function register(name, lastname, email, password) {
     routerInstance.showLoading();
     try {
         const register = await authService.register(name, lastname, email, password);
-        if (register) {
+        if (register.success) {
             window.history.pushState({}, '', '/login');
             routerInstance.router();
         } else {
-            alert('error al registrar');
+            // si existe el campo error en la respuesta, lo devolvemos
+            if (register.error) {
+                alert('Error: ' + JSON.stringify(register.error));
+            } else {
+                alert('Error: Could not register user');
+            }
         }
     } catch (error) {
         console.error('Register error:', error);
