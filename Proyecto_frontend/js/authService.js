@@ -1,5 +1,6 @@
 import ApiClient from './apiClient.js';
 import LoguinRequestDto from './dtos/LoguinRequestDto.js';
+import RegisterRequestDto from './dtos/RegisterRequestDto.js';
 import config from './config.js'; // Importa la configuración
 
 
@@ -46,27 +47,31 @@ class AuthService {
      * @param {string} name - El nombre del usuario.
      * @param {string} lastname - El apellido del usuario.
      * 
-     * @returns {Promise<boolean>} - Retorna una promesa que resuelve a true si el registro es exitoso, de lo contrario lanza un error.
+     * @returns {Promise<{success: boolean, error?: object}>} - Retorna una promesa que resuelve a un objeto con la propiedad success y opcionalmente error si hay errores.
      */
     async register(email, password, name, lastname) {
         try {
-            const response = await ApiClient.post('/register', {
-                email: email,
-                password: password,
-                name: name,
-                lastname: lastname
-            });
-
+            const registerRequestDto = new RegisterRequestDto(email, password, name, lastname);
+    
+            const response = await this.apiClient.post('/register', registerRequestDto);
+    
             if (response.status !== 200) {
-                console.error('Register error:', response.data);
-                return false;
+                console.error('Register error 1:', response.data);
+                // si existe el campo error en la respuesta, lo devolvemos
+                if (response.data.errors) {
+                    return { success: false, error: response.data.errors };
+                }
+                return { success: false, error: response.data };
             }
-
-            return true;
-
+    
+            return { success: true };
+    
         } catch (error) {
-            console.error('Register error:', error);
-            return false;
+            // si existe el campo error en la respuesta, lo devolvemos
+            if (error.data.errors) {
+                return { success: false, error: error.data.errors };
+            }
+            return { success: false, error: error };
         }
     }
 
