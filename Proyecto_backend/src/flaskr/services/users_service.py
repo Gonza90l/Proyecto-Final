@@ -56,7 +56,9 @@ class UsersService:
         if update_user_dto.email != user.email and User.find_by_email(self._mysql, update_user_dto.email):
             raise Exception("Email already in use")
 
+        # Actualizamos los campos del usuario
         user.set(**update_user_dto.to_dict())
+        # Guardamos los cambios
         user.update()
         return user
 
