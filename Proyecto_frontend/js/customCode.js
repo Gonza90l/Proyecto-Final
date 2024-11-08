@@ -1,8 +1,6 @@
 // CustomCode.js
 // Aqui se declara todo el código accesorio que se necesita para que la aplicación funcione correctamente. Este archivo no se debe modificar.
-import authService from './authService.js';
 import { routerInstance } from './router.js';
-import menuService from './menuService.js';
 import AdminMenuHandler from './handlers/adminMenuHandler.js';
 import LoginHandler from './handlers/loginHandler.js';
 
