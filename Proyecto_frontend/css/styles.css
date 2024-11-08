@@ -1,4 +1,6 @@
 /* Importamos los colores desde colors.css */
-@import url(colors.css);
+@import url(root.css);
 @import url(error.css);
 @import url(overlayspinner.css);
+
+@import url(home.css)

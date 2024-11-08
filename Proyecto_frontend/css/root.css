@@ -1,17 +1,46 @@
-/* colors.css */
+/***********************************************************************
+******************* Sección de configiración inicial ********************** 
+************************************************************************/
+
+/* Variables de colores */
 :root {
-  --naranja-claro: #F4EFE7;
-  --marron-claro: #B4845A;
-  --rojo-oscuro: #C4454B;
-  --azul-oscuro: #2C3A59;
-  --negro-intenso: #0A0A0A;
-  --blanco: #FFFFFF;
-  --gris-claro: #F5F5F5;
+  --primary-color: #B29138; /* Color principal: Dorado */
+  --secondary-color: #556B2F; /* Color secundario: Verde Oliva */
+  --accent-color: #fa2c2c; /* Color de acento: rojo brillante */
+  --background-color: #1a1918; /* Color del fondo: Negro */
+  --text-color: #bfc9c9; /* Color del texto: Azul */
+  --border-color: #34495E; /* Color del borde: Gris claro */
 }
 
-:root{
---Marrónsuave:	#8B4513;   	/* Tierra, autenticidad*/
---Verdeoliva:	#556B2F;	    /* Frescura, naturaleza*/
---Doradometálico:	#B29138;	/* Lujo, sofisticación*/
---Blancoroto:	#F5F5F5;	    /* Limpieza, luminosidad*/
+/* Estilos generales */
+/*modelo de caja no estandar */
+* {
+  box-sizing: border-box;
 }
+
+body {
+  background-color: var(--background-color);
+  
+}
+
+main {
+  background-color: var(--text-color);
+}
+
+section {
+  background-color: aqua;
+}
+
+article {
+  background-color: coral;
+}
+
+header {
+  background-color: var(--primary-color);
+
+}
+
+footer {
+  background-color: var(--border-color);
+}
+

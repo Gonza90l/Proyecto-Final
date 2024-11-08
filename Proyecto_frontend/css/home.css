@@ -1,0 +1,17 @@
+.home-section {
+    font-family: Arial, Helvetica, sans-serif; /* establecemos las propiedades de la fuente*/
+    font-size: large;
+    color: var(--text-color);
+    text-align: center;
+    background-image: url("../img/wallpaper-home.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+.home-section > ul {
+    background-color: rgba(128, 128, 128, 0.247);
+    text-align: left;
+    margin-left: 30%;
+}
