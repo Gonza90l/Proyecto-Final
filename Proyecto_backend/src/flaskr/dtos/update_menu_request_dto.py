@@ -25,5 +25,4 @@ class UpdateMenuRequestDTO(BaseDTO):
             'description': {'min_length': 10, 'max_length': 200},
             'price': {'min_value': 0.01},
             'photo': {'max_length': 255},
-            'category_id': {'min_value': 1}
         }

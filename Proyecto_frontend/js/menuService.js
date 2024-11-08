@@ -51,24 +51,14 @@ class MenuService {
         //debemos subir la imagen al servidor y obtener la URL de la imagen
         if(menuItemData.image instanceof File) {
             if(!menuItemData.image.type.startsWith('image/')) {
-                const formData = new FormData();
-                formData.append('image', menuItemData.image);
-                const response = await fetch(config.apiBaseUrl + '/images', {
-                    method: 'POST',
-                    headers: {
-                        Authorization: `Bearer ${authService.getAuthToken()}`
-                    },
-                    body: formData
-                });
-
-                const responseData = await response.json();
-                menuItemData.image = responseData.imageUrl;
+                menuItemData.image = "";
             }
         }
         
         //debemos agregarle el .00 si no lo tiene
         if(!menuItemData.price.toString().includes('.')) {
             menuItemData.price = menuItemData.price + '.00';
+            console.info('Pending implementation: Image upload');
         }
 
 
@@ -76,7 +66,6 @@ class MenuService {
         //creamos un createMenuRequestDto
         const createMenuRequestDto = new CreateMenuRequestDto(menuItemData.name, menuItemData.description,menuItemData.price , menuItemData.category_id, "");
         
-        console.log('createMenuRequestDto', createMenuRequestDto);
 
         const response = await this.apiClient.post('/menus', createMenuRequestDto);
 
@@ -89,10 +78,35 @@ class MenuService {
     }
 
     async updateMenuItem(id, menuItemData) {
-        if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
+        if (!await authService.isAuthenticated() || await authService.getRole() !== 'admin') {
+            console.log('Unauthorized', authService.getRole(), authService.isAuthenticated());
             throw new Error('Unauthorized');
         }
-        return await  this.apiClient.put(`/menus/${id}`, menuItemData);
+
+        //debemos subir la imagen al servidor y obtener la URL de la imagen
+        if(menuItemData.image instanceof File) {
+            if(!menuItemData.image.type.startsWith('image/')) {
+                menuItemData.image = "";
+                console.info('Pending implementation: Image upload');
+            }
+        }
+        
+        //debemos agregarle el .00 si no lo tiene
+        if(!menuItemData.price.toString().includes('.')) {
+            menuItemData.price = menuItemData.price + '.00';
+        }
+
+        //creamos un createMenuRequestDto
+        const createMenuRequestDto = new CreateMenuRequestDto(menuItemData.name, menuItemData.description,menuItemData.price , menuItemData.category_id, menuItemData.image);
+        
+
+        const response = await this.apiClient.put(`/menus/${id}`, createMenuRequestDto);
+
+        if(response.status === 200) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     async deleteMenuItem(id) {

@@ -59,7 +59,7 @@ routerInstance.onViewLoaded = async () => {
                 description: formData.get('description'),
                 price: parseFloat(formData.get('price')), // Convertir el precio a número de punto flotante
                 category_id: formData.get('category_id'),
-                image: formData.get('menuImageInput'),
+                image: formData.get('image'),
             };
             console.log('menu', menu);
             addOrUpdateMenu(menu);
@@ -170,8 +170,13 @@ routerInstance.onViewLoaded = async () => {
                             document.getElementById('description').value = menu.description;
                             document.getElementById('price').value = menu.price;
                             document.getElementById('menu_category_id').value = menu.category_id;
-                            document.getElementById('menuImageThumbnail').src = menu.image_url;
-                            document.getElementById('menuImageThumbnail').style.display = 'block';
+                            if(menu.image_url =! "undefined") {
+                                document.getElementById('menuImageThumbnail').src = menu.image_url; 
+                                document.getElementById('menuImageThumbnail').style.display = 'block';
+                            }else{
+                                document.getElementById('menuImageThumbnail').style.display = 'none';
+                            }
+                              
                             document.querySelector('#addOrUpdateMenu-form button[type="submit"]').innerText = 'Actualizar Plato';
                         }
                     });
@@ -245,7 +250,20 @@ async function addOrUpdateMenu(menu) {
 
     //si esta definido el id del menu, entonces es una actualización
     if (menu.id) {
-        await updateMenu(menu);
+        try {
+            console.log(">>>" + menu.image);
+            const response = await menuService.updateMenuItem(menu.id, menu);
+            if (response) {
+                alert('Menu updated successfully');
+                routerInstance.router();
+            } else {
+                alert('Error: Could not add or update menu');
+            }
+        } catch (error) {
+            alert('Error: Could not add or update menu');
+            console.error('Add menu error:', error);
+        }
+        
     } else {
         try {
             const response = await menuService.createMenuItem(menu);

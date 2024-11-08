@@ -48,6 +48,9 @@ class MenuService:
         if not menu:
             raise MenuNotFoundException(f"Menu with id {id} not found")
 
+        if update_menu_request_dto.category_id == 0:
+            update_menu_request_dto.category_id = None
+        
         # Actualizar los campos del menú con los datos proporcionados en dto
         menu.from_dto(update_menu_request_dto)
 
