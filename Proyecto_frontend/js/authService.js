@@ -75,6 +75,11 @@ class AuthService {
         }
     }
 
+    //devolvemo el token del usuario
+    getToken() {
+        return this.token;
+    }
+
     /**
      * Realiza el login del usuario.
      * Envía una solicitud POST al endpoint /api/login con el nombre de usuario y la contraseña.
