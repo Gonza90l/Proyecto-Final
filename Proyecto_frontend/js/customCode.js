@@ -4,7 +4,7 @@ import authService from './authService.js';
 import { routerInstance } from './router.js';
 import menuService from './menuService.js';
 
-routerInstance.onViewLoaded = () => {
+routerInstance.onViewLoaded = async () => {
     console.log('onViewLoaded function executed');
     // ***************************************************************************************
     // Código que se ejecutará después de que el router haya cargado completamente las vistas
@@ -112,6 +112,21 @@ routerInstance.onViewLoaded = () => {
     // listar los menus en la menu-table
     const menuTable = document.getElementById('menu-table');
     if (menuTable) {
+
+        // leemos las categorias
+        const categoriesResponse = await menuService.getCategories();
+        const categories = categoriesResponse.data;
+
+        // Crear un mapa de categorías para un acceso rápido
+        const categoryMap = {};
+        if (Array.isArray(categories)) {
+            categories.forEach((category) => {
+                categoryMap[category.id] = category.name;
+            });
+        }
+
+
+
         menuService.getAllMenuItems().then((response) => {
             const menus = response.data;
             if (Array.isArray(menus)) {
@@ -122,7 +137,7 @@ routerInstance.onViewLoaded = () => {
                     <td>${menu.name}</td>
                     <td>${menu.description}</td>
                     <td>${menu.price}</td>
-                    <td>categoria</td>
+                    <td>${categoryMap[menu.category_id] || 'Unknown'}</td>
                     <td>
                         <button class="btn btn-primary edit-menu" data-id="${menu.id}">Edit</button>
                         <button class="btn btn-danger delete-menu" data-id="${menu.id}">Delete</button>
