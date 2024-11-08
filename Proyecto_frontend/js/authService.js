@@ -1,4 +1,9 @@
 import ApiClient from './apiClient.js';
+import LoguinRequestDto from './dtos/LoguinRequestDto.js';
+import RegisterRequestDto from './dtos/RegisterRequestDto.js';
+import config from './config.js'; // Importa la configuración
+
+
 // AuthService
 // Tipo de instancia: Singleton
 
@@ -10,7 +15,7 @@ class AuthService {
 
     constructor() {
         // Inicializa el token y la fecha de expiración a null
-        this.apiClient = new ApiClient('https://proyecto_frontend.test:5000');
+        this.apiClient = new ApiClient(config.apiBaseUrl);
         this.token = null;
         this.authCache = {
             isAuthenticated: false,
@@ -34,6 +39,43 @@ class AuthService {
     }
 
     /**
+     * Realiza el registro de un nuevo usuario.
+     * Envía una solicitud POST al endpoint /api/register con el correo electrónico, la contraseña, el nombre y el apellido del usuario.
+     * 
+     * @param {string} email - El correo electrónico del usuario.
+     * @param {string} password - La contraseña del usuario.
+     * @param {string} name - El nombre del usuario.
+     * @param {string} lastname - El apellido del usuario.
+     * 
+     * @returns {Promise<{success: boolean, error?: object}>} - Retorna una promesa que resuelve a un objeto con la propiedad success y opcionalmente error si hay errores.
+     */
+    async register(email, password, name, lastname) {
+        try {
+            const registerRequestDto = new RegisterRequestDto(email, password, name, lastname);
+    
+            const response = await this.apiClient.post('/register', registerRequestDto);
+    
+            if (response.status !== 200) {
+                console.error('Register error 1:', response.data);
+                // si existe el campo error en la respuesta, lo devolvemos
+                if (response.data.errors) {
+                    return { success: false, error: response.data.errors };
+                }
+                return { success: false, error: response.data };
+            }
+    
+            return { success: true };
+    
+        } catch (error) {
+            // si existe el campo error en la respuesta, lo devolvemos
+            if (error.data.errors) {
+                return { success: false, error: error.data.errors };
+            }
+            return { success: false, error: error };
+        }
+    }
+
+    /**
      * Realiza el login del usuario.
      * Envía una solicitud POST al endpoint /api/login con el nombre de usuario y la contraseña.
      * Si la autenticación es exitosa, guarda el token y su fecha de expiración en localStorage.
@@ -44,7 +86,10 @@ class AuthService {
      */
     async login(email, password) {
         try {
-            const response = await this.apiClient.post('/login', { email, password });
+            // creamnos un dto con los datos del usuario
+            const loguinRequestDto = new LoguinRequestDto(email, password);
+
+            const response = await this.apiClient.post('/login', loguinRequestDto);
 
             // Verificamos el código de estado antes de llamar a response.json()
             if (response.status === 200) {
