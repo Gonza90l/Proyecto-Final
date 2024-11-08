@@ -178,8 +178,12 @@ routerInstance.onViewLoaded = async () => {
                             document.getElementById('description').value = menu.description;
                             document.getElementById('price').value = menu.price;
                             document.getElementById('menu_category_id').value = menu.category_id;
-                            document.getElementById('menuImageThumbnail').src = menu.image_url;
-                            document.getElementById('menuImageThumbnail').style.display = 'block';
+                            document.getElementById('menuImageThumbnail').src = await menuService.getImagefromServer(menu.photo);
+                            if (menu.photo != "") {
+                                document.getElementById('menuImageThumbnail').style.display = 'block';
+                            }else{
+                                document.getElementById('menuImageThumbnail').style.display = 'none';
+                            }
                             document.querySelector('#addOrUpdateMenu-form button[type="submit"]').innerText = 'Actualizar Plato';
                         }
                     });
@@ -255,8 +259,8 @@ async function addOrUpdateMenu(menu) {
     //si esta definido el id del menu, entonces es una actualización
     if (menu.id) {
         try {
-            console.log(">>>" + menu.image);
-            const response = await menuService.updateMenuItem(menu.id, menu);
+            const lastImage = document.getElementById('menuImageThumbnail').src;
+            const response = await menuService.updateMenuItem(menu.id, menu,document.getElementById('menuImageInput').files[0],lastImage);
             if (response) {
                 alert('Menu updated successfully');
                 routerInstance.router();

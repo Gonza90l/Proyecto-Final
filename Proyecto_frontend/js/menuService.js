@@ -88,32 +88,52 @@ class MenuService {
 
     }
 
-    async updateMenuItem(id, menuItemData) {
+    async updateMenuItem(id, menuItemData, image, lastImage = "") {
         if (!await authService.isAuthenticated() || await authService.getRole() !== 'admin') {
-            console.log('Unauthorized', authService.getRole(), authService.isAuthenticated());
+            console.log('Unauthorized', await authService.getRole(), await authService.isAuthenticated());
             throw new Error('Unauthorized');
         }
-
-        //debemos subir la imagen al servidor y obtener la URL de la imagen
-        if(menuItemData.image instanceof File) {
-            if(!menuItemData.image.type.startsWith('image/')) {
+        console.log('Updating menu item:', menuItemData);
+    
+        // Check if the image needs to be updated
+        if (image && image instanceof File) {
+            console.log("1", image.type);
+            if (image.type.startsWith('image/')) {
+                console.log("2", image.type);
+                // Usamos la API en el endpoint /images    
+                try {
+                    const response = await this.apiClient.uploadFile('/images', image);
+                    menuItemData.image = response.data.file_path;
+                    console.log('Image uploaded:', response.data);
+                } catch (error) {
+                    console.error('Error uploading image:', error);
+                    menuItemData.image = "";
+                }
+            } else {
                 menuItemData.image = "";
-                console.info('Pending implementation: Image upload');
             }
+        } else {
+            // Retain the existing image if no new image is provided
+            menuItemData.image = lastImage.split("/").pop();
         }
-        
-        //debemos agregarle el .00 si no lo tiene
-        if(!menuItemData.price.toString().includes('.')) {
+    
+        // Add .00 to the price if it doesn't have it
+        if (!menuItemData.price.toString().includes('.')) {
             menuItemData.price = menuItemData.price + '.00';
         }
-
-        //creamos un createMenuRequestDto
-        const createMenuRequestDto = new CreateMenuRequestDto(menuItemData.name, menuItemData.description,menuItemData.price , menuItemData.category_id, menuItemData.image);
-        
-
+    
+        // Create a createMenuRequestDto
+        const createMenuRequestDto = new CreateMenuRequestDto(
+            menuItemData.name,
+            menuItemData.description,
+            menuItemData.price,
+            menuItemData.category_id,
+            menuItemData.image
+        );
+    
         const response = await this.apiClient.put(`/menus/${id}`, createMenuRequestDto);
-
-        if(response.status === 200) {
+    
+        if (response.status === 200) {
             return true;
         } else {
             return false;
