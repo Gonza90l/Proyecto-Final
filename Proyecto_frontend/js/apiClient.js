@@ -1,7 +1,9 @@
+import authService from "./authService";
+
 export class ApiClient {
     constructor(baseURL, token = null) {
         this.baseURL = baseURL;
-        this.token = token;
+        this.token = authService.getToken(); //tomaomse el token del authService
         this.maxRetries = 3; // Número máximo de reintentos en caso de fallo
     }
 
