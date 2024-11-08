@@ -3,6 +3,7 @@
 import { routerInstance } from './router.js';
 import AdminMenuHandler from './handlers/adminMenuHandler.js';
 import LoginHandler from './handlers/loginHandler.js';
+import UserMenuHandler from './handlers/userMenuHandler.js';
 
 
 routerInstance.onViewLoaded = async () => {
@@ -20,6 +21,10 @@ routerInstance.onViewLoaded = async () => {
     // Inicializar el manejador de eventos del menú de administración
     const adminMenuHandler = new AdminMenuHandler();
     await adminMenuHandler.init();
+
+    // Inicializar el manejador de eventos del menú de usuario
+    const userMenuHandler = new UserMenuHandler();
+    userMenuHandler.init();
 
     const gotoorigin404 = document.getElementById('404-go-to-origin');
     if (gotoorigin404) {
