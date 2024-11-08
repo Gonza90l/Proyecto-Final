@@ -177,7 +177,11 @@ routerInstance.onViewLoaded = async () => {
                             document.getElementById('name').value = menu.name;
                             document.getElementById('description').value = menu.description;
                             document.getElementById('price').value = menu.price;
-                            document.getElementById('menu_category_id').value = menu.category_id;
+                            if (menu.category_id === "" || menu.category_id === null) {
+                                document.getElementById('menu_category_id').value = 0;
+                            } else {
+                                document.getElementById('menu_category_id').value = menu.category_id;
+                            }
                             document.getElementById('menuImageThumbnail').src = await menuService.getImagefromServer(menu.photo);
                             if (menu.photo != "") {
                                 document.getElementById('menuImageThumbnail').style.display = 'block';
