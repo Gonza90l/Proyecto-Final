@@ -2,6 +2,7 @@
 // Aqui se declara todo el código accesorio que se necesita para que la aplicación funcione correctamente. Este archivo no se debe modificar.
 import authService from './authService.js';
 import { routerInstance } from './router.js';
+import menuService from './menuService.js';
 
 routerInstance.onViewLoaded = () => {
     // ***************************************************************************************
@@ -56,10 +57,11 @@ routerInstance.onViewLoaded = () => {
                 id: formData.get('id'),
                 name: formData.get('name'),
                 description: formData.get('description'),
-                price: formData.get('price'),
-                category: formData.get('category'),
+                price: parseFloat(formData.get('price')), // Convertir el precio a número de punto flotante
+                category_id: formData.get('category_id'),
                 image: formData.get('menuImageInput'),
             };
+            console.log('menu', menu);
             addOrUpdateMenu(menu);
         });
     }
@@ -126,17 +128,25 @@ async function register(name, lastname, email, password) {
 // añadir o actualizar un menu usando menuService
 async function addOrUpdateMenu(menu) {
     routerInstance.showLoading();
-    try {
-        const response = await menuService.addOrUpdateMenu(menu);
-        if (response.success) {
-            window.history.pushState({}, '', '/');
-            routerInstance.router();
-        } else {
-            alert('Error: Could not add or update menu');
+
+    //si esta definido el id del menu, entonces es una actualización
+    if (menu.id) {
+        await updateMenu(menu);
+    } else {
+        try {
+            const response = await menuService.createMenuItem(menu);
+            if (response.success) {
+                window.history.pushState({}, '', '/');
+                routerInstance.router();
+            } else {
+                alert('Error: Could not add or update menu');
+            }
+        } catch (error) {
+            console.error('Add or update menu error:', error);
         }
-    } catch (error) {
-        console.error('Add or update menu error:', error);
     }
+
+   
     routerInstance.hideLoading();
 }
 
