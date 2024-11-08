@@ -59,7 +59,6 @@ routerInstance.onViewLoaded = async () => {
                 description: formData.get('description'),
                 price: parseFloat(formData.get('price')), // Convertir el precio a número de punto flotante
                 category_id: formData.get('category_id'),
-                image: formData.get('image'),
             };
             console.log('menu', menu);
             addOrUpdateMenu(menu);
@@ -125,27 +124,36 @@ routerInstance.onViewLoaded = async () => {
             });
         }
 
+        
 
-
-        menuService.getAllMenuItems().then((response) => {
+        menuService.getAllMenuItems().then(async (response) => {
             const menus = response.data;
             if (Array.isArray(menus)) {
-                menus.forEach((menu) => {
+                for (const menu of menus) {
                     const tr = document.createElement('tr');
                     tr.setAttribute('data-id', menu.id);
+                    
+                    // Get the image content from the server
+                    let imageUrl = '';
+                    if (menu.photo) {
+                        console.log(">>>>" + menu.photo);
+                        imageUrl = await menuService.getImagefromServer(menu.photo);
+                    }
+                    
                     tr.innerHTML = `
-                    <td>${menu.name}</td>
-                    <td>${menu.description}</td>
-                    <td>${menu.price}</td>
-                    <td>${categoryMap[menu.category_id] || 'Unknown'}</td>
-                    <td>
-                        <button class="btn btn-primary edit-menu" data-id="${menu.id}">Edit</button>
-                        <button class="btn btn-danger delete-menu" data-id="${menu.id}">Delete</button>
-                    </td>
+                        <td><img src="${imageUrl}" alt="Photo" width="100"></td>
+                        <td>${menu.name}</td>
+                        <td>${menu.description}</td>
+                        <td>${menu.price}</td>
+                        <td>${categoryMap[menu.category_id] || 'Unknown'}</td>
+                        <td>
+                            <button class="btn btn-primary edit-menu" data-id="${menu.id}">Edit</button>
+                            <button class="btn btn-danger delete-menu" data-id="${menu.id}">Delete</button>
+                        </td>
                     `;
                     menuTable.appendChild(tr);
-                });
-
+                }
+        
                 // agregar evento al boton de delete
                 const deleteButtons = document.getElementsByClassName('delete-menu');
                 for (let i = 0; i < deleteButtons.length; i++) {
@@ -157,7 +165,7 @@ routerInstance.onViewLoaded = async () => {
                         }
                     });
                 }
-
+        
                 // agregar evento al boton de edit
                 const editButtons = document.getElementsByClassName('edit-menu');
                 for (let i = 0; i < editButtons.length; i++) {
@@ -170,13 +178,8 @@ routerInstance.onViewLoaded = async () => {
                             document.getElementById('description').value = menu.description;
                             document.getElementById('price').value = menu.price;
                             document.getElementById('menu_category_id').value = menu.category_id;
-                            if(menu.image_url =! "undefined") {
-                                document.getElementById('menuImageThumbnail').src = menu.image_url; 
-                                document.getElementById('menuImageThumbnail').style.display = 'block';
-                            }else{
-                                document.getElementById('menuImageThumbnail').style.display = 'none';
-                            }
-                              
+                            document.getElementById('menuImageThumbnail').src = menu.image_url;
+                            document.getElementById('menuImageThumbnail').style.display = 'block';
                             document.querySelector('#addOrUpdateMenu-form button[type="submit"]').innerText = 'Actualizar Plato';
                         }
                     });
@@ -202,6 +205,7 @@ routerInstance.onViewLoaded = async () => {
 //*******************************************************************************************
 // Codigo general que se ejecutará en todas las vistas de la aplicación
 // ***************************************************************************************
+
 
 //login, esta función se encarga de hacer el login del usuario
 async function login(email, password) {
@@ -266,7 +270,7 @@ async function addOrUpdateMenu(menu) {
         
     } else {
         try {
-            const response = await menuService.createMenuItem(menu);
+            const response = await menuService.createMenuItem(menu, document.getElementById('menuImageInput').files[0]);
             if (response) {
                 alert('Menu added successfully');
                 routerInstance.router();

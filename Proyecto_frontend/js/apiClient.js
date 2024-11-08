@@ -70,6 +70,21 @@ export class ApiClient {
         });
     }
 
+    async uploadFile(url, file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${this.token}`
+            },
+            body: formData
+        };
+
+        return await this._fetchWithRetry(`${this.baseURL}${url}`, options);
+    }
+
     async _handleResponse(response) {
         const contentType = response.headers.get('content-type');
         let data;
