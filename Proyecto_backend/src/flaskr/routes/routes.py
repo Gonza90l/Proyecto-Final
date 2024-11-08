@@ -3,6 +3,7 @@ from flaskr.controllers.users_controller import UsersController
 from flaskr.controllers.menu_controller import MenuController
 from flaskr.controllers.menu_category_controller import MenuCategoryController
 from flaskr.controllers.order_controller import OrderController
+from flaskr.controllers.image_controller import ImageController
 from flask_injector import inject
 
 # Definir el Blueprint
@@ -145,3 +146,21 @@ def update_order(order_controller: OrderController, order_id):
 @inject
 def delete_order(order_controller: OrderController, order_id):
     return order_controller.delete_order(order_id)
+
+############################################################################################################
+
+# reutas para cargar las imagen de los menus
+@main.route(base_url + '/images', methods=['POST'])
+@inject
+def upload_image(image_controller: ImageController):
+    return image_controller.upload_image()
+
+@main.route(base_url + '/images/<string:filename>', methods=['GET'])
+@inject
+def get_image(image_controller: ImageController, filename):
+    return image_controller.get_image(filename)
+
+@main.route(base_url + '/images/<string:filename>', methods=['DELETE'])
+@inject
+def delete_image(image_controller: ImageController, filename):
+    return image_controller.delete_image(filename)
