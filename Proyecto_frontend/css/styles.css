@@ -11,6 +11,10 @@ body {
     background-color: var(--negro-intenso);
     color: var(--naranja-claro);
     text-align: center;
+    background-image: url('img/wallpaper-home.jpg'); /* Nose porque no anda*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /* Estilos para el encabezado */
@@ -19,6 +23,7 @@ header {
     color: var(--negro-intenso);
     padding: 1rem 0;
     text-align: center;
+    font-family: Georgia;
 }
 
 header h1 {

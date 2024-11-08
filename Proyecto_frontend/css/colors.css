@@ -8,3 +8,10 @@
   --blanco: #FFFFFF;
   --gris-claro: #F5F5F5;
 }
+
+:root{
+--Marrónsuave:	#8B4513;   	/* Tierra, autenticidad*/
+--Verdeoliva:	#556B2F;	    /* Frescura, naturaleza*/
+--Doradometálico:	#B29138;	/* Lujo, sofisticación*/
+--Blancoroto:	#F5F5F5;	    /* Limpieza, luminosidad*/
+}
