@@ -19,11 +19,14 @@
 </section>
 <section class="dashboard-section">
     <h2>Gestión del Menú</h2>
-    <form class="menu-form" id="menu-form">
-        <input type="text" id="dish-name" placeholder="Nombre del plato" required>
-        <textarea id="dish-description" placeholder="Descripción del plato" required></textarea>
-        <input type="number" id="dish-price" placeholder="Precio" required>
-        <input type="text" id="dish-category" placeholder="Categoría" required>
+    <form class="menu-form" id="addOrUpdateMenu-form">
+        <input type="hidden" id="id">
+        <input type="text" id="name" placeholder="Nombre del plato" required>
+        <textarea id="description" placeholder="Descripción del plato" required></textarea>
+        <input type="number" id="price" placeholder="Precio" required>
+        <input type="text" id="category" placeholder="Categoría" required>
+        <input type="file" id="menuImageInput" accept="image/*">
+        <img id="menuImageThumbnail" src="" alt="Menu Image Thumbnail" style="display:none; width: 100px; height: 100px;">
         <button type="submit">Agregar/Actualizar Plato</button>
     </form>
     <table class="menu-table" id="menu-table">

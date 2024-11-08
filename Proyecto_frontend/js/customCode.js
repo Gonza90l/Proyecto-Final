@@ -46,6 +46,36 @@ routerInstance.onViewLoaded = () => {
         });
     }
 
+    //addOrUpdateMenu agregar evento al formulario de agregar o actualizar menu
+    const addOrUpdateMenuForm = document.getElementById('addOrUpdateMenu-form');
+    if (addOrUpdateMenuForm) {
+        addOrUpdateMenuForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData(addOrUpdateMenuForm);
+            const menu = {
+                id: formData.get('id'),
+                name: formData.get('name'),
+                description: formData.get('description'),
+                price: formData.get('price'),
+                category: formData.get('category'),
+                image: formData.get('menuImageInput'),
+            };
+            addOrUpdateMenu(menu);
+        });
+    }
+    document.getElementById('menuImageInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgElement = document.getElementById('menuImageThumbnail');
+                imgElement.src = e.target.result;
+                imgElement.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
 };
 
 //*******************************************************************************************
@@ -92,3 +122,21 @@ async function register(name, lastname, email, password) {
     }
     routerInstance.hideLoading();
 }
+
+// añadir o actualizar un menu usando menuService
+async function addOrUpdateMenu(menu) {
+    routerInstance.showLoading();
+    try {
+        const response = await menuService.addOrUpdateMenu(menu);
+        if (response.success) {
+            window.history.pushState({}, '', '/');
+            routerInstance.router();
+        } else {
+            alert('Error: Could not add or update menu');
+        }
+    } catch (error) {
+        console.error('Add or update menu error:', error);
+    }
+    routerInstance.hideLoading();
+}
+
