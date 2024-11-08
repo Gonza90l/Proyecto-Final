@@ -47,7 +47,6 @@ routerInstance.onViewLoaded = () => {
         });
     }
 
-<<<<<<< HEAD
     //addOrUpdateMenu agregar evento al formulario de agregar o actualizar menu
     const addOrUpdateMenuForm = document.getElementById('addOrUpdateMenu-form');
     if (addOrUpdateMenuForm) {
@@ -79,8 +78,6 @@ routerInstance.onViewLoaded = () => {
         }
     });
 
-=======
->>>>>>> cfdd15b (IMPLEMENTAR: agregar eventos de formulario de login y registro en customCode.js)
 };
 
 //*******************************************************************************************
@@ -111,7 +108,6 @@ async function register(name, lastname, email, password) {
     routerInstance.showLoading();
     try {
         const register = await authService.register(name, lastname, email, password);
-<<<<<<< HEAD
         if (register.success) {
             window.history.pushState({}, '', '/login');
             routerInstance.router();
@@ -122,20 +118,12 @@ async function register(name, lastname, email, password) {
             } else {
                 alert('Error: Could not register user');
             }
-=======
-        if (register) {
-            window.history.pushState({}, '', '/login');
-            routerInstance.router();
-        } else {
-            alert('error al registrar');
->>>>>>> cfdd15b (IMPLEMENTAR: agregar eventos de formulario de login y registro en customCode.js)
         }
     } catch (error) {
         console.error('Register error:', error);
     }
     routerInstance.hideLoading();
 }
-<<<<<<< HEAD
 
 // añadir o actualizar un menu usando menuService
 async function addOrUpdateMenu(menu) {
@@ -162,5 +150,3 @@ async function addOrUpdateMenu(menu) {
     routerInstance.hideLoading();
 }
 
-=======
->>>>>>> cfdd15b (IMPLEMENTAR: agregar eventos de formulario de login y registro en customCode.js)
