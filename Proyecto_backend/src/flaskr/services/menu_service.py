@@ -27,13 +27,17 @@ class MenuService:
         return menu
 
     def create_menu(self, create_menu_request_dto: CreateMenuRequestDTO):
-        menu = Menu()
+        menu = Menu(self._mysql)
         menu.from_dto(create_menu_request_dto)
 
-        # Verificamos que exista la categoría
-        category = Category.find_by_id(self._mysql, menu.category_id)
-        if not category:
-            raise CategoryNotFoundException(f"Category with id {menu.category_id} not found")
+        #si la categoria es cero entonces no buscamos la categoria
+        if menu.category_id == 0:
+            menu.category_id = None
+        else:
+            # Verificamos que exista la categoría
+            category = Category.find_by_id(self._mysql, menu.category_id)
+            if not category:
+                raise CategoryNotFoundException(f"Category with id {menu.category_id} not found")
 
         menu.insert()
         return menu

@@ -85,8 +85,8 @@ def delete_menu(menu_controller: MenuController, menu_id):
 # FETCH ALL
 @main.route(base_url + '/categories', methods=['GET'])
 @inject
-def get_categories(menu_controller: MenuController):
-    return menu_controller.get_categories()
+def get_categories(menu_category_controller: MenuCategoryController):
+    return menu_category_controller.get_categories()
 
 # FETCH ONE
 @main.route(base_url + '/categories/<int:category_id>', methods=['GET'])

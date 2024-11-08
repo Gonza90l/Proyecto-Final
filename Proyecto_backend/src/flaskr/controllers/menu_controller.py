@@ -38,13 +38,13 @@ class MenuController(BaseController):
         create_menu_request_dto, errors = CreateMenuRequestDTO.from_json(data)
         if errors:
             return self.respond_error(message="Validation errors", errors=errors, status_code=422)
-        try:
-            menu = self._menu_service.create_menu(create_menu_request_dto)
-            return self.respond_success(data=menu.to_dict_dto())
-        except ValueError as e:
-            return self.respond_error(message=f"Invalid DTO format: {str(e)}", status_code=400)
-        except Exception as e:
-            return self.respond_error(message=str(e))
+        #try:
+        menu = self._menu_service.create_menu(create_menu_request_dto)
+        return self.respond_success(data=menu.to_dict_dto())
+        #except ValueError as e:
+        #    return self.respond_error(message=f"Invalid DTO format: {str(e)}", status_code=400)
+        #except Exception as e:
+        #    return self.respond_error(message=str(e))
 
 
     @role_required('ADMIN')

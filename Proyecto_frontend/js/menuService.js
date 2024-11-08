@@ -27,14 +27,19 @@ class MenuService {
         if (!authService.isAuthenticated()) {
             throw new Error('Unauthorized');
         }
-        return await apiClient.get('/menus');
+        return await this.apiClient.get('/menus');
     }
 
     async getMenuItemById(id) {
         if (!authService.isAuthenticated()) {
             throw new Error('Unauthorized');
         }
-        return await  this.apiClient.get(`/menus/${id}`);
+        const response = await  this.apiClient.get(`/menus/${id}`);
+        if(response.status === 200) {
+            return response.data;
+        } else {
+            return null;
+        }
     }
 
     async createMenuItem(menuItemData) {
@@ -73,7 +78,14 @@ class MenuService {
         
         console.log('createMenuRequestDto', createMenuRequestDto);
 
-        return await this.apiClient.post('/menus', createMenuRequestDto);
+        const response = await this.apiClient.post('/menus', createMenuRequestDto);
+
+        if(response.status === 201 || response.status === 200) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     async updateMenuItem(id, menuItemData) {
@@ -88,6 +100,21 @@ class MenuService {
             throw new Error('Unauthorized');
         }
         return await  this.apiClient.delete(`/menu/${id}`);
+    }
+
+    async getCategories() {
+        return await this.apiClient.get('/categories');
+    }
+
+    async getCategoryById(id) {
+        return await this.apiClient.get(`/categories/${id}`);
+    }
+
+    async createCategory(categoryData) {
+        if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
+            throw new Error('Unauthorized');
+        }
+        return await this.apiClient.post('/categories', categoryData);
     }
 }
 

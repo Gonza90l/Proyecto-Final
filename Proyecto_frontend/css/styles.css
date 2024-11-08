@@ -164,15 +164,16 @@ button:hover {
     border: 1px solid var(--gris-claro);
     padding: 10px;
     text-align: left;
+
 }
 
 .menu-table th {
     background-color: var(--marron-claro);
-    color: var(--blanco);
 }
 
 .menu-table td {
     background-color: var(--gris-claro);
+    color:black;
 }
 
 .menu-table .actions {

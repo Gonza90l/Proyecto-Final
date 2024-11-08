@@ -5,6 +5,7 @@ import { routerInstance } from './router.js';
 import menuService from './menuService.js';
 
 routerInstance.onViewLoaded = () => {
+    console.log('onViewLoaded function executed');
     // ***************************************************************************************
     // Código que se ejecutará después de que el router haya cargado completamente las vistas
     // Aquí agregar el código que necesites ejecutar una vez que la vista se haya cargado
@@ -21,7 +22,6 @@ routerInstance.onViewLoaded = () => {
             login(email, password);
         });
     }
-
     
     //logout agregar evento al botón de logout
     const logoutButton = document.getElementById('logout-button');
@@ -65,18 +65,118 @@ routerInstance.onViewLoaded = () => {
             addOrUpdateMenu(menu);
         });
     }
-    document.getElementById('menuImageInput').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imgElement = document.getElementById('menuImageThumbnail');
-                imgElement.src = e.target.result;
-                imgElement.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    const menuImageInput = document.getElementById('menuImageInput');
+    if (menuImageInput) {
+        menuImageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgElement = document.getElementById('menuImageThumbnail');
+                    imgElement.src = e.target.result;
+                    imgElement.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    //agregamos las cateogrias al listbox de categorias
+    const categorySelect = document.getElementById('menu_category_id');
+    if (categorySelect) {
+        //limpiamos el listbox
+        categorySelect.innerHTML = '';
+        //agregamos la cartegoi 0 por defecto
+        const defaultOption = document.createElement('option');
+        defaultOption.value = 0;
+        defaultOption.innerText = 'Select a category';
+        categorySelect.appendChild(defaultOption);
+
+        menuService.getCategories().then((response) => {
+            const categories = response.data;
+            if (Array.isArray(categories)) {
+                categories.forEach((category) => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.innerText = category.name;
+                    categorySelect.appendChild(option);
+                });
+            } else {
+                console.error('Expected an array but got:', categories);
+            }
+        }).catch((error) => {
+            console.error('Error fetching categories:', error);
+        });
+    }
+
+    // listar los menus en la menu-table
+    const menuTable = document.getElementById('menu-table');
+    if (menuTable) {
+        menuService.getAllMenuItems().then((response) => {
+            const menus = response.data;
+            if (Array.isArray(menus)) {
+                menus.forEach((menu) => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-id', menu.id);
+                    tr.innerHTML = `
+                    <td>${menu.name}</td>
+                    <td>${menu.description}</td>
+                    <td>${menu.price}</td>
+                    <td>categoria</td>
+                    <td>
+                        <button class="btn btn-primary edit-menu" data-id="${menu.id}">Edit</button>
+                        <button class="btn btn-danger delete-menu" data-id="${menu.id}">Delete</button>
+                    </td>
+                    `;
+                    menuTable.appendChild(tr);
+                });
+
+                // agregar evento al boton de delete
+                const deleteButtons = document.getElementsByClassName('delete-menu');
+                for (let i = 0; i < deleteButtons.length; i++) {
+                    deleteButtons[i].addEventListener('click', async (event) => {
+                        const id = event.target.getAttribute('data-id');
+                        if (confirm('Are you sure you want to delete this menu?')) {
+                            await menuService.deleteMenuItem(id);
+                            window.history.pushState({}, '', '/menus');
+                            routerInstance.router();
+                        }
+                    });
+                }
+
+                // agregar evento al boton de edit
+                const editButtons = document.getElementsByClassName('edit-menu');
+                for (let i = 0; i < editButtons.length; i++) {
+                    editButtons[i].addEventListener('click', async (event) => {
+                        const id = event.target.getAttribute('data-id');
+                        const menu = await menuService.getMenuItemById(id);
+                        if (menu) {
+                            document.getElementById('id').value = menu.id;
+                            document.getElementById('name').value = menu.name;
+                            document.getElementById('description').value = menu.description;
+                            document.getElementById('price').value = menu.price;
+                            document.getElementById('menu_category_id').value = menu.category_id;
+                            document.getElementById('menuImageThumbnail').src = menu.image_url;
+                            document.getElementById('menuImageThumbnail').style.display = 'block';
+                            document.querySelector('#addOrUpdateMenu-form button[type="submit"]').innerText = 'Actualizar Plato';
+                        }
+                    });
+                }
+            } else {
+                console.error('Expected an array but got:', menus);
+            }
+        }).catch((error) => {
+            console.error('Error fetching menus:', error);
+        });
+    }
+
+    const gotoorigin404 = document.getElementById('404-go-to-origin');
+    if (gotoorigin404) {
+        gotoorigin404.addEventListener('click', function() {
+            window.history.pushState({}, '', '/');
+            routerInstance.router()
+        });
+    }
 
 };
 
@@ -133,20 +233,16 @@ async function addOrUpdateMenu(menu) {
     if (menu.id) {
         await updateMenu(menu);
     } else {
-        try {
+
             const response = await menuService.createMenuItem(menu);
-            if (response.success) {
-                window.history.pushState({}, '', '/');
+            if (response) {
                 routerInstance.router();
             } else {
                 alert('Error: Could not add or update menu');
             }
-        } catch (error) {
-            console.error('Add or update menu error:', error);
-        }
+
     }
 
-   
     routerInstance.hideLoading();
 }
 

@@ -87,14 +87,9 @@ class Router {
             return;
         }
 
+
         await this.loadView(route.view + '?_=' + new Date().getTime());
         
-
-
-        if (this.onViewLoaded) {
-            console.log('Calling onViewLoaded callback');
-            this.onViewLoaded();
-        }
         this.hideLoading(); // Ocultar el elemento de carga
     }
 
@@ -125,6 +120,11 @@ class Router {
 
             // Cargar fragmentos después de cargar la vista
             await this.loadFragments();
+
+            if (this.onViewLoaded) {
+                console.log('Calling onViewLoaded callback');
+                this.onViewLoaded();
+            }
         } catch (err) {
             console.error('Error loading view:', err);
             this.showError(`Error al cargar la vista: ${err.message}`);
@@ -133,17 +133,17 @@ class Router {
 
     redirectToLogin() {
         window.history.pushState({}, '', '/login');
-        this.loadView(this.routes['/login'].view);
+        this.loadView(this.routes['/login'].view + '?_=' + new Date().getTime());
         this.hideLoading(); // Ocultar el elemento de carga
     }
 
     redirectToDashboard(userRole) {
         if (userRole === 'admin') {
             window.history.pushState({}, '', '/admin-dashboard');
-            this.loadView(this.routes['/admin-dashboard'].view);
+            this.loadView(this.routes['/admin-dashboard'].view + '?_=' + new Date().getTime());
         } else {
             window.history.pushState({}, '', '/dashboard');
-            this.loadView(this.routes['/dashboard'].view);
+            this.loadView(this.routes['/dashboard'].view  + '?_=' + new Date().getTime());
         }
         this.hideLoading(); // Ocultar el elemento de carga
     }

@@ -24,7 +24,13 @@
         <input type="text" name="name" id="name" placeholder="Nombre del plato" required>
         <textarea id="description" name="description" placeholder="Descripción del plato" required></textarea>
         <input type="number" name="price" id="price" placeholder="Precio" required>
-        <input type="text" name="category_id"  id="category" placeholder="Categoría" required>
+        <select name="category_id" id="menu_category_id" required>
+            <option value="0" selected>Seleccione una categoría</option>
+            <option value="1">Entradas</option>
+            <option value="2">Platos Principales</option>
+            <option value="3">Postres</option>
+            <option value="4">Bebidas</option>
+        </select>
         <input type="file" name="iamge" id="menuImageInput" accept="image/*">
         <img id="menuImageThumbnail" src="" alt="Menu Image Thumbnail" style="display:none; width: 100px; height: 100px;">
         <button type="submit">Agregar/Actualizar Plato</button>
