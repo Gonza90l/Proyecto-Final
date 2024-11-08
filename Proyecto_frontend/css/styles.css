@@ -136,7 +136,14 @@ button:hover {
 
 
 
-
+.home-section {
+    background-image: url('../img/plato-home.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px;
+    border-radius: 10px;
+}
 
 
 
