@@ -92,14 +92,15 @@ class MenuService {
         if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
             throw new Error('Unauthorized');
         }
-        return await  this.apiClient.put(`/menu/${id}`, menuItemData);
+        return await  this.apiClient.put(`/menus/${id}`, menuItemData);
     }
 
     async deleteMenuItem(id) {
-        if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
+        if (!await authService.isAuthenticated() || await authService.getRole() !== 'admin') {
+            console.log('Unauthorized', authService.getRole(), authService.isAuthenticated());
             throw new Error('Unauthorized');
         }
-        return await  this.apiClient.delete(`/menu/${id}`);
+        return await  this.apiClient.delete(`/menus/${id}`);
     }
 
     async getCategories() {

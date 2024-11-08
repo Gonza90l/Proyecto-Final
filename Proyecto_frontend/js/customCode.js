@@ -138,7 +138,6 @@ routerInstance.onViewLoaded = () => {
                         const id = event.target.getAttribute('data-id');
                         if (confirm('Are you sure you want to delete this menu?')) {
                             await menuService.deleteMenuItem(id);
-                            window.history.pushState({}, '', '/menus');
                             routerInstance.router();
                         }
                     });
@@ -233,13 +232,18 @@ async function addOrUpdateMenu(menu) {
     if (menu.id) {
         await updateMenu(menu);
     } else {
-
+        try {
             const response = await menuService.createMenuItem(menu);
             if (response) {
+                alert('Menu added successfully');
                 routerInstance.router();
             } else {
                 alert('Error: Could not add or update menu');
             }
+        }catch (error) {
+            alert('Error: Could not add or update menu \n' + JSON.stringify(error.data.errors));
+            console.error('Add menu error:', error);
+        }
 
     }
 
