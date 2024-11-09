@@ -38,7 +38,7 @@ section {
   font-size: large;
   color: var(--text-color);
   text-align: center;
-  /* justify-content: center; */
+  margin-top: 78px;
 }
 
 article {
@@ -49,13 +49,19 @@ header {
   background-color: var(--primary-color);
   text-align: center;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Asegura que el header esté por encima de otros elementos */ 
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.425); /* Añade una sombra para destacar el header */
 }
 
 footer {
   background-color: var(--border-color);
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
-  height: 100%;
+  width: 100%;
 }
 
 /* Estilos logins  */
