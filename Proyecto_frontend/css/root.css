@@ -38,7 +38,7 @@ section {
   font-size: large;
   color: var(--text-color);
   text-align: center;
-
+  /* justify-content: center; */
 }
 
 article {
