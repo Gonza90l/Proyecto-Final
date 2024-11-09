@@ -15,7 +15,7 @@
 /* Estilos generales */
 /*modelo de caja no estandar */
 * {
-  box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -49,7 +49,6 @@ header {
   background-color: var(--primary-color);
   text-align: center;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  height: 100%;
 }
 
 footer {
