@@ -1,14 +1,16 @@
 <!-- login view -->
-<h2>Login</h2>
-<form id="login-form">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
+ <section class="login-section">
+     <form id="login-form">
+        <h2>Login</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
 
-    <button type="submit">Iniciar sesion</button>
-    <p> O bien </p>
-    <button href="/register">Crea una cuenta nueva</button> <!--Dirigirse a register-->
-</form>
-<div id="error-message" style="color: red;"></div>
+        <button type="submit">Iniciar sesion</button>
+        <p> O bien </p>
+        <a href="/register">Crea una cuenta nueva</a> <!--Dirigirse a register-->
+    </form>
+    <div id="error-message" style="color: red;"></div>
+</section>

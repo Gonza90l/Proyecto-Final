@@ -1,0 +1,33 @@
+.login-section {
+    background-image: url("../img/wallpaper-home.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;  /*Cargamos la imagen bkgrund y configuramos la posicion*/
+    flex: auto;
+    flex-direction: column;
+    width: 100%; 
+    display: flex; 
+    justify-content: center; /* Centra el formulario horizontalmente */ 
+    align-items: center; /* Centra el formulario verticalmente */ 
+    height: 100vh; /* Asegura que la sección ocupe toda la altura de la ventana */
+}
+
+.login-section > form {
+    background-color: rgba(240, 248, 255, 0.329);
+    color: black;
+    width: 35%; 
+    padding: 10px;
+    border-radius: 10px; /* Agrega esquinas redondeadas */
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.login-section > form > h2 {
+    margin: 0;
+    padding: 0px;
+
+}
+
+
+    
