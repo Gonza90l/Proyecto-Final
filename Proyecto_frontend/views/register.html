@@ -1,19 +1,20 @@
 <!-- register view -->
 
-<h2>Registro</h2>
+<section class="register-section">
+    <form id="register-form">
+        <h2>Registro</h2>
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" required>
 
-<form id="register-form">
-    <label for="name">Nombre:</label>
-    <input type="text" id="name" name="name" required>
+        <label for="lastname">Apellido:</label>
+        <input type="text" id="lastname" name="lastname" required>
 
-    <label for="lastname">Apellido:</label>
-    <input type="text" id="lastname" name="lastname" required>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
 
-    <label for="password">Contraseña:</label>
-    <input type="password" id="password" name="password" required>
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" name="email" required>
 
-    <label for="email">Correo Electrónico:</label>
-    <input type="email" id="email" name="email" required>
-
-    <button type="submit">Registrarse</button>
-</form>
+        <button type="submit">Registrarse</button>
+    </form>
+</section>

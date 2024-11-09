@@ -20,7 +20,12 @@
 
 body {
   background-color: var(--background-color);
-  
+  margin: 0px;
+  padding: 0px;
+  flex: auto;
+  flex-direction: column;
+  width: 100%; 
+  display: flex; 
 }
 
 main {
@@ -49,10 +54,12 @@ header {
 
 footer {
   background-color: var(--border-color);
+  text-align: center;
+  height: 100%;
 }
 
 /* Estilos logins  */
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], [type="email"] {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
