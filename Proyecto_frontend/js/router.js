@@ -1,5 +1,6 @@
 import { routeConfig } from './routes.js';
 import authService from './authService.js';
+import cart from './cart.js';
 
 class Router {
     constructor() {
@@ -89,6 +90,8 @@ class Router {
 
 
         await this.loadView(route.view + '?_=' + new Date().getTime());
+
+        cart.renderCartButton();
         
         this.hideLoading(); // Ocultar el elemento de carga
     }

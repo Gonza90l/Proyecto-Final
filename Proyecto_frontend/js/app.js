@@ -6,6 +6,7 @@ import notificationService from './notificationService.js';
 import checkoutService from './checkoutService.js';
 import reviewService from './reviewService.js';
 import './customCode.js'; 
+import cart from './cart.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     // Inicializar la aplicación
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     notificationService.init();
     checkoutService.init();
     reviewService.init();
+    cart.init();
     routerInstance.router();
 });
 

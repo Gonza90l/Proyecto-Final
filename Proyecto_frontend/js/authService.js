@@ -131,6 +131,9 @@ class AuthService {
         this.tokenExpiry = null;
         localStorage.removeItem('authToken');
         localStorage.removeItem('tokenExpiry');
+        //borramos el token de la cahe
+        this.authCache.isAuthenticated =false;
+        this.authCache.expiry = 0;        
         this.apiClient.token = null; // Elimina el token en ApiClient
     }
 
