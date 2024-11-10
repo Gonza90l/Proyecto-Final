@@ -1,4 +1,4 @@
-
+import authService from './authService.js';
 
 class Cart {
     constructor() {
@@ -6,6 +6,9 @@ class Cart {
     }
 
     init () {
+        if (authService.isAuthenticated()) {
+            this.loadCart();
+        }
         this.loadCart();
         this.renderCartButton();
     }
@@ -59,15 +62,15 @@ class Cart {
             const cartButton = document.createElement('button');
             cartButton.classList.add('cart-button');
             cartButton.innerHTML = `
-                Carrito de compras
-                <span>${this.items.length}</span>
+                <span class="material-icons">shopping_cart</span>
+                <span class="item-count">${this.items.length}</span>
             `;
             cartButton.addEventListener('click', () => {
                 this.renderCart();
             });
             document.body.appendChild(cartButton);
         } else {
-            existingCartButton.querySelector('span').textContent = this.items.length;
+            existingCartButton.querySelector('.item-count').textContent = this.items.length;
         }
     }
 
