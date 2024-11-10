@@ -1,5 +1,44 @@
 .dashboard-section {
     font-size: medium;
-    background-color: (--primary-color);
+    background-color: transparent;
+
 }
 
+/* Estilos para la tabla de gestión de pedidos */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.orders-table th, .orders-table td {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    text-align: left;
+}
+
+.orders-table th {
+    background-color: var(--background-color);
+}
+
+.orders-table td {
+    background-color: var(--background-color);
+}
+
+.orders-table .actions {
+    display: flex;
+    gap: 10px;
+}
+
+.orders-table .actions button {
+    padding: 5px 10px;
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.orders-table .actions button:hover {
+    background: var(--accent-color);
+}
