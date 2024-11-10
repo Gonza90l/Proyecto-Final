@@ -13,17 +13,18 @@
 
 .orders-table th, .orders-table td {
     border: 1px solid var(--border-color);
+    background-color: var(--background-color);
     padding: 10px;
     text-align: left;
 }
-
+/* 
 .orders-table th {
     background-color: var(--background-color);
 }
 
 .orders-table td {
     background-color: var(--background-color);
-}
+} */
 
 .orders-table .actions {
     display: flex;
@@ -51,19 +52,20 @@
     margin-bottom: 20px;
 }
 
-.menu-table th, .orders-table td {
+.menu-table th, .menu-table td {
     border: 1px solid var(--border-color);
+    background-color: var(--background-color);
     padding: 10px;
     text-align: left;
 }
-
+/* 
 .menu-table th {
     background-color: var(--background-color);
 }
 
 .menu-table td {
     background-color: var(--background-color);
-}
+} */
 
 .menu-table .actions {
     display: flex;
