@@ -6,14 +6,14 @@ import authService from '../authService.js';
 class UserMenuHandler {
 
     async init() {
-        this.loadMenus() ;
+        this.loadMenus();
     }
 
     async loadMenus() {
         if(await authService.isAuthenticated()){
             try {
                 const menuItems = await menuService.getAllMenuItems();
-                this.renderMenu(menuItems);
+                this.renderMenu(menuItems.data);
             } catch (error) {
                 console.error('Error fetching menu items:', error);
             }
@@ -23,7 +23,7 @@ class UserMenuHandler {
     async renderMenu(menuItems) {
         this.menuSection = document.querySelector('.client-menu-section');
         if(this.menuSection) {
-            const menuHtml = await Promise.all(menuItems.data.map(async item => `
+            const menuHtml = await Promise.all(menuItems.map(async item => `
                 <article>
                     <head>
                         <h2>${item.name}</h2>
@@ -42,18 +42,25 @@ class UserMenuHandler {
                 </article>
             `));
             this.menuSection.innerHTML = menuHtml.join('');
-
+    
+            //console log para ver menu items
+            console.log(menuItems);
+    
             // Add event listeners to "Añadir" buttons
             this.menuSection.querySelectorAll('.btn.btn-primary').forEach(button => {
                 button.addEventListener('click', (event) => {
                     const itemId = event.target.getAttribute('data-id');
-                    const item = menuItems.data.find(item => item.id === itemId);
+                    const item = menuItems.find(item => item.id == itemId);
+                    if (!item) {
+                        console.error(`Item with id ${itemId} not found`);
+                        return;
+                    }
                     const quantityInput = event.target.closest('article').querySelector('.quantity-input');
                     const quantity = parseInt(quantityInput.value, 10);
                     for (let i = 0; i < quantity; i++) {
+                        console.log('Adding item to cart:', item);
                         cart.addItem(item);
                     }
-                    cart.renderCartButton();
                 });
             });
         }

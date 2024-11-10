@@ -1,8 +1,10 @@
 <nav class="dashboard-nav" data-fragment="admin-navigation">22222222</nav>
 <section class="dashboard-section">
     <h2>Gestión del Menú</h2>
-    <div class="modal">
+    <button id="admin-menu-show-add">Añadir plato</button>
+    <div id="menu-add-edit-admin" class="modal">
         <div class="modal-content">
+            <span class="close" id="closeAdminMenuForm">&times;</span>
             <form class="menu-form" id="addOrUpdateMenu-form">
                 <input type="hidden" name="id" id="id">
                 <input minlength="3" type="text" name="name" id="name" placeholder="Nombre del plato" required>
