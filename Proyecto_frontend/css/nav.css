@@ -1,4 +1,9 @@
 /* Estilos para la barra de navegación */
+nav {
+    margin-top: 78px;
+    justify-content: center;
+  }
+
 nav ul {
     list-style-type: none;
     padding: 0;

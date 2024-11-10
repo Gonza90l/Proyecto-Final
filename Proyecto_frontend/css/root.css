@@ -8,8 +8,9 @@
   --secondary-color: #556B2F; /* Color secundario: Verde Oliva */
   --accent-color: #fa2c2c; /* Color de acento: rojo brillante */
   --background-color: #1a1918; /* Color del fondo: Negro */
-  --text-color: #bfc9c9; /* Color del texto: Azul */
-  --border-color: #34495E; /* Color del borde: Gris claro */
+  --text-color: #bfc9c9; /* Color del texto: BLANco */
+  --border-color: #4b6177; /* Color del borde: Azul Grisaceo */
+  --footer-color: #091b2c; /* Color del borde: Azul Mas Oscuro */
 }
 
 /* Estilos generales */
@@ -29,7 +30,13 @@ body {
 }
 
 main {
-  background-color: var(--text-color);
+  background-image: url("../img/wallpaper-dashboard.jpeg");
+  
+  padding-bottom: 2%; 
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-attachment: fixed; 
+  box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */ 
 }
 
 section {
@@ -41,15 +48,13 @@ section {
   margin-top: 78px;
 }
 
-nav {
-  margin-top: 78px;
-  justify-content: center;
-}
-
 article {
-  background-color: coral;
+  background-color: transparent;
 }
 
+div {
+  background-color: transparent;
+}
 header {
   background-color: var(--primary-color);
   text-align: center;
@@ -63,10 +68,12 @@ header {
 }
 
 footer {
-  background-color: var(--border-color);
+  background-color: var(--footer-color);
+  color: var(--text-color);
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
   width: 100%;
+
 }
 
 /* Estilos logins  */
