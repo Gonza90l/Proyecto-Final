@@ -6,11 +6,7 @@ class Cart {
     }
 
     init () {
-        if (authService.isAuthenticated()) {
-            this.loadCart();
-        }
         this.loadCart();
-        this.renderCartButton();
     }
 
     addItem(item) {
@@ -48,9 +44,19 @@ class Cart {
     }
 
     // renderizamoos un boton de carrito flotante
-    renderCartButton() {
+    async renderCartButton() {
+
         const existingCartButton = document.querySelector('.cart-button');
+
+        if (! await authService.isAuthenticated()) {
+            if (existingCartButton) {
+                existingCartButton.remove();
+                this.clearCart();
+            }
+            return;
+        }
         
+
         if (this.items.length === 0) {
             if (existingCartButton) {
                 existingCartButton.remove();
