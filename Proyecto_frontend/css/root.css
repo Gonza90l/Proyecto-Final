@@ -41,6 +41,11 @@ section {
   margin-top: 78px;
 }
 
+nav {
+  margin-top: 78px;
+  justify-content: center;
+}
+
 article {
   background-color: coral;
 }
