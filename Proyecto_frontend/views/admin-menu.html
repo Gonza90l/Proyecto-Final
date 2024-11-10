@@ -1,18 +1,22 @@
 <nav class="dashboard-nav" data-fragment="admin-navigation">22222222</nav>
 <section class="dashboard-section">
     <h2>Gestión del Menú</h2>
-    <form class="menu-form" id="addOrUpdateMenu-form">
-        <input type="hidden" name="id" id="id">
-        <input minlength="3" type="text" name="name" id="name" placeholder="Nombre del plato" required>
-        <textarea minlength="10" maxlength="200" id="description" name="description" placeholder="Descripción del plato" required></textarea>
-        <input type="number" name="price" id="price" placeholder="Precio" required>
-        <select name="category_id" id="menu_category_id" required>
-            <option value="0" selected>Seleccione una categoría</option>
-        </select>
-        <input type="file" name="image" id="menuImageInput" accept="image/*">
-        <img id="menuImageThumbnail" src="" alt="Menu Image Thumbnail" style="display:none; width: 100px; height: 100px;">
-        <button type="submit">Agregar Plato</button>
-    </form>
+    <div class="modal">
+        <div class="modal-content">
+            <form class="menu-form" id="addOrUpdateMenu-form">
+                <input type="hidden" name="id" id="id">
+                <input minlength="3" type="text" name="name" id="name" placeholder="Nombre del plato" required>
+                <textarea minlength="10" maxlength="200" id="description" name="description" placeholder="Descripción del plato" required></textarea>
+                <input type="number" name="price" id="price" placeholder="Precio" required>
+                <select name="category_id" id="menu_category_id" required>
+                    <option value="0" selected>Seleccione una categoría</option>
+                </select>
+                <input type="file" name="image" id="menuImageInput" accept="image/*">
+                <img id="menuImageThumbnail" src="" alt="Menu Image Thumbnail" style="display:none; width: 100px; height: 100px;">
+                <button type="submit">Agregar Plato</button>
+            </form>
+        </div>
+    </div>
     <table class="menu-table" id="menu-table">
         <thead>
             <tr>
