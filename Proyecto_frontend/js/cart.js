@@ -35,17 +35,26 @@ class Cart {
 
     saveCart() {
         localStorage.setItem('cart', JSON.stringify(this.items));
-
+        this.renderCart();
     }
 
     loadCart() {
         const savedCart = localStorage.getItem('cart');
         this.items = savedCart ? JSON.parse(savedCart) : [];
-
+        this.renderCart();
     }
 
     renderCart(){
-        
+        //localizamos si existe el boton del carrito para actualizar el numero de items por ID
+        const cartButton = document.getElementById('cart-button');  
+        const itemCount = document.getElementById('item-count');
+        if(itemCount){
+            itemCount.innerHTML = this.items.length;
+        }
+        //si noo hay articulos en el carrito, ocultamos el boton
+        if(this.items.length === 0){
+            cartButton.style.display = 'none';
+        }
     }
 
 }

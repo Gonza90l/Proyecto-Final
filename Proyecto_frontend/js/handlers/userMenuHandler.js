@@ -46,11 +46,11 @@ class UserMenuHandler {
 
     async renderMenu(menuItems) {
         this.menuSection = document.querySelector('.client-menu-section');
-        if(this.menuSection) {
-
+        if (this.menuSection) {
+    
             const categoriesResponse = await menuService.getCategories();
             const categories = categoriesResponse.data;
-
+    
             // Crear un mapa de categorías para un acceso rápido
             const categoryMap = {};
             if (Array.isArray(categories)) {
@@ -58,9 +58,9 @@ class UserMenuHandler {
                     categoryMap[category.id] = category.name;
                 });
             }
-
+    
             // Agrupar los elementos del menú por categoría
-            const groupedItems = menuItems.reduce((groups, item, index) => {
+            const groupedItems = menuItems.reduce((groups, item) => {
                 const category = categoryMap[item.category_id] || 'Sin categoría';
                 if (!groups[category]) {
                     groups[category] = [];
@@ -68,11 +68,9 @@ class UserMenuHandler {
                 groups[category].push(item);
                 return groups;
             }, {});
-            // Obtener las URLs de las imágenes
-            const imageUrls = await Promise.all(menuItems.map(item => menuService.getImagefromServer(item.photo)));
-
+    
             // Crear un section para cada categoría y agregarlo como hermano del section original
-            Object.keys(groupedItems).forEach(category => {
+            for (const category in groupedItems) {
                 const categoryItems = groupedItems[category];
                 const sectionHtml = `
                     <section class="client-menu-section">
@@ -85,7 +83,7 @@ class UserMenuHandler {
                                     <a href="#" onclick="alert('comentarios')" class="btn btn-primary">Ver comentarios</a>
                                 </head>
                                 <div>
-                                    <img src="${imageUrls[index]}" alt="Imagen de la comida">
+                                    <img src="" alt="Imagen de la comida" class="menu-item-image" data-photo="${item.photo}">
                                     <h3>Descripción</h3>
                                     <p>${item.description}</p>
                                 </div>
@@ -98,8 +96,16 @@ class UserMenuHandler {
                     </section>
                 `;
                 this.menuSection.insertAdjacentHTML('afterend', sectionHtml);
-            });
-
+            }
+    
+            // Obtener las URLs de las imágenes y asignarlas a los elementos correspondientes
+            const imageElements = document.querySelectorAll('.menu-item-image');
+            for (const imgElement of imageElements) {
+                const photo = imgElement.getAttribute('data-photo');
+                const imageUrl = await menuService.getImagefromServer(photo);
+                imgElement.src = imageUrl;
+            }
+    
             // Add event listeners to "Añadir" buttons
             document.querySelectorAll('.client-menu-section .btn.btn-primary').forEach(button => {
                 button.addEventListener('click', (event) => {
