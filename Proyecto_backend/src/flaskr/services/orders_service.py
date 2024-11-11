@@ -7,6 +7,7 @@ from flaskr.dtos.create_order_request_dto import CreateOrderRequestDTO
 from flaskr.dtos.create_order_has_menu_request_dto import CreateOrderHasMenuRequestDTO
 from datetime import datetime
 
+
 class OrderService:
 
     @inject
@@ -15,6 +16,7 @@ class OrderService:
 
     def get_orders(self):
         orders = Order.find_all(self._mysql)
+        
         for order in orders:
             print(order)
             order.load_related_data()

@@ -54,3 +54,15 @@ def role_required(roles):
             return f(*args, **kwargs)
         return decorated
     return decorator
+
+def get_user_id():
+    data, error_response, status_code = decode_and_cache_token()
+    if error_response:
+        return None
+    return data.get('id')
+
+def get_user_role():
+    data, error_response, status_code = decode_and_cache_token()
+    if error_response:
+        return None
+    return data.get('role')
