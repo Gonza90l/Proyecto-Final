@@ -84,7 +84,7 @@ class Cart {
                         <td>${item.quantity}</td>
                         <td>${item.price}</td>
                         <td>${item.price * item.quantity}</td>
-                        <td><button class="cart-item-remove" data-id="${item.id}">X</button></td>
+                        <td><button class="cart-item-remove" data-id="${item.id}">+</button><button class="cart-item-remove" data-id="${item.id}">-</button></td>
                     `;
                     cartItemsContainer.appendChild(cartItemRow);
                     // si no hay imagen o no se puede cargar, se muestra una imagen por defecto

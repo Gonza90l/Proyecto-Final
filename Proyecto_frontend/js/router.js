@@ -90,7 +90,7 @@ class Router {
 
 
         await this.loadView(route.view + '?_=' + new Date().getTime());
-
+        await cart.renderCart();
         
         this.hideLoading(); // Ocultar el elemento de carga
     }
