@@ -26,3 +26,37 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* Agrega esto a tu archivo CSS */
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+    transform: translateX(-50%);
+}
+
+/* Estilos específicos para cada tipo de mensaje */
+.notification.info {
+    background-color: green; /* Azul */
+    color: #fff;
+}
+
+.notification.warning {
+    background-color: #FF9800; /* Naranja */
+    color: black;
+}
+
+.notification.critical {
+    background-color: #F44336; /* Rojo */
+    color: #fff;
+}
+
+.notification.fade-out {
+    opacity: 0;
+}

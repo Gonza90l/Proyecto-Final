@@ -69,6 +69,20 @@ class Router {
         }
     }
 
+    async showNotification(message, type = 'info', duration = 3000) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerText = message;
+        document.body.appendChild(notification);
+    
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            notification.addEventListener('transitionend', () => {
+                notification.remove();
+            });
+        }, duration);
+    }
+
     async router() {
         const path = window.location.pathname;
         const route = this.routes[path] || this.routes['/404'];

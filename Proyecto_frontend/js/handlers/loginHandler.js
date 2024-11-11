@@ -60,10 +60,10 @@ async function login(email, password) {
             window.history.pushState({}, '', '/');
             routerInstance.router();
         } else {
-            alert('Invalid credentials');
+            routerInstance.showNotification('Usuario o contraseña incorrectos', 'warning');
         }
     } catch (error) {
-        console.error('Login error:', error);
+        routerInstance.showNotification('Error al iniciar sesión', 'error');
     }
     routerInstance.hideLoading();
 }

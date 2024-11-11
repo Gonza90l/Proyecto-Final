@@ -19,6 +19,7 @@ class Cart {
             item.quantity = 1;
             this.items.push(item);
         }
+        routerInstance.showNotification('Producto añadido al carrito', 'info');
         this.saveCart();
     }
 
