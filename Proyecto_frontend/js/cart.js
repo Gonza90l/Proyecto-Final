@@ -62,23 +62,24 @@ class Cart {
         this.renderCart();
     }
 
-    renderCart() {
+    async renderCart() {
         const cartButton = document.getElementById('cart-button');
         const itemCount = document.getElementById('item-count');
         if (itemCount) {
             itemCount.innerHTML = this.items.reduce((count, item) => count + item.quantity, 0);
         }
-
+    
         const cartModal = document.getElementById('modal-cart');
         if (cartModal) {
             const cartItemsContainer = cartModal.querySelector('tbody');
             if (cartItemsContainer) {
                 cartItemsContainer.innerHTML = ''; // Clear existing items
-
-                this.items.forEach(item => {
+    
+                for (const item of this.items) {
                     const cartItemRow = document.createElement('tr');
+                    const photo = await menuService.getImagefromServer(item.photo);
                     cartItemRow.innerHTML = `
-                        <td><img src="${item.photo}" alt="${item.name}" class="cart-item-photo"></td>
+                        <td><img src="${photo}" alt="${item.name}" class="cart-item-photo"></td>
                         <td>${item.name}</td>
                         <td>${item.quantity}</td>
                         <td>${item.price}</td>
@@ -86,10 +87,10 @@ class Cart {
                         <td><button class="cart-item-remove" data-id="${item.id}">X</button></td>
                     `;
                     cartItemsContainer.appendChild(cartItemRow);
-                    //si no hay imagen o no se puede cargar, se muestra una imagen por defecto
+                    // si no hay imagen o no se puede cargar, se muestra una imagen por defecto
                     cartItemRow.querySelector('img').onerror = () => cartItemRow.querySelector('img').src = 'img/plato-home.jpg';
-                });
-
+                }
+    
                 const cartTotal = this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
                 document.getElementById('cart-total').textContent = cartTotal;
             }
