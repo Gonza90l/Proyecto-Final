@@ -126,7 +126,9 @@ class Cart {
                             };
                             //await menuService.createOrder(order);
                             this.clearCart();
-                            
+                            const orderId = "4065654654564642432344623446253446244"
+                            routerInstance.navigate('/checkout', { order: JSON.stringify(orderId) });
+                            console.log('Pedido realizado');
                         } else {
                             alert('Debes iniciar sesión para realizar un pedido');
                         }

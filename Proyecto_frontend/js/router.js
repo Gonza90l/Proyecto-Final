@@ -10,7 +10,6 @@ class Router {
         this.fragmentCache = {};
         this.onViewLoaded = null; // Callback para ejecutar después de cargar la vista
 
-
         // Registrar rutas en base a configuración
         routeConfig.forEach(({ path, view, protected: isProtected, role }) => {
             this.registerRoute(path, view, isProtected, role);
@@ -56,6 +55,17 @@ class Router {
         } catch (err) {
             console.error('Error fetching user role:', err);
             return null;
+        }
+    }
+
+    async navigate(path, params = {}) {
+        // Construir la URL con los parámetros
+        const url = new URL(window.location.origin + path);
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    
+        if (this.routes[path]) {
+            window.history.pushState({}, '', url);
+            await this.router();
         }
     }
 

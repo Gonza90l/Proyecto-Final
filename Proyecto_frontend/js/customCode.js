@@ -34,11 +34,13 @@ routerInstance.onViewLoaded = async () => {
         });
     }
 
+
+    // Hacer que navigate esté disponible globalmente
+    window.navigate = routerInstance.navigate.bind(routerInstance);
+
 };
 
 //*******************************************************************************************
 // Codigo general que se ejecutará en todas las vistas de la aplicación
 // Permite incorporar funciones que se necesiten
 // ***************************************************************************************
-
-
