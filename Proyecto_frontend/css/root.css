@@ -1,0 +1,100 @@
+/***********************************************************************
+******************* Sección de configiración inicial ********************** 
+************************************************************************/
+
+/* Variables de colores */
+:root {
+  --primary-color: #B29138; /* Color principal: Dorado */
+  --secondary-color: #556B2F; /* Color secundario: Verde Oliva */
+  --accent-color: #fa2c2c; /* Color de acento: rojo brillante */
+  --background-color: #1a1918; /* Color del fondo: Negro */
+  --text-color: #bfc9c9; /* Color del texto: BLANco */
+  --border-color: #4b6177; /* Color del borde: Azul Grisaceo */
+  --footer-color: #091b2c; /* Color del borde: Azul Mas Oscuro */
+}
+
+/* Estilos generales */
+/*modelo de caja no estandar */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  flex: auto;
+  flex-direction: column;
+  width: 100%; 
+  display: flex; 
+}
+
+main {
+  background-image: url("../img/wallpaper-dashboard.jpeg");
+  
+  padding-bottom: 2%; 
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-attachment: fixed; 
+  box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */ 
+}
+
+section {
+  background-color: var(--background-color); 
+  font-family: Arial, Helvetica, sans-serif; /* establecemos las propiedades de la fuente*/
+  font-size: large;
+  color: var(--text-color);
+  text-align: center;
+  margin-top: 78px;
+}
+
+article {
+  background-color: transparent;
+}
+
+div {
+  background-color: transparent;
+}
+header {
+  background-color: var(--primary-color);
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Asegura que el header esté por encima de otros elementos */ 
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.425); /* Añade una sombra para destacar el header */
+}
+
+footer {
+  background-color: var(--footer-color);
+  color: var(--text-color);
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  width: 100%;
+
+}
+
+/* Estilos logins  */
+input[type="text"], input[type="password"], [type="email"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+/* Estilos botones */
+button {
+  padding: 10px;
+  background: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent-color);
+}

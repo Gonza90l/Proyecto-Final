@@ -3,6 +3,8 @@ from flaskr.controllers.users_controller import UsersController
 from flaskr.controllers.menu_controller import MenuController
 from flaskr.controllers.menu_category_controller import MenuCategoryController
 from flaskr.controllers.order_controller import OrderController
+from flaskr.controllers.image_controller import ImageController
+from flaskr.controllers.review_controller import ReviewController
 from flask_injector import inject
 
 # Definir el Blueprint
@@ -85,8 +87,8 @@ def delete_menu(menu_controller: MenuController, menu_id):
 # FETCH ALL
 @main.route(base_url + '/categories', methods=['GET'])
 @inject
-def get_categories(menu_controller: MenuController):
-    return menu_controller.get_categories()
+def get_categories(menu_category_controller: MenuCategoryController):
+    return menu_category_controller.get_categories()
 
 # FETCH ONE
 @main.route(base_url + '/categories/<int:category_id>', methods=['GET'])
@@ -145,3 +147,52 @@ def update_order(order_controller: OrderController, order_id):
 @inject
 def delete_order(order_controller: OrderController, order_id):
     return order_controller.delete_order(order_id)
+
+############################################################################################################
+
+#rutas para las reviews
+@main.route(base_url + '/reviews/<int:id>', methods=['GET'])
+@inject
+def get_review_by_id(review_controller: ReviewController, id):
+    return review_controller.get_review_by_id(id)
+
+@main.route(base_url + '/reviews', methods=['POST'])
+@inject
+def create_review(review_controller: ReviewController):
+    return review_controller.create_review()
+
+#las rutas restantes del crud devuelven metodo no soportado
+@main.route(base_url + '/reviews/<int:id>', methods=['PUT'])
+@inject
+def update_review(review_controller: ReviewController, id):
+    return "Method not supported", 405
+
+@main.route(base_url + '/reviews/<int:id>', methods=['DELETE'])
+@inject
+def delete_review(review_controller: ReviewController, id):
+    return "Method not supported", 405
+
+@main.route(base_url + '/reviews', methods=['GET'])
+@inject
+def get_all_reviews(review_controller: ReviewController):
+    return "Method not supported", 405
+
+############################################################################################################
+
+
+
+# reutas para cargar las imagen de los menus
+@main.route(base_url + '/images', methods=['POST'])
+@inject
+def upload_image(image_controller: ImageController):
+    return image_controller.upload_image()
+
+@main.route(base_url + '/images/<string:filename>', methods=['GET'])
+@inject
+def get_image(image_controller: ImageController, filename):
+    return image_controller.get_image(filename)
+
+@main.route(base_url + '/images/<string:filename>', methods=['DELETE'])
+@inject
+def delete_image(image_controller: ImageController, filename):
+    return image_controller.delete_image(filename)

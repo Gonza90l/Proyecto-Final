@@ -13,4 +13,7 @@ export const routeConfig = [
     { path: '/register', view: '/views/register.html' },
     { path: '/dashboard', view: '/views/user-dashboard.html', protected: true, role: 'user' }, // Dashboard para usuario regular
     { path: '/admin-dashboard', view: '/views/admin-dashboard.html', protected: true, role: 'admin' }, // Dashboard para admins
+    { path: '/admin-menu', view: '/views/admin-menu.html', protected: true, role: 'admin' }, // Dashboard para admins
+    { path: '/admin-orders', view: '/views/admin-orders.html', protected: true, role: 'admin' }, // Dashboard para admins
+    { path: '/checkout', view: '/views/checkout.html' , protected: true, role: 'user' }
 ];

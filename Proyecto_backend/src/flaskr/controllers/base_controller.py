@@ -20,6 +20,9 @@ class BaseController:
     def get_cookies(self):
         return request.cookies
 
+    def get_files(self):
+        return request.files
+
     def respond_success(self, data=None, message="Success", status_code=200, metadata=None):
         return ApiResponse.success(data=data, message=message, status_code=status_code, metadata=metadata)
 

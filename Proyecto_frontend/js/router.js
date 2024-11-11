@@ -1,5 +1,6 @@
 import { routeConfig } from './routes.js';
 import authService from './authService.js';
+import cart from './cart.js';
 
 class Router {
     constructor() {
@@ -8,7 +9,7 @@ class Router {
         this.roleBasedRoutes = {}; // Rutas basadas en roles
         this.fragmentCache = {};
         this.onViewLoaded = null; // Callback para ejecutar después de cargar la vista
-
+        this.isRouting = false; // Flag to prevent multiple executions
 
         // Registrar rutas en base a configuración
         routeConfig.forEach(({ path, view, protected: isProtected, role }) => {
@@ -27,7 +28,7 @@ class Router {
         });
 
         // Cargar fragmentos al inicio
-        document.addEventListener('DOMContentLoaded', this.loadFragments.bind(this));
+        document.addEventListener('DOMContentLoaded', this.router.bind(this));
         console.log('Router initialized');
     }
 
@@ -47,9 +48,6 @@ class Router {
     }
 
     async getRole() {
-        //la funcion ya esta implementada, si deseas ver el resultado, 
-        //modififcar el role desde la base de datos, cerrar sesion y volver a ingresar
-        //ya que si no cerras sesion no se actualiza el valor del token JWT
         try {
             return await authService.getRole();
         } catch (err) {
@@ -58,7 +56,34 @@ class Router {
         }
     }
 
+    async navigate(path, params = {}) {
+        const url = new URL(window.location.origin + path);
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+    
+        if (this.routes[path]) {
+            window.history.pushState({}, '', url);
+            await this.router();
+        }
+    }
+
+    async showNotification(message, type = 'info', duration = 3000) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerText = message;
+        document.body.appendChild(notification);
+    
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            notification.addEventListener('transitionend', () => {
+                notification.remove();
+            });
+        }, duration);
+    }
+
     async router() {
+        if (this.isRouting) return; // Prevent multiple executions
+        this.isRouting = true;
+
         const path = window.location.pathname;
         const route = this.routes[path] || this.routes['/404'];
 
@@ -69,38 +94,34 @@ class Router {
         if (this.protectedRoutes.has(path)) {
             if (!authenticated) {
                 this.redirectToLogin();
+                this.isRouting = false;
                 return;
             }
 
             const userRole = await this.getRole();
             if (route.role && route.role !== userRole) {
-                // Si el usuario no tiene el rol correcto, redirigir a acceso denegado o dashboard
                 this.redirectToDashboard(userRole);
+                this.isRouting = false;
                 return;
             }
         }
 
-        // Si el usuario está autenticado y accede a login o registro, redirigir al dashboard
         if (authenticated && ['/','/login','/register'].includes(path)) {
             const userRole = await this.getRole();
             this.redirectToDashboard(userRole);
+            this.isRouting = false;
             return;
         }
 
         await this.loadView(route.view + '?_=' + new Date().getTime());
+        await cart.renderCart();
         
-
-
-        if (this.onViewLoaded) {
-            console.log('Calling onViewLoaded callback');
-            this.onViewLoaded();
-        }
         this.hideLoading(); // Ocultar el elemento de carga
+        this.isRouting = false;
     }
 
     async loadView(route) {
         try {
-            // Verificar si la ruta existe
             if (!route) {
                 throw new Error('Ruta no definida.');
             }
@@ -110,7 +131,6 @@ class Router {
     
             const html = await response.text();
     
-            // Verificar si la respuesta es una página de error genérica
             if (html.includes('<title>Sistema para pedidos de comidas</title>')) {
                 throw new Error('Vista no encontrada, asegúrate de que la vista existe y está en la carpeta correcta.');
             }
@@ -123,8 +143,12 @@ class Router {
     
             appElement.innerHTML = html;
 
-            // Cargar fragmentos después de cargar la vista
             await this.loadFragments();
+
+            if (this.onViewLoaded) {
+                console.log('Calling onViewLoaded callback');
+                this.onViewLoaded();
+            }
         } catch (err) {
             console.error('Error loading view:', err);
             this.showError(`Error al cargar la vista: ${err.message}`);
@@ -133,17 +157,17 @@ class Router {
 
     redirectToLogin() {
         window.history.pushState({}, '', '/login');
-        this.loadView(this.routes['/login'].view);
+        this.loadView(this.routes['/login'].view + '?_=' + new Date().getTime());
         this.hideLoading(); // Ocultar el elemento de carga
     }
 
     redirectToDashboard(userRole) {
         if (userRole === 'admin') {
             window.history.pushState({}, '', '/admin-dashboard');
-            this.loadView(this.routes['/admin-dashboard'].view);
+            this.loadView(this.routes['/admin-dashboard'].view + '?_=' + new Date().getTime());
         } else {
             window.history.pushState({}, '', '/dashboard');
-            this.loadView(this.routes['/dashboard'].view);
+            this.loadView(this.routes['/dashboard'].view  + '?_=' + new Date().getTime());
         }
         this.hideLoading(); // Ocultar el elemento de carga
     }
@@ -162,7 +186,6 @@ class Router {
                     
                     const html = await response.text();
     
-                    // Verificar si la respuesta es una página de error genérica
                     if (html.includes('<title>Sistema para pedidos de comidas</title>')) {
                         throw new Error('Fragmento no encontrado, asegúrate de que el fragmento existe y está en la carpeta correcta.');
                     }
@@ -211,5 +234,4 @@ class Router {
     }
 }
 
-// Exportar una instancia de la clase Router
 export const routerInstance = new Router();

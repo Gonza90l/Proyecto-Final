@@ -75,6 +75,11 @@ class AuthService {
         }
     }
 
+    //devolvemo el token del usuario
+    getToken() {
+        return this.token;
+    }
+
     /**
      * Realiza el login del usuario.
      * Envía una solicitud POST al endpoint /api/login con el nombre de usuario y la contraseña.
@@ -126,6 +131,9 @@ class AuthService {
         this.tokenExpiry = null;
         localStorage.removeItem('authToken');
         localStorage.removeItem('tokenExpiry');
+        //borramos el token de la cahe
+        this.authCache.isAuthenticated =false;
+        this.authCache.expiry = 0;        
         this.apiClient.token = null; // Elimina el token en ApiClient
     }
 

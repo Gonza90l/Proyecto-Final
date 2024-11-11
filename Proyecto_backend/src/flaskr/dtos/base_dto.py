@@ -35,10 +35,21 @@ class BaseDTO:
             value = json_data.get(field, None)
             if value is None:
                 errors[field] = f"Missing required field: {field}"
-            elif not isinstance(value, field_type):
-                errors[field] = f"Field {field} must be of type {field_type.__name__}"
             else:
-                validated_data[field] = value  # Solo guardamos campos válidos
+                # Intentar convertir el valor al tipo requerido
+                try:
+                    if field_type == int:
+                        value = int(value)
+                    elif field_type == float:
+                        value = float(value)
+                except ValueError:
+                    errors[field] = f"Field {field} must be of type {field_type.__name__}"
+                    continue
+
+                if not isinstance(value, field_type):
+                    errors[field] = f"Field {field} must be of type {field_type.__name__}"
+                else:
+                    validated_data[field] = value  # Solo guardamos campos válidos
 
         # Validación de restricciones adicionales
         for field, constraints in field_constraints.items():

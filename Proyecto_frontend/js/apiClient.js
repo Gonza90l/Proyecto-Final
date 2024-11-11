@@ -1,7 +1,8 @@
+
 export class ApiClient {
     constructor(baseURL, token = null) {
         this.baseURL = baseURL;
-        this.token = token;
+        this.token = token; //tomaomse el token del authService
         this.maxRetries = 3; // Número máximo de reintentos en caso de fallo
     }
 
@@ -68,6 +69,21 @@ export class ApiClient {
             method: 'DELETE',
             headers: this._getHeaders()
         });
+    }
+
+    async uploadFile(url, file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${this.token}`
+            },
+            body: formData
+        };
+
+        return await this._fetchWithRetry(`${this.baseURL}${url}`, options);
     }
 
     async _handleResponse(response) {

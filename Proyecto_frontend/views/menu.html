@@ -1,46 +1,35 @@
 <!-- Sección de comidas -->
 <nav class="dashboard-nav" data-fragment="user-navegation">22222222</nav>
-<section class="menu-section">
-    <h2>Comidas</h2>
-
-    <div class="menu-item">
-        <h3>Pasta al Pesto</h3>
-        <p>Deliciosa pasta con salsa de pesto fresco y queso parmesano.</p>
-        <p class="price">$8.50</p>
-    </div>
-
-    <div class="menu-item">
-        <h3>Hamburguesa Especial</h3>
-        <p>Hamburguesa de res con queso cheddar, bacon, y salsa especial de la casa.</p>
-        <p class="price">$10.00</p>
-    </div>
-
-    <div class="menu-item">
-        <h3>Pizza Margarita</h3>
-        <p>Clásica pizza con tomate, albahaca y mozzarella fresca.</p>
-        <p class="price">$12.00</p>
-    </div>
-</div>
-
-<!-- Sección de bebidas -->
-<section class="menu-section">
-    <h2>Bebidas</h2>
-
-    <div class="menu-item">
-        <h3>Coca-Cola</h3>
-        <p>Refresco clásico.</p>
-        <p class="price">$2.00</p>
-    </div>
-
-    <div class="menu-item">
-        <h3>Limonada Casera</h3>
-        <p>Limonada fresca con un toque de menta.</p>
-        <p class="price">$3.00</p>
-    </div>
-
-    <div class="menu-item">
-        <h3>Café Espresso</h3>
-        <p>Café espresso 100% arábica.</p>
-        <p class="price">$1.50</p>
+<section class="client-menu-section-first">
+    <h2>Menú</h2>
+     <!-- Boton para mostrar el carrito de compras -->
+     <button class="cart-button" id="cart-button">
+        <span class="material-icons">shopping_cart</span>
+        <span class="item-count" id="item-count">0</span>
+    </button>
+</section>
+ <!-- se renderizan los articulos dinamicamente desde el userMenuHandler -->
+<div class="modal" id="modal-cart">
+    <div class="modal-content">
+        <span class="close" id="close-modal-cart">&times;</span>
+        <h2>Checkout de carrito</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Plato</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se genera dinamicamente -->
+            </tbody>
+        </table>
+        
+        <p>Total: $ <span id="cart-total">500</span></p>
+        <button class="btn btn-primary" id="checkout-button">Comprar</button>
     </div>
 </div>
