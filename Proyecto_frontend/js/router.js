@@ -91,7 +91,6 @@ class Router {
 
         await this.loadView(route.view + '?_=' + new Date().getTime());
 
-        cart.renderCartButton();
         
         this.hideLoading(); // Ocultar el elemento de carga
     }

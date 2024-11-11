@@ -12,6 +12,8 @@ class AdminMenuHandler {
     async init() {
         this.setupAddOrUpdateMenuForm();
         this.setupMenuImageInput();
+        this.setupButtonShow();
+        this.setupButtonCloseModal();
         await this.populateCategorySelect();
         await this.populateMenuTable();
     }
@@ -145,6 +147,49 @@ class AdminMenuHandler {
         }
     }
 
+    setupButtonShow() {
+        //agregamos un evento al boton de mostrar formulario
+        const showFormButton = document.getElementById('admin-menu-show-add');
+        if (showFormButton) {
+            showFormButton.addEventListener('click', async (event) => {
+                const menuAddEditAdmin = document.getElementById('menu-add-edit-admin');
+                if (menuAddEditAdmin) {
+                    menuAddEditAdmin.style.display = 'block';
+                    menuAddEditAdmin.scrollIntoView({ behavior: 'smooth' });
+
+                    //borramos el contenido del formulario
+                    document.getElementById('id').value ="";
+                    document.getElementById('name').value = '';
+                    document.getElementById('description').value = '';
+                    document.getElementById('price').value ='';
+                    document.getElementById('menu_category_id').value = 0;
+                    document.getElementById('menuImageThumbnail').src = '';
+                    document.getElementById('menuImageThumbnail').style.display = menu.photo ? 'block' : 'none';
+                    document.querySelector('#addOrUpdateMenu-form button[type="submit"]').innerText = 'Agregar Plato';
+
+                }
+            });
+        }
+    }
+
+    setupButtonCloseModal() {
+        //agregamos un evento al boton de cerrar formulario
+        const closeFormButton = document.getElementById('closeAdminMenuForm');
+        if (closeFormButton) {
+            closeFormButton.addEventListener('click', async (event) => {
+                const menuAddEditAdmin = document.getElementById('menu-add-edit-admin');
+                if (menuAddEditAdmin) {
+                    menuAddEditAdmin.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    
+
+            
+
+
     setupEditButtons() {
         const editButtons = document.getElementsByClassName('edit-menu');
         for (let i = 0; i < editButtons.length; i++) {
@@ -152,6 +197,15 @@ class AdminMenuHandler {
                 const id = event.target.getAttribute('data-id');
                 const menu = await menuService.getMenuItemById(id);
                 if (menu) {
+                    //mostramos el formulario de añadir o actualizar menu menu-add-edit-admin
+                    const menuAddEditAdmin = document.getElementById('menu-add-edit-admin');
+                    if (menuAddEditAdmin) {
+                        menuAddEditAdmin.style.display = 'block';
+                        menuAddEditAdmin.scrollIntoView({ behavior: 'smooth' });
+                    }
+
+
+                    document.getElementById('addOrUpdateMenu-form').style.display = 'block';
                     document.getElementById('id').value = menu.id;
                     document.getElementById('name').value = menu.name;
                     document.getElementById('description').value = menu.description;
@@ -164,8 +218,11 @@ class AdminMenuHandler {
             });
         }
     }
-}
 
+
+    
+
+}
 
 // añadir o actualizar un menu usando menuService
 async function addOrUpdateMenu(menu) {
