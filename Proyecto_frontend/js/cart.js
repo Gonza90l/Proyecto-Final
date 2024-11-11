@@ -1,5 +1,6 @@
 import authService from './authService.js';
 import menuService from './menuService.js';
+import { routerInstance } from './router.js';
 
 class Cart {
     constructor() {
@@ -22,7 +23,7 @@ class Cart {
     }
 
     removeItem(itemId) {
-        const itemIndex = this.items.findIndex(item => item.id === itemId);
+        const itemIndex = this.items.findIndex(item => item.id == itemId);
         if (itemIndex > -1) {
             if (this.items[itemIndex].quantity > 1) {
                 this.items[itemIndex].quantity -= 1;
@@ -94,6 +95,26 @@ class Cart {
                 const cartTotal = this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
                 document.getElementById('cart-total').textContent = cartTotal;
 
+                // Agregar eventos a los botones de añadir y remover
+                document.querySelectorAll('.cart-item-add').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const itemId = event.target.getAttribute('data-id');
+                        const item = this.items.find(item => item.id == itemId);
+                        if (item) {
+                            this.addItem(item);
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.cart-item-remove').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const itemId = event.target.getAttribute('data-id');
+                        this.removeItem(itemId);
+                    });
+                });
+
+                
+
                 //si no existe el boton de checkout, no se añade el evento
                 const checkoutButton = document.getElementById('checkout-button');
                 if (checkoutButton) {
@@ -103,13 +124,19 @@ class Cart {
                                 items: this.items.map(item => ({ id: item.id, quantity: item.quantity })),
                                 total: cartTotal
                             };
-                            await menuService.createOrder(order);
+                            //await menuService.createOrder(order);
                             this.clearCart();
-                            alert('Pedido realizado con éxito');
+                            
                         } else {
                             alert('Debes iniciar sesión para realizar un pedido');
                         }
                     };
+                }
+
+                if(this.items.length === 0){
+                    checkoutButton.style.display = 'none';
+                }else{
+                    checkoutButton.style.display = 'inline';
                 }
 
             

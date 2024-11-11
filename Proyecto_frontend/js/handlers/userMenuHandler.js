@@ -89,7 +89,7 @@ class UserMenuHandler {
                                 </div>
                                 <footer>
                                     <input type="number" min="1" max="99" value="1" class="quantity-input">
-                                    <button class="btn btn-primary" data-id="${item.id}">Añadir</button>
+                                    <button  class="btn btn-primary" data-id="${item.id}">Añadir</button>
                                 </footer>
                             </article>
                         `).join('')}
