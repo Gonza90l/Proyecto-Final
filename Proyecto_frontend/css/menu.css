@@ -1,0 +1,39 @@
+
+.client-menu-section {
+
+    background-color: transparent;
+    display: flex;
+    flex: auto;
+    flex-direction: row;
+    padding: 10px;
+    flex-flow: row wrap;
+    gap: 10px;
+    justify-content: space-around;
+
+}
+
+.client-menu-section > article {
+    background-color: var(--background-color);
+    min-width: 200px;
+    margin: 5px;
+    width: 30%;
+    border: 1px solid;
+    border-radius: 10px;
+    position: relative;
+}
+
+.client-menu-section > article > footer {
+    position: absolute;
+    bottom: 0px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.client-menu-section > article > div > img {
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+
+
+}

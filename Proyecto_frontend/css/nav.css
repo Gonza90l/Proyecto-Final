@@ -29,3 +29,18 @@ nav ul li a {
 nav ul li a:hover {
     background-color: var(--accent-color);
 }
+
+/* CSS para ocultar el texto si el icono está disponible: */
+.material-icons {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.fallback-text {
+    display: none;
+}
+
+.material-icons::before {
+    content: attr(aria-label);
+    display: none;
+}
