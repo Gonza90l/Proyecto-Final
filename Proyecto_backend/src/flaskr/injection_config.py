@@ -5,6 +5,7 @@ from flaskr.services.users_service import UsersService
 from flaskr.services.menu_service import MenuService
 from flaskr.services.orders_service import OrderService
 from flaskr.services.image_service import ImageService
+from flaskr.services.review_service import ReviewService
 
 def configure(binder: Binder, db):
     # Bind de la base de datos mediante la interfaz IDatabase
@@ -21,3 +22,6 @@ def configure(binder: Binder, db):
 
     # Bind de ImageService a su implementación
     binder.bind(ImageService, to=ImageService, scope=singleton)
+
+    # Bind de ImageService a su implementación
+    binder.bind(ReviewService, to=ReviewService, scope=singleton)

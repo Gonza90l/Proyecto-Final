@@ -4,6 +4,7 @@ from flaskr.controllers.menu_controller import MenuController
 from flaskr.controllers.menu_category_controller import MenuCategoryController
 from flaskr.controllers.order_controller import OrderController
 from flaskr.controllers.image_controller import ImageController
+from flaskr.controllers.review_controller import ReviewController
 from flask_injector import inject
 
 # Definir el Blueprint
@@ -148,6 +149,37 @@ def delete_order(order_controller: OrderController, order_id):
     return order_controller.delete_order(order_id)
 
 ############################################################################################################
+
+#rutas para las reviews
+@main.route(base_url + '/reviews/<int:id>', methods=['GET'])
+@inject
+def get_review_by_id(review_controller: ReviewController, id):
+    return review_controller.get_review_by_id(id)
+
+@main.route(base_url + '/reviews', methods=['POST'])
+@inject
+def create_review(review_controller: ReviewController):
+    return review_controller.create_review()
+
+#las rutas restantes del crud devuelven metodo no soportado
+@main.route(base_url + '/reviews/<int:id>', methods=['PUT'])
+@inject
+def update_review(review_controller: ReviewController, id):
+    return "Method not supported", 405
+
+@main.route(base_url + '/reviews/<int:id>', methods=['DELETE'])
+@inject
+def delete_review(review_controller: ReviewController, id):
+    return "Method not supported", 405
+
+@main.route(base_url + '/reviews', methods=['GET'])
+@inject
+def get_all_reviews(review_controller: ReviewController):
+    return "Method not supported", 405
+
+############################################################################################################
+
+
 
 # reutas para cargar las imagen de los menus
 @main.route(base_url + '/images', methods=['POST'])

@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`comment` (
   `created_at` DATETIME NOT NULL,
   `menu_id` BIGINT UNSIGNED NOT NULL,
   `order_id` BIGINT UNSIGNED NOT NULL,
-  PRIMARY KEY (`menu_id`),
+  PRIMARY KEY (`menu_id`, `order_id`),
   INDEX `fk_comment_menu1_idx` (`menu_id` ASC) VISIBLE,
   INDEX `fk_comment_order1_idx` (`order_id` ASC) VISIBLE,
   CONSTRAINT `fk_comment_menu1`
@@ -129,8 +129,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`comment` (
     REFERENCES `proyecto_informatico`.`order` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
+ENGINE = InnoDB
 
 -- -----------------------------------------------------
 -- Table `proyecto_informatico`.`order_has_menu`
