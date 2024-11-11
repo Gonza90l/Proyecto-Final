@@ -1,6 +1,6 @@
 /* Estilos para el modal */
 .modal {
-    display: block; /*none y block para verlo*/
+    display: none; /*none y block para verlo*/
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -12,7 +12,7 @@
 }
 
 .modal-content {
-    background-color: var(--secondary-color);
+    background-color: var(--footer-color);
     color: var(--text-color);
     text-align: right;
     margin: 5% auto;
@@ -39,6 +39,15 @@
     margin-bottom: 20px;
     border: 1px solid var(--border-color);
     background-color: var(--background-color);
+}
+.modal-content > form {
+    width: 100%; 
+    padding: 10px;
+    border-radius: 10px; /* Agrega esquinas redondeadas */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
 }
 
 .close {
