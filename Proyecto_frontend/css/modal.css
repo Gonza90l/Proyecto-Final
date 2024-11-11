@@ -69,3 +69,19 @@
 .cart-item-remove {
     background-color: var(--accent-color);
 }
+
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        padding: 10px;
+    }
+
+    #modal-cart td {
+        width: 20%;
+    }
+
+    #modal-cart button {
+        margin-right: 5px;
+    }
+}
+

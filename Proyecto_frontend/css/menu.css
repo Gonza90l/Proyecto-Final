@@ -16,7 +16,7 @@
 
 .client-menu-section > article {
     background-color: var(--background-color);
-    min-width: 200px;
+    min-width: 400px;
     margin: 5px;
     width: 30%;
     border: 1px solid;
@@ -38,4 +38,22 @@
     border-radius: 5px;
 
 
+}
+
+
+
+@media (max-width: 600px) {
+    .client-menu-section {
+        flex-direction: column;
+        padding: 5px;
+    }
+
+    .client-menu-section > article {
+        width: 80%;
+        margin: 5px 0;
+    }
+
+    .client-menu-section > article > div > img {
+        padding: 10px;
+    }
 }
