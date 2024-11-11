@@ -53,7 +53,9 @@ class Cart {
         }
         //si noo hay articulos en el carrito, ocultamos el boton
         if(this.items.length === 0){
-            cartButton.style.display = 'none';
+            if(cartButton){
+                cartButton.style.display = 'none';
+            }
         }
     }
 
