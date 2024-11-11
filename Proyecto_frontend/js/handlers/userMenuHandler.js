@@ -7,6 +7,7 @@ class UserMenuHandler {
 
     async init() {
         this.loadMenus();
+        this.configureButtons();
     }
 
     async loadMenus() {
@@ -17,6 +18,29 @@ class UserMenuHandler {
             } catch (error) {
                 console.error('Error fetching menu items:', error);
             }
+        }
+    }
+
+    configureButtons() {
+        const modalCart = document.getElementById('close-modal-cart');
+        if (modalCart) {
+            modalCart.addEventListener('click', (event) => {
+                const menuAddEditAdmin = document.getElementById('modal-cart');
+                if (menuAddEditAdmin) {
+                    menuAddEditAdmin.style.display = 'none';
+                }
+            });
+        }
+        
+        const modalButton= document.getElementById('cart-button');
+        if (modalButton) {
+            modalButton.addEventListener('click', (event) => {
+                const menuAddEditAdmin = document.getElementById('modal-cart');
+                if (menuAddEditAdmin) {
+                    menuAddEditAdmin.style.display = 'block';
+                    menuAddEditAdmin.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
         }
     }
 

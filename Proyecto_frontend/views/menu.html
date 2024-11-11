@@ -2,11 +2,16 @@
 <nav class="dashboard-nav" data-fragment="user-navegation">22222222</nav>
 <section class="client-menu-section">
     <h2>Menú</h2>
-    <!-- se renderizan los articulos dinamicamente desde el userMenuHandler -->
+     <!-- Boton para mostrar el carrito de compras -->
+     <button class="cart-button" id="cart-button">
+        <span class="material-icons">shopping_cart</span>
+        <span class="item-count" id="item-count">0</span>
+    </button>
 </section>
+ <!-- se renderizan los articulos dinamicamente desde el userMenuHandler -->
 <div class="modal" id="modal-cart">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" id="close-modal-cart">&times;</span>
         <h2>Checkout de carrito</h2>
         <table>
             <tr>
