@@ -62,6 +62,7 @@
     width: 10%;
 }
 
-#modal-cart tr {
-
+.modal-content > button {
+    padding: 2px;
+    border-radius: 50%;
 }
