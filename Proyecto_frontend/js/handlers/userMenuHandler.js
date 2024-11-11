@@ -5,12 +5,18 @@ import authService from '../authService.js';
 
 class UserMenuHandler {
 
+    constructor() {
+        console.log('UserMenuHandler instance created');
+    }
+
     async init() {
+        console.log('UserMenuHandler initialized');
         this.loadMenus();
         this.configureButtons();
     }
 
     async loadMenus() {
+        console.log('loadMenus called');
         if(await authService.isAuthenticated()){
             try {
                 const menuItems = await menuService.getAllMenuItems();
@@ -22,6 +28,7 @@ class UserMenuHandler {
     }
 
     configureButtons() {
+        console.log('configureButtons called');
         const modalCart = document.getElementById('close-modal-cart');
         if (modalCart) {
             modalCart.addEventListener('click', (event) => {
@@ -45,11 +52,13 @@ class UserMenuHandler {
     }
 
     async renderMenu(menuItems) {
-        this.menuSection = document.querySelector('.client-menu-section');
+        console.log('renderMenu called');
+
+        this.menuSection = document.querySelector('.client-menu-section-first');
         if (this.menuSection) {
-    
             const categoriesResponse = await menuService.getCategories();
             const categories = categoriesResponse.data;
+            console.log('>>>>>Categories:', categories);
     
             // Crear un mapa de categorías para un acceso rápido
             const categoryMap = {};
@@ -68,9 +77,11 @@ class UserMenuHandler {
                 groups[category].push(item);
                 return groups;
             }, {});
+
     
             // Crear un section para cada categoría y agregarlo como hermano del section original
             for (const category in groupedItems) {
+                console.log('Category:', category);
                 const categoryItems = groupedItems[category];
                 const sectionHtml = `
                     <section class="client-menu-section">
