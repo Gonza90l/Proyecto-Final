@@ -1,6 +1,6 @@
 /* Estilos para el modal */
 .modal {
-    display: none; /*none y block para verlo*/
+    display: block; /*none y block para verlo*/
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -62,7 +62,10 @@
     width: 10%;
 }
 
-.modal-content > button {
-    padding: 2px;
-    border-radius: 50%;
+#modal-cart button {
+    margin-right: 7px;
+    border-radius: 100%;
+}
+.cart-item-remove {
+    background-color: var(--accent-color);
 }
