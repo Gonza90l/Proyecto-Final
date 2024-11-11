@@ -1,15 +1,11 @@
 
 .client-menu-section {
-
     background-color: transparent;
-    display: flex;
-    flex: auto;
     flex-direction: row;
     padding: 10px;
     flex-flow: row wrap;
     gap: 10px;
     justify-content: space-around;
-
 }
 
 .client-menu-section > article {
