@@ -1,8 +1,8 @@
 /* Estilos para el modal */
 .modal {
-    display: none;
+    display: block; /*none y block para verlo*/
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
@@ -13,6 +13,8 @@
 
 .modal-content {
     background-color: var(--secondary-color);
+    color: var(--text-color);
+    text-align: right;
     margin: 5% auto;
     padding: 20px;
     border: 1px solid var(--border-color);
@@ -22,6 +24,23 @@
     border-radius: 10px;
 }
 
-.modal-content >h2{
-    color: var(--background-color);
+.modal-content > h2 {
+    color: var(--text-color);
+    text-align: center;
+}
+
+.modal-content > p {
+    font-size: x-large;
+}
+
+.modal-content > table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+}
+
+.close {
+    position: absolute;
 }
