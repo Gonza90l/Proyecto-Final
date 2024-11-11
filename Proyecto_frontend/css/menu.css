@@ -1,11 +1,17 @@
 
 .client-menu-section {
     background-color: transparent;
-    flex-direction: row;
+    display: flex;
+    /* flex-direction: row; */
     padding: 10px;
     flex-flow: row wrap;
     gap: 10px;
     justify-content: space-around;
+}
+
+.client-menu-section > h2 {
+    text-align: center;
+    width: 100%;
 }
 
 .client-menu-section > article {
@@ -20,7 +26,7 @@
 
 .client-menu-section > article > footer {
     position: absolute;
-    bottom: 0px;
+    bottom: 2px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     padding-top: 2px;

@@ -53,3 +53,15 @@
 .close {
     position: absolute;
 }
+
+#modal-cart img {
+    width: 100%;
+}
+
+#modal-cart td {
+    width: 10%;
+}
+
+#modal-cart tr {
+
+}
