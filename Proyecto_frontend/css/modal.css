@@ -1,6 +1,6 @@
 /* Estilos para el modal */
 .modal {
-    display: block; /*none y block para verlo*/
+    display: none; /*none y block para verlo*/
     position: fixed;
     z-index: 1000;
     left: 0;

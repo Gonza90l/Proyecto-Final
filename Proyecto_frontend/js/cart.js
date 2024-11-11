@@ -93,6 +93,26 @@ class Cart {
     
                 const cartTotal = this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
                 document.getElementById('cart-total').textContent = cartTotal;
+
+                //si no existe el boton de checkout, no se añade el evento
+                const checkoutButton = document.getElementById('checkout-button');
+                if (checkoutButton) {
+                    checkoutButton.onclick = async () => {
+                        if (authService.isAuthenticated()) {
+                            const order = {
+                                items: this.items.map(item => ({ id: item.id, quantity: item.quantity })),
+                                total: cartTotal
+                            };
+                            await menuService.createOrder(order);
+                            this.clearCart();
+                            alert('Pedido realizado con éxito');
+                        } else {
+                            alert('Debes iniciar sesión para realizar un pedido');
+                        }
+                    };
+                }
+
+            
             }
         }
     }
