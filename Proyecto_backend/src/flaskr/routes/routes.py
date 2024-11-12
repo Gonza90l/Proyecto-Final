@@ -5,6 +5,7 @@ from flaskr.controllers.menu_category_controller import MenuCategoryController
 from flaskr.controllers.order_controller import OrderController
 from flaskr.controllers.image_controller import ImageController
 from flaskr.controllers.review_controller import ReviewController
+from flaskr.controllers.ipn_controller import ipnController
 from flask_injector import inject
 
 # Definir el Blueprint
@@ -196,3 +197,12 @@ def get_image(image_controller: ImageController, filename):
 @inject
 def delete_image(image_controller: ImageController, filename):
     return image_controller.delete_image(filename)
+
+
+############################################################################################################
+
+#rutas para el IPN
+@main.route(base_url + '/ipn', methods=['POST'])
+@inject
+def ipn(ipn_controller: ipnController):
+    return ipn_controller.post()

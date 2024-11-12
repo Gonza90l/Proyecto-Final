@@ -68,7 +68,7 @@ class OrderService:
         order = Order.find_by_id(self._mysql, order_id)
         if not order:
             raise OrderNotFoundException("Order not found")
-        order.status = "IN PROGRESS"
+        order.status = "PAID"
         order.update()
         return order
 
