@@ -122,12 +122,12 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`comment` (
   CONSTRAINT `fk_comment_menu1`
     FOREIGN KEY (`menu_id`)
     REFERENCES `proyecto_informatico`.`menu` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_comment_order1`
     FOREIGN KEY (`order_id`)
     REFERENCES `proyecto_informatico`.`order` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 
