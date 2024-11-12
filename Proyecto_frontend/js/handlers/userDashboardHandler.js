@@ -92,12 +92,18 @@ class UserDashboardHandler {
                     btnActualizar.classList.add("update-order");
                     btnActualizar.title = "Actualizar Pedido";
                     btnActualizar.innerHTML = '<i class="fas fa-edit"></i>';
+                    btnActualizar.addEventListener('click', () => {
+                        updateOrder(order.id);
+                    });
                     tdAcciones.appendChild(btnActualizar);
                 }
                 let btnCancelar = document.createElement("button");
                 btnCancelar.classList.add("cancel-order");
                 btnCancelar.title = "Cancelar Pedido";
                 btnCancelar.innerHTML = '<i class="fas fa-times"></i>';
+                btnCancelar.addEventListener('click', () => {
+                    cancelOrder(order.id);
+                });
                 tdAcciones.appendChild(btnCancelar);
                 tr.appendChild(tdAcciones);
             }
@@ -117,6 +123,30 @@ class UserDashboardHandler {
             tbodyInactive.appendChild(tr);
         });
     }
+}
+
+// Métodos para actualizar y cancelar pedidos
+function updateOrder(orderId) {
+    // Lógica para actualizar el pedido
+    console.log(`Actualizar pedido ${orderId}`);
+}
+
+async function cancelOrder(orderId) {
+    //obtenemos el pedido
+    let orderData = await ordersService.getOrderById(orderId);
+    console.log(orderData);
+    if (!orderData) {
+        routerinstance.showAlert('No se pudo obtener el pedido', 'danger');
+        return;
+    }
+    //cambiamos el estado del pedido a CANCELED
+    orderData.status = 'CANCELED';
+    //llamamos al orderService para cancelar el pedido
+    ordersService.updateOrder(orderId,orderData).then(() => {
+        // actualizamos la tabla de pedidos
+        let handler = new UserDashboardHandler();
+        handler.renderUserDashboard();
+    });
 }
 
 export default UserDashboardHandler;

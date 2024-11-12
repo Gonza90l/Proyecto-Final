@@ -63,11 +63,33 @@ class OrdersService {
     }
 
     async updateOrder(id, orderData) {
-        if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
+        if (!authService.isAuthenticated()) {
             throw new Error('Unauthorized');
         }
+    
+        // Quitamos los campos que no son permitidos
+        if (orderData.created_at) {
+            delete orderData.created_at;
+        }
+        if (orderData.id) {
+            delete orderData.id;
+        }
+    
+        // Transformamos los datos para que coincidan con los DTOs esperados
+        const transformedOrderData = {
+            user_id: orderData.user_id,
+            total: parseFloat(orderData.total),
+            status: orderData.status,
+            order_items: orderData.order_items.map(item => ({
+                menu_id: item.item.id,
+                quantity: item.quantity
+            }))
+        };
+    
+        console.log(transformedOrderData);
+    
         const apiClient = this._getApiClient();
-        return await apiClient.put(`/orders/${id}`, orderData);
+        return await apiClient.put(`/orders/${id}`, transformedOrderData);
     }
 
     async deleteOrder(id) {
