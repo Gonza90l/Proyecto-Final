@@ -4,6 +4,7 @@ import { routerInstance } from './router.js';
 import AdminMenuHandler from './handlers/adminMenuHandler.js';
 import LoginHandler from './handlers/loginHandler.js';
 import UserMenuHandler from './handlers/userMenuHandler.js';
+import CheckOutHandler from './handlers/checkoutHandler.js';
 
 
 routerInstance.onViewLoaded = async () => {
@@ -25,6 +26,10 @@ routerInstance.onViewLoaded = async () => {
     // Inicializar el manejador de eventos del menú de usuario
     const userMenuHandler = new UserMenuHandler();
     userMenuHandler.init();
+
+    // Inicializar el manejador de eventos de checkout
+    const checkOutHandler = new CheckOutHandler();
+    checkOutHandler.init();
 
     const gotoorigin404 = document.getElementById('404-go-to-origin');
     if (gotoorigin404) {

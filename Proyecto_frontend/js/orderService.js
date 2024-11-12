@@ -77,6 +77,22 @@ class OrdersService {
         const apiClient = this._getApiClient();
         return await apiClient.delete(`/orders/${id}`);
     }
+
+    //simulamos un push de la pasarela de pago
+    async sendIPNToServer(ipnData) {
+        try{
+            const apiClient = this._getApiClient();
+            const response = await apiClient.post(`/ipn`, ipnData);
+            if (response.status === 201 || response.status === 200) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch(e){
+            console.error(e);
+            return false;
+        }
+    }
 }
 
 const ordersService = new OrdersService();

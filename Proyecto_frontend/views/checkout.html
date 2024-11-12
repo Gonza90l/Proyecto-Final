@@ -1,36 +1,35 @@
 <section class="checkout-section">
 
-        <h1>Checkout</h1>
-        <form action="/process_payment" method="POST">
-            <div class="form-group"></div>
-                <label for="amount">Monto a Pagar: $<span id="checkoutTotalAmount">5000</span></label>
-            </div>
-            <div class="form-group">
-                <label for="name">Nombre Completo</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Dirección</label>
-                <input type="text" id="address" name="address" required>
-            </div>
-            <div class="form-group">
-                <label for="card-number">Número de Tarjeta</label>
-                <input type="text" id="card-number" name="card-number" required>
-            </div>
-            <div class="form-group">
-                <label for="expiry-date">Fecha de Expiración</label>
-                <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/AA" required>
-            </div>
-            <div class="form-group">
-                <label for="cvv">CVV</label>
-                <input type="text" id="cvv" name="cvv" required>
-            </div>
-            <button onclick="window.history.back();" type="cancel">Cancelar</button>
-            <button type="submit">Pagar</button>
-
-        </form>
+    <h1>Checkout</h1>
+    <form id="checkoutForm">
+        <div class="form-group">
+            <label for="amount">Monto a Pagar: $<span id="checkoutTotalAmount">5000</span></label>
+        </div>
+        <div class="form-group">
+            <label for="name">Nombre Completo</label>
+            <input type="text" id="name" name="name" required pattern="[a-zA-Z\s]+" title="El nombre solo debe contener letras y espacios">
+        </div>
+        <div class="form-group">
+            <label for="email">Correo Electrónico</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Dirección</label>
+            <input type="text" id="address" name="address" required>
+        </div>
+        <div class="form-group">
+            <label for="card-number">Número de Tarjeta</label>
+            <input type="text" id="card-number" name="card-number" value="1234567891234567" required pattern="\d{16}" title="El número de tarjeta debe contener 16 dígitos">
+        </div>
+        <div class="form-group">
+            <label for="expiry-date">Fecha de Expiración</label>
+            <input type="text" id="expiry-date" name="expiry-date" value="12/29" placeholder="MM/AA" required pattern="(0[1-9]|1[0-2])\/\d{2}" title="La fecha de expiración debe estar en el formato MM/AA">
+        </div>
+        <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" name="cvv" value="123" required pattern="\d{3}" title="El CVV debe contener 3 dígitos">
+        </div>
+        <button onclick="window.history.back();" type="cancel">Cancelar</button>
+        <button type="submit">Pagar</button>
+    </form>
 </section>
