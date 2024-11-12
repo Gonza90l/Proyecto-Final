@@ -1,5 +1,7 @@
 import authService from './authService.js';
+import CreateOrderRequestDto from './dtos/createOrderRequestDto.js';
 import menuService from './menuService.js';
+import orderService from './orderService.js';
 import { routerInstance } from './router.js';
 
 class Cart {
@@ -9,6 +11,25 @@ class Cart {
 
     init() {
         this.loadCart();
+    }
+
+    async createOrder() {
+        //creamos el dto para enviar al backend
+        //createOrderRequestDto.js
+        const orderHasMenuDTO = this.items.map(item => ({ menu_id: item.id, quantity: item.quantity }));
+        const userId = await authService.getUserId();
+        if (!userId) {
+            routerInstance.showNotification('Error al obtener el usuario', 'error');
+            return null;
+        }
+        const createOrderRequestDto = new CreateOrderRequestDto(userId, this.getTotal(), 'CREATED', orderHasMenuDTO);
+        const response = orderService.createOrder(createOrderRequestDto);
+        if (response) {
+            this.clearCart();
+            return response;
+        } else {
+            return null;
+        }
     }
 
     addItem(item) {
@@ -125,11 +146,14 @@ class Cart {
                                 items: this.items.map(item => ({ id: item.id, quantity: item.quantity })),
                                 total: cartTotal
                             };
-                            //await menuService.createOrder(order);
-                            this.clearCart();
-                            const orderId = "4065654654564642432344623446253446244"
-                            routerInstance.navigate('/checkout', { order: JSON.stringify(orderId) });
-                            console.log('Pedido realizado');
+                            routerInstance.showNotification('Creando pedido...Espere...', 'info');
+                            const orderId = await this.createOrder(order);
+                            if (orderId) {
+                                this.clearCart();
+                                routerInstance.navigate('/checkout', { order: JSON.stringify(orderId) });
+                            } else {
+                                routerInstance.showNotification('Error al crear el pedido', 'error');
+                            }
                         } else {
                             alert('Debes iniciar sesión para realizar un pedido');
                         }
