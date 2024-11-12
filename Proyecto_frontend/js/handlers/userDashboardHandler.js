@@ -36,6 +36,16 @@ class UserDashboardHandler {
         let ordersActive = orders.filter(order => ['CREATED', 'PAID', 'IN PROGRESS', 'SEND'].includes(order.status));
         let ordersInactive = orders.filter(order => ['DELIVERED', 'CANCELED'].includes(order.status));
     
+        // Mapeo de estados en inglés a castellano
+        const statusMap = {
+            'CREATED': 'Creado',
+            'PAID': 'Pagado',
+            'IN PROGRESS': 'En Progreso',
+            'SEND': 'Enviado',
+            'DELIVERED': 'Entregado',
+            'CANCELED': 'Cancelado'
+        };
+    
         // función para crear una fila de pedido
         function createOrderRow(order, includeActions = true) {
             // creamos una nueva fila
@@ -64,7 +74,7 @@ class UserDashboardHandler {
             let tdEstado = document.createElement("td");
             let spanEstado = document.createElement("span");
             spanEstado.classList.add("status", order.status.toLowerCase().replace(/\s+/g, '_'));
-            spanEstado.textContent = order.status;
+            spanEstado.textContent = statusMap[order.status] || order.status; // Mapeamos el estado al castellano
             tdEstado.appendChild(spanEstado);
     
             // añadimos las celdas a la fila
