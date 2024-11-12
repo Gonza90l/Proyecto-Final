@@ -29,9 +29,12 @@ class UserMenuHandler {
 
     configureButtons() {
         console.log('configureButtons called');
+        
         const modalCart = document.getElementById('close-modal-cart');
         if (modalCart) {
-            modalCart.addEventListener('click', (event) => {
+            const newModalCart = modalCart.cloneNode(true);
+            modalCart.parentNode.replaceChild(newModalCart, modalCart);
+            newModalCart.addEventListener('click', (event) => {
                 const menuAddEditAdmin = document.getElementById('modal-cart');
                 if (menuAddEditAdmin) {
                     menuAddEditAdmin.style.display = 'none';
@@ -39,9 +42,11 @@ class UserMenuHandler {
             });
         }
         
-        const modalButton= document.getElementById('cart-button');
+        const modalButton = document.getElementById('cart-button');
         if (modalButton) {
-            modalButton.addEventListener('click', (event) => {
+            const newModalButton = modalButton.cloneNode(true);
+            modalButton.parentNode.replaceChild(newModalButton, modalButton);
+            newModalButton.addEventListener('click', (event) => {
                 const menuAddEditAdmin = document.getElementById('modal-cart');
                 if (menuAddEditAdmin) {
                     menuAddEditAdmin.style.display = 'block';
@@ -119,7 +124,7 @@ class UserMenuHandler {
     
             // Add event listeners to "Añadir" buttons
             document.querySelectorAll('.client-menu-section .btn.btn-primary').forEach(button => {
-                button.addEventListener('click', (event) => {
+                button.addEventListener('click', async (event) => {
                     const itemId = event.target.getAttribute('data-id');
                     const item = menuItems.find(item => item.id == itemId);
                     if (!item) {
@@ -130,7 +135,7 @@ class UserMenuHandler {
                     const quantity = parseInt(quantityInput.value, 10);
                     for (let i = 0; i < quantity; i++) {
                         console.log('Adding item to cart:', item);
-                        cart.addItem(item);
+                        await cart.addItem(item);
                     }
                 });
             });

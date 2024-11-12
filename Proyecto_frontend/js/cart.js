@@ -32,7 +32,7 @@ class Cart {
         }
     }
 
-    addItem(item) {
+    async addItem(item) {
         const existingItem = this.items.find(i => i.id === item.id);
         if (existingItem) {
             existingItem.quantity += 1;
@@ -40,6 +40,7 @@ class Cart {
             item.quantity = 1;
             this.items.push(item);
         }
+        console.log('Cart items:', this.items);
         routerInstance.showNotification('Producto añadido al carrito', 'info');
         this.saveCart();
     }
@@ -116,7 +117,18 @@ class Cart {
     
                 const cartTotal = this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
                 document.getElementById('cart-total').textContent = cartTotal;
-
+    
+                // Remove existing event listeners
+                document.querySelectorAll('.cart-item-add').forEach(button => {
+                    const newButton = button.cloneNode(true);
+                    button.parentNode.replaceChild(newButton, button);
+                });
+    
+                document.querySelectorAll('.cart-item-remove').forEach(button => {
+                    const newButton = button.cloneNode(true);
+                    button.parentNode.replaceChild(newButton, button);
+                });
+    
                 // Agregar eventos a los botones de añadir y remover
                 document.querySelectorAll('.cart-item-add').forEach(button => {
                     button.addEventListener('click', (event) => {
@@ -127,16 +139,14 @@ class Cart {
                         }
                     });
                 });
-
+    
                 document.querySelectorAll('.cart-item-remove').forEach(button => {
                     button.addEventListener('click', (event) => {
                         const itemId = event.target.getAttribute('data-id');
                         this.removeItem(itemId);
                     });
                 });
-
-                
-
+    
                 //si no existe el boton de checkout, no se añade el evento
                 const checkoutButton = document.getElementById('checkout-button');
                 if (checkoutButton) {
@@ -159,14 +169,12 @@ class Cart {
                         }
                     };
                 }
-
+    
                 if(this.items.length === 0){
                     checkoutButton.style.display = 'none';
                 }else{
                     checkoutButton.style.display = 'inline';
                 }
-
-            
             }
         }
     }

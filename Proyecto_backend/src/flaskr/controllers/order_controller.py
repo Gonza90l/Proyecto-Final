@@ -75,13 +75,12 @@ class OrderController(BaseController):
                 return self.respond_error(message="You do not have permission to access this resource", status_code=403)
 
         data = self.get_json_data()
-        update_order_request_dto, errors = UpdateOrderRequestDTO.from_json(data)
+        create_order_request_dto, errors = CreateOrderRequestDTO.from_json(data)
         if errors:
             return self.respond_error(message="Validation errors", errors=errors, status_code=422)
-        
         try:
-            order = self._order_service.update_order(id, update_order_request_dto)
-            return self.respond_success(data=order.to_dict_dto())
+            order = self._order_service.update_order(id, create_order_request_dto)
+            return self.respond_success()
         except OrderNotFoundException as e:
             return self.respond_error(message=str(e), status_code=404)
         except Exception as e:

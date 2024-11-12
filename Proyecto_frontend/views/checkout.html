@@ -29,7 +29,7 @@
             <label for="cvv">CVV</label>
             <input type="text" id="cvv" name="cvv" value="123" required pattern="\d{3}" title="El CVV debe contener 3 dígitos">
         </div>
-        <button onclick="window.history.back();" type="cancel">Cancelar</button>
+        <button onclick="navigate('/')" type="cancel">Cancelar</button>
         <button type="submit">Pagar</button>
     </form>
     <p>Usar APRO como nombre para simular el pago aprobado, caso contrario dará error.</p>
