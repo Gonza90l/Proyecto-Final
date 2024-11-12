@@ -9,7 +9,7 @@ import './customCode.js';
 import cart from './cart.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Inicializar la aplicación
+    // Inicializar la aplicación, algunas instancias no requieren inicialización, verificar
     authService.init();
     orderService.init();
     menuService.init();

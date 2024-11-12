@@ -39,7 +39,10 @@ class Router {
     }
 
     async isAuthenticated() {
+        //marcamos el tiempo en que se ejecuta la funcion
+        console.log('Checking authentication at', new Date().toLocaleTimeString());
         try {
+            console.log('Checking authentication');
             return await authService.isAuthenticated();
         } catch (err) {
             console.error('Error checking authentication:', err);
