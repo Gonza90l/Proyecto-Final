@@ -132,6 +132,10 @@ function updateOrder(orderId) {
 }
 
 async function cancelOrder(orderId) {
+    // Preguntamos al usuario si está seguro
+    if (!confirm('¿Está seguro de que desea cancelar el pedido?')) {
+        return;
+    }
     //obtenemos el pedido
     let orderData = await ordersService.getOrderById(orderId);
     console.log(orderData);
