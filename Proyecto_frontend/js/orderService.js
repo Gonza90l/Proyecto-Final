@@ -22,7 +22,7 @@ class OrdersService {
     }
 
     async getAllOrders() {
-        if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
+        if (!authService.isAuthenticated()) {
             throw new Error('Unauthorized');
         }
         const apiClient = this._getApiClient();

@@ -5,7 +5,7 @@ import AdminMenuHandler from './handlers/adminMenuHandler.js';
 import LoginHandler from './handlers/loginHandler.js';
 import UserMenuHandler from './handlers/userMenuHandler.js';
 import CheckOutHandler from './handlers/checkoutHandler.js';
-
+import UserDashboardHandler from './handlers/userDashboardHandler.js';
 
 routerInstance.onViewLoaded = async () => {
     console.log('onViewLoaded function executed');
@@ -30,6 +30,9 @@ routerInstance.onViewLoaded = async () => {
     // Inicializar el manejador de eventos de checkout
     const checkOutHandler = new CheckOutHandler();
     checkOutHandler.init();
+
+    const userDashboardHandler = new UserDashboardHandler();
+    userDashboardHandler.init();
 
     const gotoorigin404 = document.getElementById('404-go-to-origin');
     if (gotoorigin404) {

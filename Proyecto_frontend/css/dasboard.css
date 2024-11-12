@@ -84,3 +84,37 @@
 .menu-table .actions button:hover {
     background: var(--accent-color);
 }
+
+
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+}
+
+.status.created {
+    background-color: #f0ad4e; /* Naranja */
+}
+
+.status.paid {
+    background-color: #5bc0de; /* Azul claro */
+}
+
+.status.in_progress {
+    background-color: #0275d8; /* Azul */
+}
+
+.status.send {
+    background-color: #5cb85c; /* Verde */
+}
+
+.status.delivered {
+    background-color: #5cb85c; /* Verde */
+}
+
+.status.canceled {
+    background-color: #d9534f; /* Rojo */
+}
