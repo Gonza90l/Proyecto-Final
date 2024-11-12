@@ -182,6 +182,32 @@ class AuthService {
         }
     }
 
+    async getUserId() {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            const decodedToken = JSON.parse(jsonPayload);
+            if (!decodedToken.id) {
+                throw new Error('User ID not found in token');
+            }
+            const id = decodedToken.id;
+            console.log('User ID:', id);
+            return id;
+        } catch (error) {
+            console.error('Error getting user ID:', error);
+            return null;
+        }
+    }
+
     async getRole() {
         try {
             const token = localStorage.getItem('authToken');

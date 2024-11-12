@@ -34,23 +34,33 @@ class OrderService:
             order_item.load_related_data()
         return order
 
+    def _validate_status(self, status):
+        valid_statuses = ['CREATED','IN PROGRESS','SEND','ENTERGADO','CANCELED'] 
+        status = status.upper()  # Convertir a mayúsculas
+        if status not in valid_statuses:
+            raise ValueError(f"Invalid status value: {status}")
+        return status
+
     def create_order(self, create_order_request_dto):
         # Create the Order instance
         order = Order(self._mysql)
         order.from_dto(create_order_request_dto)
         order.created_at = datetime.now()
+        order.status = self._validate_status(create_order_request_dto.status)  # Ajusta el valor de status
 
         order.insert()
 
         # Create OrderHasMenu instances for each item in order_items
         order_items = create_order_request_dto.order_items
         for item_dto in order_items:
-            order_item_dto = CreateOrderHasMenuRequestDTO(**item_dto)
-            order_item = OrderHasMenu(self._mysql)
-            print(order_item_dto)
-            order_item.from_dto(order_item_dto)
-            order_item.order_id = order.id  # Set the order_id to the newly created order's id
-            order_item.insert()
+            try:
+                order_item_dto = CreateOrderHasMenuRequestDTO(**item_dto)
+                order_item = OrderHasMenu(self._mysql)
+                order_item.from_dto(order_item_dto)
+                order_item.order_id = order.id  # Set the order_id to the newly created order's id
+                order_item.insert()
+            except ValueError as e:
+                raise ValueError(f"Invalid DTO format for order item: {item_dto}") from e
 
         return order.id
 
