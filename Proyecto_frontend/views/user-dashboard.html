@@ -1,43 +1,77 @@
 <!-- user-dashboard view -->
 <nav class="dashboard-nav" data-fragment="user-navegation">22222222</nav>
 <section class="dashboard-section">
-    <h2>Mis Pedidos</h2>
-    <div class="order-list">
-        <table class="orders-table">
-            <thead>
-                <tr>
-                    <th>Pedido</th>
-                    <th>Fecha y Hora</th>
-                    <th>Platos</th>
-                    <th>Precio Total</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Ejemplo de un pedido -->
-                <tr>
-                    <td>Pedido #12345</td>
-                    <td>2023-10-01 12:30</td>
-                    <td>
-                        <ul class="order-items">
-                            <li>Pizza Margherita, Cantidad: 2, Precio: $20</li>
-                            <li>Ensalada César, Cantidad: 1, Precio: $10</li>
-                        </ul>
-                    </td>
-                    <td>$30</td>
-                    <td><span class="status pending">Pendiente</span></td>
-                    <td>
-                        <button class="update-order" title="Actualizar Pedido">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="cancel-order" title="Cancelar Pedido">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </td>
-                </tr>
-                <!-- Más pedidos pueden ser añadidos aquí -->
-            </tbody>
-        </table>
-    </div>
+    <article>
+        <h2>Pedidos Actuales</h2>
+        <div class="order-list">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Pedido</th>
+                        <th>Fecha y Hora</th>
+                        <th>Platos</th>
+                        <th>Precio Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ejemplo de un pedido -->
+                    <tr>
+                        <td>Pedido #12345</td>
+                        <td>2023-10-01 12:30</td>
+                        <td>
+                            <ul class="order-items">
+                                <li>Pizza Margherita, Cantidad: 2, Precio: $20</li>
+                                <li>Ensalada César, Cantidad: 1, Precio: $10</li>
+                            </ul>
+                        </td>
+                        <td>$30</td>
+                        <td><span class="status pending">Pendiente</span></td>
+                        <td>
+                            <button class="update-order" title="Actualizar Pedido">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="cancel-order" title="Cancelar Pedido">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Más pedidos pueden ser añadidos aquí -->
+                </tbody>
+            </table>
+        </div>
+    </article>
+    <article>
+        <h2>Pedidos Anteriores</h2>
+        <div class="order-list">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Pedido</th>
+                        <th>Fecha y Hora</th>
+                        <th>Platos</th>
+                        <th>Precio Total</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ejemplo de un pedido -->
+                    <tr>
+                        <td>Pedido #12345</td>
+                        <td>2023-10-01 12:30</td>
+                        <td>
+                            <ul class="order-items">
+                                <li>Pizza Margherita, Cantidad: 2, Precio: $20</li>
+                                <li>Ensalada César, Cantidad: 1, Precio: $10</li>
+                            </ul>
+                        </td>
+                        <td>$30</td>
+                        <td><span class="status pending">Completado</span></td>
+                    </tr>
+                    <!-- Más pedidos pueden ser añadidos aquí -->
+                </tbody>
+            </table>
+        </div>
+    </article>
 </section>
