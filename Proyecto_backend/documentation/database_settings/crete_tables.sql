@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`order` (
   `created_at` DATETIME NOT NULL,
   `updated_at` DATETIME NULL,
   `total` DECIMAL(10,2) NULL,
-  `status` ENUM('CREATED', 'IN PROGRESS', 'SEND', 'ENTERGADO', 'CANCELED') NOT NULL DEFAULT 'CREATED',
+  `status` ENUM('CREATED', 'PAID', 'IN PROGRESS', 'SEND', 'DELIVERED', 'CANCELED') NOT NULL DEFAULT 'CREATED',
   `user_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`order` (
     REFERENCES `proyecto_informatico`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
 
 
 -- -----------------------------------------------------

@@ -35,7 +35,7 @@ class OrderService:
         return order
 
     def _validate_status(self, status):
-        valid_statuses = ['CREATED','IN PROGRESS','SEND','ENTERGADO','CANCELED'] 
+        valid_statuses = ['CREATED','PAID','IN PROGRESS','SEND','DELIVERED','CANCELED'] 
         status = status.upper()  # Convertir a mayúsculas
         if status not in valid_statuses:
             raise ValueError(f"Invalid status value: {status}")
@@ -63,6 +63,14 @@ class OrderService:
                 raise ValueError(f"Invalid DTO format for order item: {item_dto}") from e
 
         return order.id
+
+    def processPayment(self, order_id):
+        order = Order.find_by_id(self._mysql, order_id)
+        if not order:
+            raise OrderNotFoundException("Order not found")
+        order.status = "IN PROGRESS"
+        order.update()
+        return order
 
     '''def update_order(self, order_id, update_order_request_dto):
         order = Order.find_by_id(self._mysql, order_id)
