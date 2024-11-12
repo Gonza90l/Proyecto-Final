@@ -30,8 +30,7 @@ class LoginHandler {
         if (this.logoutButton) {
             this.logoutButton.addEventListener('click', async () => {
                 await authService.logout();
-                window.history.pushState({}, '', '/login');
-                routerInstance.router();
+                routerInstance.navigate('/');
             });
         }
     }
@@ -57,8 +56,9 @@ async function login(email, password) {
     try {
         const isAuthenticated = await authService.login(email, password);
         if (isAuthenticated) {
-            window.history.pushState({}, '', '/');
-            routerInstance.router();
+            //window.history.pushState({}, '', '/');
+            //routerInstance.router();
+            routerInstance.navigate('/');
         } else {
             routerInstance.showNotification('Usuario o contraseña incorrectos', 'warning');
         }
@@ -76,8 +76,7 @@ async function register(name, lastname, email, password) {
     try {
         const register = await authService.register(name, lastname, email, password);
         if (register.success) {
-            window.history.pushState({}, '', '/login');
-            routerInstance.router();
+            routerInstance.navigate('/login');
         } else {
             // si existe el campo error en la respuesta, lo devolvemos
             if (register.error) {

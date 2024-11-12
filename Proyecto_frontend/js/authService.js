@@ -21,13 +21,11 @@ class AuthService {
             isAuthenticated: false,
             expiry: 0
         };
-    }
 
-    /**
-     * Inicializa el servicio de autenticación.
-     * Intenta recuperar el token de autenticación y su fecha de expiración del localStorage.
-     */
-    init() {
+                
+        //marcamos el tiempo en que se ejecuta la funcion
+        console.log('AuthService initialized at', new Date().toLocaleTimeString());
+
         this.token = localStorage.getItem('authToken');
         this.tokenExpiry = localStorage.getItem('tokenExpiry');
         if (this.token && this.tokenExpiry) {
@@ -36,6 +34,14 @@ class AuthService {
         } else {
             console.log('No token found, user is not authenticated.');
         }
+    }
+
+    /**
+     * Inicializa el servicio de autenticación.
+     * Intenta recuperar el token de autenticación y su fecha de expiración del localStorage.
+     */
+    init() {
+
     }
 
     /**
