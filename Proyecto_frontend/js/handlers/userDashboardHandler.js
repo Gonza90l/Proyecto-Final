@@ -50,14 +50,14 @@ class UserDashboardHandler {
         function createOrderRow(order, includeActions = true) {
             // creamos una nueva fila
             let tr = document.createElement("tr");
-    
+        
             // creamos las celdas de la fila
             let tdPedido = document.createElement("td");
             tdPedido.textContent = `Pedido #${order.id}`;
-    
+        
             let tdFechaHora = document.createElement("td");
             tdFechaHora.textContent = new Date(order.created_at).toLocaleString();
-    
+        
             let tdPlatos = document.createElement("td");
             let ulPlatos = document.createElement("ul");
             ulPlatos.classList.add("order-items");
@@ -67,23 +67,35 @@ class UserDashboardHandler {
                 ulPlatos.appendChild(li);
             });
             tdPlatos.appendChild(ulPlatos);
-    
+        
             let tdPrecioTotal = document.createElement("td");
             tdPrecioTotal.textContent = `$${order.total}`;
-    
+        
             let tdEstado = document.createElement("td");
             let spanEstado = document.createElement("span");
             spanEstado.classList.add("status", order.status.toLowerCase().replace(/\s+/g, '_'));
             spanEstado.textContent = statusMap[order.status] || order.status; // Mapeamos el estado al castellano
             tdEstado.appendChild(spanEstado);
-    
+        
+            // Añadir botón de comentarios y reseñas si el estado es "DELIVERED"
+            if (order.status === 'DELIVERED') {
+                let btnComentarios = document.createElement("button");
+                btnComentarios.classList.add("add-review");
+                btnComentarios.title = "Agregar Comentarios y Reseñas";
+                btnComentarios.innerHTML = '<i class="fas fa-comment"></i>';
+                btnComentarios.addEventListener('click', () => {
+                    addReview(order.id);
+                });
+                tdEstado.appendChild(btnComentarios);
+            }
+        
             // añadimos las celdas a la fila
             tr.appendChild(tdPedido);
             tr.appendChild(tdFechaHora);
             tr.appendChild(tdPlatos);
             tr.appendChild(tdPrecioTotal);
             tr.appendChild(tdEstado);
-    
+        
             // Añadimos la columna de acciones solo si includeActions es true
             if (includeActions) {
                 let tdAcciones = document.createElement("td");
@@ -107,7 +119,7 @@ class UserDashboardHandler {
                 tdAcciones.appendChild(btnCancelar);
                 tr.appendChild(tdAcciones);
             }
-    
+        
             return tr;
         }
     
