@@ -1,6 +1,6 @@
 import ordersService from "../orderService.js";
 import reviewService from "../reviewService.js";
-
+import { routerInstance } from "../router.js";
 
 class UserDashboardHandler {
 
@@ -30,7 +30,7 @@ class UserDashboardHandler {
             form.addEventListener('submit', async (event) => {
                 event.preventDefault(); // Prevenir el envío del formulario por defecto
                 const orderId = form['order-id'].value;
-                const order = await ordersService.getOrderById(orderId)
+                const order = await ordersService.getOrderById(orderId);
                 
                 // Recoger todos los datos del formulario
                 const formData = new FormData(form);
@@ -51,17 +51,15 @@ class UserDashboardHandler {
                     // Llamar al servicio de reseñas
                     console.log(data);
                     await reviewService.createReview(data); // Asumiendo que `addReviews` acepta un array de reseñas
-                    alert('Reseñas enviadas con éxito');
+                    routerInstance.showNotification('Reseñas enviadas con éxito','info');
+                    routerInstance.navigate('/dashboard');
                 } catch (error) {
                     console.error('Error al enviar las reseñas:', error);
-                    alert('Hubo un error al enviar las reseñas');
+                    routerInstance.showNotification('Error al enviar las reseñas', 'danger');
                 }
             });
         }
-        
-
     }
-
 
     async renderUserDashboard() {
         // renderizamos la tabla de pedidos
@@ -99,7 +97,7 @@ class UserDashboardHandler {
         };
     
         // función para crear una fila de pedido
-        function createOrderRow(order, includeActions = true) {
+        async function createOrderRow(order, includeActions = true) {
             // creamos una nueva fila
             let tr = document.createElement("tr");
         
@@ -131,14 +129,18 @@ class UserDashboardHandler {
         
             // Añadir botón de comentarios y reseñas si el estado es "DELIVERED"
             if (order.status === 'DELIVERED') {
-                let btnComentarios = document.createElement("button");
-                btnComentarios.classList.add("add-review");
-                btnComentarios.title = "Agregar Comentarios y Reseñas";
-                btnComentarios.innerHTML = '<i class="fas fa-comment"></i>';
-                btnComentarios.addEventListener('click', () => {
-                    addReview(order.id);
-                });
-                tdEstado.appendChild(btnComentarios);
+                const hasComments = await reviewService.getReviewByOrderId(order.id);
+                console.log('order:', order.id, 'hasComments:', hasComments);
+                if (!hasComments) {
+                    let btnComentarios = document.createElement("button");
+                    btnComentarios.classList.add("add-review");
+                    btnComentarios.title = "Agregar Comentarios y Reseñas";
+                    btnComentarios.innerHTML = '<i class="fas fa-comment"></i>';
+                    btnComentarios.addEventListener('click', () => {
+                        addReview(order.id);
+                    });
+                    tdEstado.appendChild(btnComentarios);
+                }
             }
         
             // añadimos las celdas a la fila
@@ -151,16 +153,6 @@ class UserDashboardHandler {
             // Añadimos la columna de acciones solo si includeActions es true
             if (includeActions) {
                 let tdAcciones = document.createElement("td");
-                // if (order.status === 'CREATED') {
-                //     let btnActualizar = document.createElement("button");
-                //     btnActualizar.classList.add("update-order");
-                //     btnActualizar.title = "Actualizar Pedido";
-                //     btnActualizar.innerHTML = '<i class="fas fa-edit"></i>';
-                //     btnActualizar.addEventListener('click', () => {
-                //         updateOrder(order.id);
-                //     });
-                //     tdAcciones.appendChild(btnActualizar);
-                // }
                 if (order.status === 'CREATED' || order.status === 'PAID') {
                     let btnCancelar = document.createElement("button");
                     btnCancelar.classList.add("cancel-order");
@@ -178,16 +170,16 @@ class UserDashboardHandler {
         }
     
         // iteramos los pedidos activos
-        ordersActive.forEach(order => {
-            let tr = createOrderRow(order, true);
+        for (const order of ordersActive) {
+            let tr = await createOrderRow(order, true);
             tbodyActive.appendChild(tr);
-        });
+        }
     
         // iteramos los pedidos inactivos
-        ordersInactive.forEach(order => {
-            let tr = createOrderRow(order, false);
+        for (const order of ordersInactive) {
+            let tr = await createOrderRow(order, false);
             tbodyInactive.appendChild(tr);
-        });
+        }
     }
 }
 
@@ -206,7 +198,7 @@ async function cancelOrder(orderId) {
     let orderData = await ordersService.getOrderById(orderId);
     console.log(orderData);
     if (!orderData) {
-        routerinstance.showAlert('No se pudo obtener el pedido', 'danger');
+        routerinstance.showNotification('No se pudo obtener el pedido', 'danger');
         return;
     }
     //cambiamos el estado del pedido a CANCELED
@@ -278,11 +270,6 @@ async function addReview(orderId) {
     // Mostrar el modal
     modal.style.display = 'block';
 }
-
-
-
-
-
 
 // Implementa la función getOrderById para obtener el pedido por ID
 async function getOrderById(orderId) {

@@ -101,3 +101,17 @@ class ReviewService:
         cursor.close()
 
         return True
+
+    def order_has_review(self, order_id):
+        query = "SELECT * FROM comment WHERE order_id = %s"
+        params = (order_id,)
+        
+        cursor = self._mysql.connection.cursor()
+        cursor.execute(query, params)
+        review = cursor.fetchone()
+        cursor.close()
+
+        if review:
+            return True
+        else:
+            return False

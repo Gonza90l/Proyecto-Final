@@ -89,17 +89,13 @@ export class ApiClient {
     async _handleResponse(response) {
         const contentType = response.headers.get('content-type');
         let data;
-
+    
         if (contentType && contentType.includes('application/json')) {
             data = await response.json();
-            //si exiiste el campo data en la respuesta, lo devolvemos
-            if (data.data) {
-                data = data.data;
-            }
         } else {
             data = await response.text();
         }
-
+    
         if (!response.ok) {
             const error = {
                 status: response.status,
@@ -108,10 +104,10 @@ export class ApiClient {
             };
             throw error;
         }
-
+    
         return {
             status: response.status,
-            data: data
+            data: data.data !== undefined ? data.data : data // Asegúrate de devolver data.data si existe, de lo contrario, devuelve data
         };
     }
 
