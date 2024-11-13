@@ -1,5 +1,6 @@
 from flask_injector import inject
 from flaskr.database.database import IDatabase
+from datetime import datetime
 
 class ReviewService:
 
@@ -49,3 +50,54 @@ class ReviewService:
                 "count": len(reviews),
                 "average": average
             }
+
+    # crear review
+    def create_review(self, product_id, order_id, rating, comment):
+
+        #averiguamos si existe el producto
+        query = "SELECT * FROM menu WHERE id = %s"
+        params = (product_id,)
+        cursor = self._mysql.connection.cursor()
+        cursor.execute(query, params)
+        product = cursor.fetchone()
+        cursor.close()
+
+
+        #averiguamos si el usuario ya ha hecho una review para ese producto y esa orden
+        query = "SELECT * FROM comment WHERE menu_id = %s AND order_id = %s"
+        params = (product_id, order_id)
+
+        cursor = self._mysql.connection.cursor()
+        cursor.execute(query, params)
+        review = cursor.fetchone()
+        cursor.close()
+
+        if review:
+            raise Exception("This user has already made a review for this product")
+
+        #averiguamos si la orden es del usuario que está intentando hacer la review
+        query = "SELECT * FROM `order` WHERE id = %s AND user_id = (SELECT user_id FROM `order` WHERE id = %s)"
+        params = (order_id, order_id)
+
+        cursor = self._mysql.connection.cursor()
+        cursor.execute(query, params)
+        order = cursor.fetchone()
+        cursor.close()
+
+        if not order:
+            raise Exception("This order does not belong to the user")
+
+        #validamios que el rating sea un número entre 1 y 5
+        if rating < 1 or rating > 5:
+            raise Exception("Rating must be between 1 and 5")
+                     
+        created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        query = "INSERT INTO comment (menu_id, order_id, rating, comment, created_at) VALUES (%s, %s, %s, %s, %s)"
+        params = (product_id, order_id, rating, comment, created_at)
+        
+        cursor = self._mysql.connection.cursor()
+        cursor.execute(query, params)
+        self._mysql.connection.commit()
+        cursor.close()
+
+        return True

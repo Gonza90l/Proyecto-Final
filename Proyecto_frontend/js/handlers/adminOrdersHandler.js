@@ -136,14 +136,13 @@ async function showUpdateModal(orderId) {
     const modal = document.getElementById('update-modal');
     const form = document.getElementById('update-form');
     
-    // Llenar el campo de ID del Pedido
-    form['order-id'].value = orderId;
-    
-    // Mostrar el modal
-    modal.style.display = 'block';
-    
-    // Escuchar el evento de envío del formulario
-    form.addEventListener('submit', async (event) => {
+    if(!modal || !form) {
+        console.error('No se encontró el modal o el formulario');
+        return;
+    }
+
+    // Definir la función de envío del formulario
+    const handleSubmit = async (event) => {
         event.preventDefault(); // Prevenir el envío del formulario por defecto
         
         // Recoger los datos del formulario
@@ -165,8 +164,7 @@ async function showUpdateModal(orderId) {
             await ordersService.updateOrder(orderId, orderData);
             
             // Actualizar la tabla de pedidos
-            let handler = new AdminOrdersHandler();
-            handler.renderOrders();
+            routerInstance.navigate('/admin-orders');
             
             // Ocultar el modal
             modal.style.display = 'none';
@@ -176,9 +174,20 @@ async function showUpdateModal(orderId) {
             console.error('Error al actualizar el pedido:', error);
             routerInstance.showNotification('Error al actualizar el pedido', 'danger');
         }
-    });
-}
+    };
 
+    // Eliminar cualquier evento anterior
+    form.removeEventListener('submit', handleSubmit);
+
+    // Llenar el campo de ID del Pedido
+    form['order-id'].value = orderId;
+    
+    // Mostrar el modal
+    modal.style.display = 'block';
+    
+    // Escuchar el evento de envío del formulario
+    form.addEventListener('submit', handleSubmit);
+}
 
 async function cancelOrder(orderId) {
     // Preguntamos al usuario si está seguro
@@ -198,8 +207,7 @@ async function cancelOrder(orderId) {
     ordersService.updateOrder(orderId,orderData).then(() => {
         // actualizamos la tabla de pedidos
         routerInstance.showNotification('Pedido cancelado con éxito', 'info');
-        let handler = new AdminOrdersHandler();
-        handler.renderOrders();
+        routerInstance.navigate('/admin-orders');
     });
 }
 
