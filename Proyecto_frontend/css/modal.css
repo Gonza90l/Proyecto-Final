@@ -1,27 +1,60 @@
-/* Estilos para el modal */
 .modal {
-    display: none; /*none y block para verlo*/
+    display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--modal-bg-color);
+    backdrop-filter: blur(5px); /* Añade un efecto de desenfoque */
+    animation: fadeIn 0.5s; /* Aplica la animación de apertura */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .modal-content {
-    background-color: var(--footer-color);
-    color: var(--text-color);
-    text-align: right;
-    margin: 5% auto;
+    background-color: var(--modal-content-bg-color);
+    margin: 15% auto;
     padding: 20px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--modal-border-color);
     width: 80%;
-    max-width: 500px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 10px;
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para un efecto estético */
+    animation: slideIn 0.5s; /* Aplica la animación de apertura */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close-button {
+    color: var(--close-button-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--close-button-hover-color);
+    text-decoration: none;
 }
 
 .modal-content > h2 {
@@ -40,18 +73,14 @@
     border: 1px solid var(--border-color);
     background-color: var(--background-color);
 }
+
 .modal-content > form {
-    width: 100%; 
+    width: 100%;
     padding: 10px;
-    border-radius: 10px; /* Agrega esquinas redondeadas */
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-}
-
-.close {
-    position: absolute;
 }
 
 #modal-cart img {
@@ -66,6 +95,7 @@
     margin-right: 7px;
     border-radius: 100%;
 }
+
 .cart-item-remove {
     background-color: var(--accent-color);
 }
@@ -84,4 +114,3 @@
         margin-right: 5px;
     }
 }
-
