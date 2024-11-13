@@ -32,8 +32,12 @@ class ReviewsService {
         if (!authService.isAuthenticated()) {
             throw new Error('Unauthorized');
         }
-        const apiClient = this._getApiClient();
-        return await apiClient.post('/reviews', reviewData);
+
+        //enviamos una a una las reviews
+        for (let i = 0; i < reviewData.length; i++) {
+            const apiClient = this._getApiClient();
+            await apiClient.post('/reviews', reviewData[i]);
+        }
     }
 
     async updateReview(id, reviewData) {

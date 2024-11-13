@@ -33,20 +33,27 @@
   color: var(--text-color); /* Color de texto coherente con el modal */
 }
 
-/* Estilos para las estrellas */
 .star {
-  color: gold;
+  color: black; /* Color de las estrellas vacías */
   font-size: 1.2em;
+  position: relative; /* Necesario para posicionar el pseudo-elemento */
+  display: inline-block;
 }
 
-.star.empty {
-  color: lightgray;
+.star.full {
+  color: gold; /* Color de las estrellas llenas */
+}
+
+.star.half {
+  position: relative; /* Necesario para posicionar el pseudo-elemento */
+  color:black /* Color de las estrellas vacías */
 }
 
 .star.half::before {
-  content: '★';
+  content: '★'; /* Contenido de la media estrella */
   position: absolute;
-  overflow: hidden;
+  left: 0;
   width: 50%;
-  color: gold;
+  overflow: hidden;
+  color: gold; /* Color de la media estrella */
 }

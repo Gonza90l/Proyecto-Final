@@ -9,7 +9,7 @@ class OrderDTO(BaseDTO):
         self.created_at = created_at
         self.status = status
         self.total = total
-        self.order_items = [] # por la relacion con order_has_menu se crea una lista de objetos de order_has_menu
+        self.order_items = []# por la relacion con order_has_menu se crea una lista de objetos de order_has_menu
 
     def get_required_fields(self):
         return {

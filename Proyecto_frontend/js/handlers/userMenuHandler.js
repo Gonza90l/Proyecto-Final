@@ -58,17 +58,15 @@ class UserMenuHandler {
     }
 
     getStarRatingHtml(rating) {
-        //convertir el rating a numero
+        // Convertir el rating a número
         rating = parseFloat(rating);
         const fullStars = Math.floor(rating);
         const halfStar = rating % 1 >= 0.5 ? 1 : 0;
         const emptyStars = 5 - fullStars - halfStar;
         console.log('Rating:', rating, 'Full stars:', fullStars, 'Half star:', halfStar, 'Empty stars:', emptyStars);
         return `
-            ${'<span class="star full">★</span>'.repeat(fullStars)}
-            ${halfStar ? '<span class="star half">★</span>' : ''}
-            ${'<span class="star empty">☆</span>'.repeat(emptyStars)}
-        `;
+            ${'<span class="star full">★</span>'.repeat(fullStars)}${halfStar ? '<span class="star half">★</span>' : ''}${'<span class="star empty">☆</span>'.repeat(emptyStars)}
+        `.trim();
     }
 
     async showComments(itemId) {

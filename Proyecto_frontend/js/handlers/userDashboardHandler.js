@@ -39,8 +39,9 @@ class UserDashboardHandler {
 
                 orderItems.forEach((orderItem, index) => {
                     const reviewData = {
-                        id: formData.get(`dish-id-${index}`),
-                        rating: formData.get(`rating-${index}`),
+                        order_id: parseInt(orderId),
+                        id: parseInt(formData.get(`dish-id-${index}`)),
+                        rating: parseInt(formData.get(`rating-${index}`)),
                         review: formData.get(`review-${index}`)
                     };
                     data.push(reviewData);
@@ -49,7 +50,7 @@ class UserDashboardHandler {
                 try {
                     // Llamar al servicio de reseñas
                     console.log(data);
-                    await reviewService.addReviews(data); // Asumiendo que `addReviews` acepta un array de reseñas
+                    await reviewService.createReview(data); // Asumiendo que `addReviews` acepta un array de reseñas
                     alert('Reseñas enviadas con éxito');
                 } catch (error) {
                     console.error('Error al enviar las reseñas:', error);
@@ -150,25 +151,27 @@ class UserDashboardHandler {
             // Añadimos la columna de acciones solo si includeActions es true
             if (includeActions) {
                 let tdAcciones = document.createElement("td");
-                if (order.status === 'CREATED') {
-                    let btnActualizar = document.createElement("button");
-                    btnActualizar.classList.add("update-order");
-                    btnActualizar.title = "Actualizar Pedido";
-                    btnActualizar.innerHTML = '<i class="fas fa-edit"></i>';
-                    btnActualizar.addEventListener('click', () => {
-                        updateOrder(order.id);
+                // if (order.status === 'CREATED') {
+                //     let btnActualizar = document.createElement("button");
+                //     btnActualizar.classList.add("update-order");
+                //     btnActualizar.title = "Actualizar Pedido";
+                //     btnActualizar.innerHTML = '<i class="fas fa-edit"></i>';
+                //     btnActualizar.addEventListener('click', () => {
+                //         updateOrder(order.id);
+                //     });
+                //     tdAcciones.appendChild(btnActualizar);
+                // }
+                if (order.status === 'CREATED' || order.status === 'PAID') {
+                    let btnCancelar = document.createElement("button");
+                    btnCancelar.classList.add("cancel-order");
+                    btnCancelar.title = "Cancelar Pedido";
+                    btnCancelar.innerHTML = '<i class="fas fa-times"></i>';
+                    btnCancelar.addEventListener('click', () => {
+                        cancelOrder(order.id);
                     });
-                    tdAcciones.appendChild(btnActualizar);
+                    tdAcciones.appendChild(btnCancelar);
+                    tr.appendChild(tdAcciones);
                 }
-                let btnCancelar = document.createElement("button");
-                btnCancelar.classList.add("cancel-order");
-                btnCancelar.title = "Cancelar Pedido";
-                btnCancelar.innerHTML = '<i class="fas fa-times"></i>';
-                btnCancelar.addEventListener('click', () => {
-                    cancelOrder(order.id);
-                });
-                tdAcciones.appendChild(btnCancelar);
-                tr.appendChild(tdAcciones);
             }
         
             return tr;
