@@ -36,7 +36,7 @@ class OrderController(BaseController):
     def get_order(self, id):
         try:
             user_role = get_user_role()
-            if user_role == "user":
+            if user_role == "USER":
                 user_id = get_user_id()
                 order = self._order_service.get_order(id)
                 if order.user_id != user_id:
@@ -69,7 +69,7 @@ class OrderController(BaseController):
 
         #si es admin puede editar todo, si es user solo si le pertenece
         user_role = get_user_role()
-        if user_role == "user":
+        if user_role == "USER":
             user_id = get_user_id()
             order = self._order_service.get_order(id)
             if order.user_id != user_id:

@@ -2,7 +2,7 @@ import ApiClient from './apiClient.js';
 import LoguinRequestDto from './dtos/LoguinRequestDto.js';
 import RegisterRequestDto from './dtos/RegisterRequestDto.js';
 import config from './config.js'; // Importa la configuración
-
+import cart from './cart.js';
 
 // AuthService
 // Tipo de instancia: Singleton
@@ -141,6 +141,11 @@ class AuthService {
         this.authCache.isAuthenticated =false;
         this.authCache.expiry = 0;        
         this.apiClient.token = null; // Elimina el token en ApiClient
+        try{
+            cart.clearCart();
+        }catch(error){
+            console.error('Error clearing cart:', error);
+        }
     }
 
     /**

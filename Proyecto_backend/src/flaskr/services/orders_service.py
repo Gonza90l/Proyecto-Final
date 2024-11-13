@@ -82,7 +82,7 @@ class OrderService:
         user_id = get_user_id()  # Asume que esta función obtiene el ID del usuario
 
         # Verificar permisos
-        if user_role != 'admin':
+        if user_role != 'ADMIN':
             if order.user_id != user_id:
                 raise PermissionError("You do not have permission to modify this order")
             
