@@ -165,4 +165,74 @@ async function cancelOrder(orderId) {
     });
 }
 
+async function addReview(orderId) {
+    // Obtener el modal y el formulario
+    const modal = document.getElementById('review-modal');
+    const form = document.getElementById('review-form');
+    
+    // Llenar el campo de ID del Pedido
+    form['order-id'].value = orderId;
+    
+    // Obtener el contenedor de secciones de reseñas
+    const reviewSections = document.getElementById('review-sections');
+    
+    // Limpiar las secciones anteriores
+    reviewSections.innerHTML = '';
+    
+    // Obtener los platos del pedido
+    const order = await ordersService.getOrderById(orderId);
+    order.order_items.forEach(orderItem => {
+        const section = document.createElement('div');
+        section.classList.add('review-section');
+        
+        const dishLabel = document.createElement('label');
+        dishLabel.textContent = `Nombre del Plato: ${orderItem.item.name}`;
+        section.appendChild(dishLabel);
+        
+        const dishInput = document.createElement('input');
+        dishInput.type = 'hidden';
+        dishInput.name = 'dish-name';
+        dishInput.value = orderItem.item.name;
+        section.appendChild(dishInput);
+        
+        const ratingLabel = document.createElement('label');
+        ratingLabel.textContent = 'Calificación:';
+        section.appendChild(ratingLabel);
+        
+        const ratingSelect = document.createElement('select');
+        ratingSelect.name = 'rating';
+        ratingSelect.innerHTML = `
+            <option value="1">1 - Muy Malo</option>
+            <option value="2">2 - Malo</option>
+            <option value="3">3 - Regular</option>
+            <option value="4">4 - Bueno</option>
+            <option value="5">5 - Excelente</option>
+        `;
+        section.appendChild(ratingSelect);
+        
+        const reviewLabel = document.createElement('label');
+        reviewLabel.textContent = 'Reseña:';
+        section.appendChild(reviewLabel);
+        
+        const reviewTextarea = document.createElement('textarea');
+        reviewTextarea.name = 'review';
+        reviewTextarea.rows = 4;
+        reviewTextarea.placeholder = 'Escribe tu reseña aquí...';
+        section.appendChild(reviewTextarea);
+        
+        reviewSections.appendChild(section);
+    });
+    
+    // Mostrar el modal
+    modal.style.display = 'block';
+}
+
+
+
+
+// Implementa la función getOrderById para obtener el pedido por ID
+async function getOrderById(orderId) {
+    return await ordersService.getOrderById(orderId);
+}
+
 export default UserDashboardHandler;
