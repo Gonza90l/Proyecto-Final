@@ -2,7 +2,12 @@
 nav {
     margin-top: 78px;
     justify-content: center;
-  }
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra para un efecto estético */
+    background-color: var(--secondary-color);
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
 
 nav ul {
     list-style-type: none;
@@ -21,13 +26,16 @@ nav ul li {
 
 nav ul li a {
     display: block;
-    padding: 1rem;
+    padding: 1rem 2rem; /* Aumenta el padding para un mejor diseño */
     color: var(--text-color);
     text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Añade una transición suave */
 }
 
 nav ul li a:hover {
     background-color: var(--accent-color);
+    color: white; /* Cambia el color del texto al pasar el ratón */
+    border-radius: 5px; /* Añade bordes redondeados al pasar el ratón */
 }
 
 /* CSS para ocultar el texto si el icono está disponible: */
