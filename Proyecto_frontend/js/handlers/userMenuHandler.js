@@ -71,6 +71,52 @@ class UserMenuHandler {
         `;
     }
 
+    async showComments(itemId) {
+        try {
+            const reviews = await reviewsService.getReviewById(itemId);
+            console.log('Reviews:', reviews);
+            const comments = reviews.reviews || [];
+            const commentsHtml = comments.map(comment => `
+                <div class="comment">
+                    <p>${this.getStarRatingHtml(comment.rating)}</p>
+                    <p><em>${new Date(comment.created_at).toLocaleDateString()}</em></p>
+                    <p>${comment.comment}</p>
+                </div>
+            `).join('');
+    
+            const modalHtml = `
+                <div class="modal" id="comments-modal">
+                    <div class="modal-content">
+                        <span class="close" id="close-comments-modal">&times;</span>
+                        <h2>Comentarios</h2>
+                        ${commentsHtml}
+                    </div>
+                </div>
+            `;
+    
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+    
+            const modal = document.getElementById('comments-modal');
+            const closeModal = document.getElementById('close-comments-modal');
+    
+            modal.style.display = 'block';
+    
+            closeModal.onclick = () => {
+                modal.style.display = 'none';
+                modal.remove();
+            };
+    
+            window.onclick = (event) => {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                    modal.remove();
+                }
+            };
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
+    }
+
     async renderMenu(menuItems) {
         console.log('renderMenu called');
 
@@ -125,7 +171,7 @@ class UserMenuHandler {
                                 <head>
                                     <h2>${item.name}</h2>
                                     <p>Calificación <span class="rating">${this.getStarRatingHtml(reviewsMap[item.id])}</span></p>
-                                    <a href="#" onclick="alert('comentarios')" class="btn btn-primary">Ver comentarios</a>
+                                     <span class="view-comments" data-id="${item.id}">Ver comentarios</span>
                                 </head>
                                 <div>
                                     <img src="" alt="Imagen de la comida" class="menu-item-image" data-photo="${item.photo}">
@@ -150,6 +196,15 @@ class UserMenuHandler {
                 const imageUrl = await menuService.getImagefromServer(photo);
                 imgElement.src = imageUrl;
             }
+
+            // Add event listeners to "Ver comentarios" buttons
+            document.querySelectorAll('.client-menu-section .view-comments').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    event.preventDefault();
+                    const itemId = event.target.getAttribute('data-id');
+                    await this.showComments(itemId);
+                });
+            });
     
             // Add event listeners to "Añadir" buttons
             document.querySelectorAll('.client-menu-section .btn.btn-primary').forEach(button => {

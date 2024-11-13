@@ -11,6 +11,11 @@
   --text-color: #bfc9c9; /* Color del texto: BLANco */
   --border-color: #4b6177; /* Color del borde: Azul Grisaceo */
   --footer-color: #091b2c; /* Color del borde: Azul Mas Oscuro */
+  --modal-bg-color: rgba(0, 0, 0, 0.4);
+  --modal-content-bg-color: #1a1918;
+  --modal-border-color: #888;
+  --close-button-color: #aaa;
+  --close-button-hover-color: black;
 }
 
 /* Estilos generales */
