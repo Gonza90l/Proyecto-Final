@@ -206,3 +206,10 @@ def delete_image(image_controller: ImageController, filename):
 @inject
 def ipn(ipn_controller: ipnController):
     return ipn_controller.post()
+
+#ruta para verificar si una orden posee una review
+@main.route(base_url + '/orders/<int:id>/review', methods=['GET'])
+@inject
+def get_review_by_order_id(review_controller: ReviewController, id):
+    return review_controller.get_review_by_order_id(id)
+    

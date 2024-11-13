@@ -67,6 +67,18 @@ class ReviewsService {
         }
         return response.data;
     }
+
+    //averiguamos al endpoint get_review_by_order_id si poseemos una review para un pedido
+    async getReviewByOrderId(orderId) {
+        if (!authService.isAuthenticated()) {
+            throw new Error('Unauthorized');
+        }
+        const apiClient = this._getApiClient();
+        const response = await apiClient.get(`/orders/${orderId}/review`);
+        console.log(response);
+        return response.data; // Devuelve solo el valor de data
+    }
+    
 }
 
 const reviewsService = new ReviewsService();

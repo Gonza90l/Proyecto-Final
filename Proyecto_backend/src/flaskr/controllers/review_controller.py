@@ -45,5 +45,15 @@ class ReviewController(BaseController):
         #metodo no permitido
         return self.respond_error(message="Method not allowed", status_code=405)
 
+    @token_required
+    def get_review_by_order_id(self, order_id):
+        try:
+            review = self.review_service.order_has_review(order_id)
+            print(">>>", review)
+            return self.respond_success(data=review)
+           
+        except Exception as e:
+            return self.respond_error(message=str(e))
+
 
     
