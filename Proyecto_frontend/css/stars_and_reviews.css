@@ -1,49 +1,52 @@
 .review-section {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .review-section label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .review-section select,
-  .review-section textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .review-section textarea {
-    resize: vertical;
-  }
-  
-  .comment p {
-    margin: 5px 0;
-  }
-  
-  /* Estilos para las estrellas */
-  .star {
-    color: gold;
-    font-size: 1.2em;
-  }
-  
-  .star.empty {
-    color: lightgray;
-  }
-  
-  .star.half::before {
-    content: '★';
-    position: absolute;
-    overflow: hidden;
-    width: 50%;
-    color: gold;
-  }
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid var(--modal-border-color);
+  border-radius: 15px; /* Bordes redondeados coherentes con el modal */
+  background-color: var(--modal-content-bg-color);
+}
+
+.review-section label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--text-color); /* Color de texto coherente con el modal */
+}
+
+.review-section select,
+.review-section textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid var(--modal-border-color);
+  border-radius: 10px; /* Bordes redondeados coherentes con el modal */
+  box-sizing: border-box;
+  background-color: var(--background-color); /* Fondo coherente con el modal */
+}
+
+.review-section textarea {
+  resize: vertical;
+}
+
+.comment p {
+  margin: 5px 0;
+  color: var(--text-color); /* Color de texto coherente con el modal */
+}
+
+/* Estilos para las estrellas */
+.star {
+  color: gold;
+  font-size: 1.2em;
+}
+
+.star.empty {
+  color: lightgray;
+}
+
+.star.half::before {
+  content: '★';
+  position: absolute;
+  overflow: hidden;
+  width: 50%;
+  color: gold;
+}
