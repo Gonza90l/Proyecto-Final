@@ -39,47 +39,52 @@ routerInstance.onViewLoaded = async () => {
         });
     }
 
-    //generamos la barra de navegacion de acuerdo a si esta logueado o no
-     // Generamos la barra de navegación de acuerdo a si está logueado o no
-    const navBar = document.getElementById('navigator');
-    if (await authService.isAuthenticated()) {
-        if (navBar) {
-            if (await authService.getRole() === 'user') {
-                // Creamos el menú de usuario y lo renderizamos directamente desde JS
-                navBar.innerHTML = `
-                <ul>
-                    <li><a onclick="navigate('/')" href="#" title="Mis Pedidos"><span class="material-icons" aria-label="Administrar Pedidos">list_alt</span><span class="fallback-text">Mis Pedidos</span></a></li>
-                    <li><a onclick="navigate('/menu')" href="#" title="Menu"><span class="material-icons" aria-label="Administrar Menús">restaurant_menu</span><span class="fallback-text">Menú</span></a></li>
-                    <li><a href="#" id="logout-button" title="Cerrar Sesión"><span class="material-icons" aria-label="Cerrar Sesión">logout</span><span class="fallback-text">Cerrar Sesión</span></a></li>
-                </ul>
-                `;
-            } else {
-                // Creamos el menú de administrador y lo renderizamos directamente desde JS
-                navBar.innerHTML = `
-                <ul>
-                    <li><a onclick="navigate('/admin-dashboard')" href="#" title="Dashboard"><span class="material-icons" aria-label="Dashboard">dashboard</span><span class="fallback-text">Dashboard</span></a></li>
-                    <li><a onclick="navigate('/admin-menu')" href="#" title="Administrar Menús"><span class="material-icons" aria-label="Administrar Menús">restaurant_menu</span><span class="fallback-text">Administrar Menús</span></a></li>
-                    <li><a onclick="navigate('/admin-orders')" href="#" title="Administrar Pedidos"><span class="material-icons" aria-label="Administrar Pedidos">list_alt</span><span class="fallback-text">Administrar Pedidos</span></a></li>
-                    <li><a href="#" id="logout-button" title="Cerrar Sesión"><span class="material-icons" aria-label="Cerrar Sesión">logout</span><span class="fallback-text">Cerrar Sesión</span></a></li>
-                </ul>
-                `;
-            }
-        }
-    } else {
-        console.log('ZZZZZZZZZZZZZZZZZZZZZ');
-        if (navBar) {
-            navBar.innerHTML = '';
-        }
-    }
 
-    // Manejo del menú hamburguesa
-    const menuToggle = document.getElementById('menu-toggle');
-    const navigation = document.querySelector('.navigation');
-    if (menuToggle && navigation) {
-        menuToggle.addEventListener('click', () => {
-            navigation.classList.toggle('active');
-        });
-    }
+     // Generamos la barra de navegación de acuerdo a si está logueado o no
+     const navBar = document.getElementById('navigator');
+     if (await authService.isAuthenticated()) {
+         if (navBar) {
+             if (await authService.getRole() === 'user') {
+                 // Creamos el menú de usuario y lo renderizamos directamente desde JS
+                 navBar.innerHTML = `
+                 <ul>
+                     <li><a onclick="navigate('/')" href="#" title="Mis Pedidos"><span class="material-icons" aria-label="Administrar Pedidos">list_alt</span><span class="fallback-text">Mis Pedidos</span></a></li>
+                     <li><a onclick="navigate('/menu')" href="#" title="Menu"><span class="material-icons" aria-label="Administrar Menús">restaurant_menu</span><span class="fallback-text">Menú</span></a></li>
+                     <li><a href="#" id="logout-button" title="Cerrar Sesión"><span class="material-icons" aria-label="Cerrar Sesión">logout</span><span class="fallback-text">Cerrar Sesión</span></a></li>
+                 </ul>
+                 `;
+             } else {
+                 // Creamos el menú de administrador y lo renderizamos directamente desde JS
+                 navBar.innerHTML = `
+                 <ul>
+                     <li><a onclick="navigate('/admin-dashboard')" href="#" title="Dashboard"><span class="material-icons" aria-label="Dashboard">dashboard</span><span class="fallback-text">Dashboard</span></a></li>
+                     <li><a onclick="navigate('/admin-menu')" href="#" title="Administrar Menús"><span class="material-icons" aria-label="Administrar Menús">restaurant_menu</span><span class="fallback-text">Administrar Menús</span></a></li>
+                     <li><a onclick="navigate('/admin-orders')" href="#" title="Administrar Pedidos"><span class="material-icons" aria-label="Administrar Pedidos">list_alt</span><span class="fallback-text">Administrar Pedidos</span></a></li>
+                     <li><a href="#" id="logout-button" title="Cerrar Sesión"><span class="material-icons" aria-label="Cerrar Sesión">logout</span><span class="fallback-text">Cerrar Sesión</span></a></li>
+                 </ul>
+                 `;
+             }
+         }
+     } else {
+         if (navBar) {
+             navBar.innerHTML = `
+             <ul>
+                 <li><a onclick="navigate('/')" href="#" title="Home"><span class="material-icons" aria-label="Home">home</span><span class="fallback-text">Home</span></a></li>
+                 <li><a onclick="navigate('/login')" href="#" title="Login"><span class="material-icons" aria-label="Login">login</span><span class="fallback-text">Login</span></a></li>
+                 <li><a onclick="navigate('/register')" href="#" title="Register"><span class="material-icons" aria-label="Register">person_add</span><span class="fallback-text">Register</span></a></li>
+             </ul>
+             `;
+         }
+     }
+ 
+     // Manejo del menú hamburguesa
+     const menuToggle = document.getElementById('menu-toggle');
+     const navigation = document.querySelector('.navigation');
+     if (menuToggle && navigation) {
+         menuToggle.addEventListener('click', () => {
+             navigation.classList.toggle('active');
+         });
+     }
 
      // Inicializar el manejador de eventos de login / reguistro
      const loginHandler = new LoginHandler();

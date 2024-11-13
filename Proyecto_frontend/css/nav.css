@@ -98,4 +98,8 @@
     .navigation.active {
         display: flex;
     }
+
+    .navigation.active .fallback-text {
+        display: inline;
+    }
 }
