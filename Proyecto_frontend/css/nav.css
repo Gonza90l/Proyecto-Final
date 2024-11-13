@@ -1,54 +1,101 @@
-/* Estilos para la barra de navegación */
-nav {
-    margin-top: 78px;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra para un efecto estético */
-    background-color: var(--secondary-color);
+/* Estilos para el header de la página */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
 }
 
-nav ul {
+.page-header .logo h1 {
+    margin: 0;
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+}
+
+.navigation ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: center;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-    font-family: Arial, Helvetica, sans-serif;
+    gap: 20px;
 }
 
-nav ul li {
+.navigation ul li {
     margin: 0;
 }
 
-nav ul li a {
-    display: block;
-    padding: 1rem 2rem; /* Aumenta el padding para un mejor diseño */
+.navigation ul li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
     color: var(--text-color);
     text-decoration: none;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Añade una transición suave */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-nav ul li a:hover {
+.navigation ul li a:hover {
     background-color: var(--accent-color);
-    color: white; /* Cambia el color del texto al pasar el ratón */
-    border-radius: 5px; /* Añade bordes redondeados al pasar el ratón */
+    color: white;
+    border-radius: 5px;
 }
 
-/* CSS para ocultar el texto si el icono está disponible: */
-.material-icons {
-    display: inline-block;
-    vertical-align: middle;
+.navigation .material-icons {
+    margin-right: 8px;
 }
 
 .fallback-text {
     display: none;
 }
 
-.material-icons::before {
-    content: attr(aria-label);
+.menu-toggle {
     display: none;
+    cursor: pointer;
+}
+
+.menu-toggle .material-icons {
+    font-size: 32px;
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .navigation {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--secondary-color);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .navigation ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .navigation ul li {
+        width: 100%;
+    }
+
+    .navigation ul li a {
+        justify-content: center;
+        width: 100%;
+        padding: 15px 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .navigation.active {
+        display: flex;
+    }
 }

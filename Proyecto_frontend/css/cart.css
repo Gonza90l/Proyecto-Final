@@ -1,7 +1,7 @@
 /* Estilos para el botón del carrito */
 .cart-button {
     position: fixed;
-    top: 20px;
+    top: 80px;
     right: 20px;
     background-color: var(--secondary-color);
     color: var(--text-color);
