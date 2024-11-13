@@ -6,6 +6,7 @@ import LoginHandler from './handlers/loginHandler.js';
 import UserMenuHandler from './handlers/userMenuHandler.js';
 import CheckOutHandler from './handlers/checkoutHandler.js';
 import UserDashboardHandler from './handlers/userDashboardHandler.js';
+import AdminOrdersHandler from './handlers/adminOrdersHandler.js';
 import authService from './authService.js';
 
 routerInstance.onViewLoaded = async () => {
@@ -30,6 +31,9 @@ routerInstance.onViewLoaded = async () => {
 
     const userDashboardHandler = new UserDashboardHandler();
     userDashboardHandler.init();
+
+    const adminOrdersHandler = new AdminOrdersHandler();
+    adminOrdersHandler.init();
 
     const gotoorigin404 = document.getElementById('404-go-to-origin');
     if (gotoorigin404) {

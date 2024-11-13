@@ -1,19 +1,60 @@
 <section class="dashboard-section">
-    <h2>Gestión de Pedidos</h2>
-    <table class="orders-table" id="orders-table">
-        <thead>
-            <tr>
-                <th>Usuario</th>
-                <th>Platos</th>
-                <th>Cantidad</th>
-                <th>Precio Total</th>
-                <th>Fecha y Hora</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Aquí se insertarán los pedidos -->
-        </tbody>
-    </table>
+    <article>
+        <h2>Ordenes</h2>
+        <div class="order-list">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Pedido</th>
+                        <th>Fecha y Hora</th>
+                        <th>Platos</th>
+                        <th>Precio Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-orders-active">
+                    <!-- Ejemplo de un pedido -->
+                    <tr>
+                        <td>Pedido #12345</td>
+                        <td>2023-10-01 12:30</td>
+                        <td>
+                            <ul class="order-items">
+                                <li>Pizza Margherita, Cantidad: 2, Precio: $20</li>
+                                <li>Ensalada César, Cantidad: 1, Precio: $10</li>
+                            </ul>
+                        </td>
+                        <td>$30</td>
+                        <td><span class="status pending">Pendiente</span></td>
+                        <td>
+                            <button class="update-order" title="Actualizar Pedido">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="cancel-order" title="Cancelar Pedido">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Se añaden dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+    </article>
+    <!-- Modal para actualizar el estado del pedido -->
+<div id="update-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('update-modal').style.display='none'">&times;</span>
+        <h2>Actualizar Estado del Pedido</h2>
+        <form id="update-form">
+            <input type="hidden" name="order-id" id="order-id">
+            <label for="status">Nuevo Estado:</label>
+            <select name="status" id="status">
+                <option value="IN PROGRESS">En Progreso</option>
+                <option value="SEND">Enviado</option>
+                <option value="DELIVERED">Entregado</option>
+            </select>
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+</div>
 </section>
