@@ -107,7 +107,7 @@ export class ApiClient {
     
         return {
             status: response.status,
-            data: data.data !== undefined ? data.data : data // Asegúrate de devolver data.data si existe, de lo contrario, devuelve data
+            data: data.data !== undefined ? data.data : data
         };
     }
 
