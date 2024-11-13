@@ -42,7 +42,7 @@ routerInstance.onViewLoaded = async () => {
     //generamos la barra de navegacion de acuerdo a si esta logueado o no
      // Generamos la barra de navegación de acuerdo a si está logueado o no
     const navBar = document.getElementById('navigator');
-    if (authService.isAuthenticated()) {
+    if (await authService.isAuthenticated()) {
         if (navBar) {
             if (await authService.getRole() === 'user') {
                 // Creamos el menú de usuario y lo renderizamos directamente desde JS
@@ -66,6 +66,7 @@ routerInstance.onViewLoaded = async () => {
             }
         }
     } else {
+        console.log('ZZZZZZZZZZZZZZZZZZZZZ');
         if (navBar) {
             navBar.innerHTML = '';
         }
