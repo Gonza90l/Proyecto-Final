@@ -1,33 +1,141 @@
+/* Home Section */
 .home-section {
-    background-image: url("../img/wallpaper-home.jpg");
-    padding: 2% 5%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    box-sizing: border-box;
-}
-
-@media (min-width: 768px) {
-    .home-section {
-        padding: 2% 10%;
-    }
-}
-
-@media (min-width: 1024px) {
-    .home-section {
-        padding: 2% 15%;
-    }
-}
-
-.home-section > ul {
-    background-color: rgba(128, 128, 128, 0.25);
+    max-width: 1200px;
+    margin: auto;
     padding: 20px;
-    width: 100%;
-    max-width: 450px;
-    box-sizing: border-box;
-    list-style-position: inside;
+    background-color: #00000071;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.384);
+}
+
+/* Header con imagen de fondo */
+.header-banner {
+    background-image: url('../img/wallpaper-home.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
     text-align: center;
-    margin: 0 auto;
-    border-radius: 10px; /* Añade bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra para un efecto estético */
+    padding: 60px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.header-banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.header-banner p {
+    font-size: 1.2rem;
+}
+
+/* Contenido */
+.content {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.content h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.content p {
+    max-width: 800px;
+    margin: auto;
+    font-size: 1.1rem;
+}
+
+.image {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    display: block;
+    border-radius: 8px;
+}
+
+/* Características */
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 40px;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    max-width: 800px;
+    margin: auto;
+}
+
+.features-list li {
+    background-color: #0000009c;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+/* Botón de llamada a la acción */
+.cta {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.cta button {
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+/* Links de registro y login */
+.auth-links {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.auth-links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+/* Testimonios */
+.testimonials {
+    background-color: #0000008e;
+    padding: 40px;
+    border-radius: 8px;
+}
+
+.testimonials h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.testimonial {
+    background-color: #00000098;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+    font-style: italic;
+}
+
+.author {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 10px;
 }
