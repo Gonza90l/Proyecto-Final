@@ -1,90 +1,36 @@
+/* Estilos para la sección del dashboard */
 .dashboard-section {
-    font-size: medium;
-    background-color: transparent;
-
+    background-color: rgba(7, 7, 7, 0.568);
+    padding: 2rem;
+    margin-top: 5rem; /* Ajusta el margen superior para evitar la superposición con la navegación */
 }
 
-/* Estilos para la tabla de gestión de pedidos */
+.dashboard-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.order-list {
+    margin-bottom: 2rem;
+}
+
 .orders-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .orders-table th, .orders-table td {
-    border: 1px solid var(--border-color);
-    background-color: var(--background-color);
-    padding: 10px;
+    padding: 1rem;
     text-align: left;
+    border-bottom: 1px solid #ddd;
 }
-/* 
+
 .orders-table th {
-    background-color: var(--background-color);
+    background-color: var(--secondary-color);
+    color: white;
 }
-
-.orders-table td {
-    background-color: var(--background-color);
-} */
-
-.orders-table .actions {
-    display: flex;
-    gap: 10px;
-}
-
-.orders-table .actions button {
-    padding: 5px 10px;
-    background: var(--secondary-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.orders-table .actions button:hover {
-    background: var(--accent-color);
-}
-
-
-/* Estilos para la tabla de Menu */
-.menu-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-.menu-table th, .menu-table td {
-    border: 1px solid var(--border-color);
-    background-color: var(--background-color);
-    padding: 10px;
-    text-align: left;
-}
-/* 
-.menu-table th {
-    background-color: var(--background-color);
-}
-
-.menu-table td {
-    background-color: var(--background-color);
-} */
-
-.menu-table .actions {
-    display: flex;
-    gap: 10px;
-}
-
-.menu-table .actions button {
-    padding: 5px 10px;
-    background: var(--secondary-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.menu-table .actions button:hover {
-    background: var(--accent-color);
-}
-
 
 .status {
     padding: 5px 10px;
@@ -117,4 +63,112 @@
 
 .status.canceled {
     background-color: #d9534f; /* Rojo */
+}
+
+.actions button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.actions button:hover {
+    background-color: var(--accent-color);
+}
+
+/* Estilos responsivos para dispositivos móviles */
+@media (max-width: 600px) {
+    .orders-table, .orders-table thead, .orders-table tbody, .orders-table th, .orders-table td, .orders-table tr {
+        display: block;
+    }
+
+    .orders-table thead tr {
+        display: none;
+    }
+
+    .orders-table tr {
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        background-color: rgba(7, 7, 7, 0.568); /* Mantiene la transparencia original */
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .orders-table tr:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .orders-table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+    }
+
+    .orders-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+        color: var(--text-color);
+    }
+
+    .orders-table td:last-child {
+        border-bottom: none;
+    }
+}
+
+/* Estilos responsivos para dispositivos con ancho entre 600px y 1024px */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .orders-table th, .orders-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .orders-table th {
+        background-color: var(--secondary-color);
+        color: white;
+    }
+
+    .orders-table tr {
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        background-color: rgba(7, 7, 7, 0.568); /* Mantiene la transparencia original */
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .orders-table tr:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .orders-table td {
+        display: table-cell;
+        padding: 0.75rem;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+    }
+
+    .orders-table td::before {
+        content: none;
+    }
+
+    .orders-table td:last-child {
+        border-bottom: none;
+    }
 }
