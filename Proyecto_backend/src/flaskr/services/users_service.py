@@ -23,7 +23,7 @@ class UsersService:
 
     def register(self, register_dto: RegisterRequestDTO):
         # Convertimos el dto a modelo
-        user = User()
+        user = User(self._mysql)
         # Mapeamos el dto a los campos del modelo
         user.from_dto(register_dto)
 

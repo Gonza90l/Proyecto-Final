@@ -20,7 +20,7 @@ class OrderController(BaseController):
 
             # Filtramos las ordenes por el usuario que hizo la petición, si es admin mostramos todo
             user_role = get_user_role()
-            if user_role == "user":
+            if user_role == "USER":
                 user_id = get_user_id()
                 orders = [order for order in orders if order.user_id == user_id]
 
@@ -30,6 +30,7 @@ class OrderController(BaseController):
             return self.respond_success(data=json_orders)
         except Exception as e:
             return self.respond_error(message=str(e))
+
 
     @token_required
     def get_order(self, id):
