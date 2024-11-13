@@ -154,7 +154,7 @@ async function showUpdateModal(orderId) {
             // Obtener el pedido
             let orderData = await ordersService.getOrderById(orderId);
             if (!orderData) {
-                routerInstance.showAlert('No se pudo obtener el pedido', 'danger');
+                routerInstance.showNotification('No se pudo obtener el pedido', 'danger');
                 return;
             }
             
@@ -171,10 +171,10 @@ async function showUpdateModal(orderId) {
             // Ocultar el modal
             modal.style.display = 'none';
             
-            alert('Pedido actualizado con éxito');
+            routerInstance.showNotification('Pedido actualizado con éxito', 'info');
         } catch (error) {
             console.error('Error al actualizar el pedido:', error);
-            alert('Hubo un error al actualizar el pedido');
+            routerInstance.showNotification('Error al actualizar el pedido', 'danger');
         }
     });
 }
@@ -189,7 +189,7 @@ async function cancelOrder(orderId) {
     let orderData = await ordersService.getOrderById(orderId);
     console.log(orderData);
     if (!orderData) {
-        routerInstance.showAlert('No se pudo obtener el pedido', 'danger');
+        routerInstance.showNotification('No se pudo obtener el pedido', 'danger');
         return;
     }
     //cambiamos el estado del pedido a CANCELED
@@ -197,6 +197,7 @@ async function cancelOrder(orderId) {
     //llamamos al orderService para cancelar el pedido
     ordersService.updateOrder(orderId,orderData).then(() => {
         // actualizamos la tabla de pedidos
+        routerInstance.showNotification('Pedido cancelado con éxito', 'info');
         let handler = new AdminOrdersHandler();
         handler.renderOrders();
     });
