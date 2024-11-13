@@ -2,6 +2,7 @@ import menuService from '../menuService.js';
 import { routerInstance } from '../router.js';
 import cart from '../cart.js';
 import authService from '../authService.js';
+import reviewsService from '../reviewService.js';   
 
 class UserMenuHandler {
 
@@ -56,6 +57,20 @@ class UserMenuHandler {
         }
     }
 
+    getStarRatingHtml(rating) {
+        //convertir el rating a numero
+        rating = parseFloat(rating);
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
+        console.log('Rating:', rating, 'Full stars:', fullStars, 'Half star:', halfStar, 'Empty stars:', emptyStars);
+        return `
+            ${'<span class="star full">★</span>'.repeat(fullStars)}
+            ${halfStar ? '<span class="star half">★</span>' : ''}
+            ${'<span class="star empty">☆</span>'.repeat(emptyStars)}
+        `;
+    }
+
     async renderMenu(menuItems) {
         console.log('renderMenu called');
 
@@ -63,7 +78,6 @@ class UserMenuHandler {
         if (this.menuSection) {
             const categoriesResponse = await menuService.getCategories();
             const categories = categoriesResponse.data;
-            console.log('>>>>>Categories:', categories);
     
             // Crear un mapa de categorías para un acceso rápido
             const categoryMap = {};
@@ -72,6 +86,21 @@ class UserMenuHandler {
                     categoryMap[category.id] = category.name;
                 });
             }
+
+            //cremaois un mapa de reseñas consultando para cada item del menu
+            const reviewsMap = {};
+            for (const item of menuItems) {
+                const reviews = await reviewsService.getReviewById(item.id);
+                console.log('Reviews:', reviews);
+                if(parseInt(reviews.count) > 0){
+                    reviewsMap[item.id] = reviews.average ;
+                }else{
+                    reviewsMap[item.id] = 5;
+                }   
+            }
+
+            console.log('MAP:', reviewsMap);
+
     
             // Agrupar los elementos del menú por categoría
             const groupedItems = menuItems.reduce((groups, item) => {
@@ -95,7 +124,7 @@ class UserMenuHandler {
                             <article>
                                 <head>
                                     <h2>${item.name}</h2>
-                                    <p>Calificación <span class="rating">${item.rating}/5</span></p> 
+                                    <p>Calificación <span class="rating">${this.getStarRatingHtml(reviewsMap[item.id])}</span></p>
                                     <a href="#" onclick="alert('comentarios')" class="btn btn-primary">Ver comentarios</a>
                                 </head>
                                 <div>
