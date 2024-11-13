@@ -1,4 +1,5 @@
 import ordersService from "../orderService.js";
+import reviewService from "../reviewService.js";
 
 
 class UserDashboardHandler {
@@ -12,13 +13,51 @@ class UserDashboardHandler {
         this.addEvents();
     }
 
-    addEvents(){
+    async addEvents(){
         //añadimos el evento de cerrar al modal
         if(document.getElementById('close-add-reviews-modal')){
             document.getElementById('close-add-reviews-modal').addEventListener('click', () => {
                 document.getElementById('review-modal').style.display = 'none';
             });
         }
+
+        const form = document.getElementById('review-form');
+        if (form) {
+            
+            // Escuchar el evento de envío del formulario
+            // Obtener el ID del pedido del formulario
+            
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault(); // Prevenir el envío del formulario por defecto
+                const orderId = form['order-id'].value;
+                const order = await ordersService.getOrderById(orderId)
+                
+                // Recoger todos los datos del formulario
+                const formData = new FormData(form);
+                const data = [];
+                const orderItems = order.order_items;
+
+                orderItems.forEach((orderItem, index) => {
+                    const reviewData = {
+                        id: formData.get(`dish-id-${index}`),
+                        rating: formData.get(`rating-${index}`),
+                        review: formData.get(`review-${index}`)
+                    };
+                    data.push(reviewData);
+                });
+
+                try {
+                    // Llamar al servicio de reseñas
+                    console.log(data);
+                    await reviewService.addReviews(data); // Asumiendo que `addReviews` acepta un array de reseñas
+                    alert('Reseñas enviadas con éxito');
+                } catch (error) {
+                    console.error('Error al enviar las reseñas:', error);
+                    alert('Hubo un error al enviar las reseñas');
+                }
+            });
+        }
+        
 
     }
 
@@ -193,51 +232,51 @@ async function addReview(orderId) {
     
     // Obtener los platos del pedido
     const order = await ordersService.getOrderById(orderId);
-    order.order_items.forEach(orderItem => {
+    order.order_items.forEach((orderItem, index) => {
         const section = document.createElement('div');
         section.classList.add('review-section');
-        
+
         const dishLabel = document.createElement('label');
         dishLabel.textContent = `Nombre del Plato: ${orderItem.item.name}`;
         section.appendChild(dishLabel);
-        
+
         const dishInput = document.createElement('input');
         dishInput.type = 'hidden';
-        dishInput.name = 'dish-name';
-        dishInput.value = orderItem.item.name;
+        dishInput.name = `dish-id-${index}`;
+        dishInput.value = orderItem.item.id;
         section.appendChild(dishInput);
-        
+
         const ratingLabel = document.createElement('label');
         ratingLabel.textContent = 'Calificación:';
         section.appendChild(ratingLabel);
-        
+
         const ratingSelect = document.createElement('select');
-        ratingSelect.name = 'rating';
+        ratingSelect.name = `rating-${index}`;
         ratingSelect.innerHTML = `
             <option value="1">1 - Muy Malo</option>
             <option value="2">2 - Malo</option>
             <option value="3">3 - Regular</option>
             <option value="4">4 - Bueno</option>
-            <option selected value="5">5 - Excelente</option>
+            <option selected value="5">5 - Muy Bueno</option>
         `;
         section.appendChild(ratingSelect);
-        
+
         const reviewLabel = document.createElement('label');
         reviewLabel.textContent = 'Reseña:';
         section.appendChild(reviewLabel);
-        
+
         const reviewTextarea = document.createElement('textarea');
-        reviewTextarea.name = 'review';
-        reviewTextarea.rows = 4;
-        reviewTextarea.placeholder = 'Escribe tu reseña aquí...';
+        reviewTextarea.name = `review-${index}`;
         section.appendChild(reviewTextarea);
-        
+
         reviewSections.appendChild(section);
     });
     
     // Mostrar el modal
     modal.style.display = 'block';
 }
+
+
 
 
 
