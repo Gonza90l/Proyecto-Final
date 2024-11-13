@@ -52,15 +52,6 @@
     display: block;
 }
 
-.cart-header {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    font-size: 18px;
-    text-align: center;
-}
 
 .cart-item {
     display: flex;
@@ -101,15 +92,10 @@
 }
 
 .cart-footer button {
-    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
     padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
-}
-
-.cart-footer button:hover {
-    background-color: #0056b3;
 }

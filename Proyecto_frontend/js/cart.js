@@ -104,11 +104,11 @@ class Cart {
                     const photo = await menuService.getImagefromServer(item.photo);
                     cartItemRow.innerHTML = `
                         <td><img src="${photo}" alt="${item.name}" class="cart-item-photo"></td>
-                        <td>${item.name}</td>
-                        <td>${item.quantity}</td>
-                        <td>${item.price}</td>
-                        <td>${item.price * item.quantity}</td>
-                        <td><button class="cart-item-add" data-id="${item.id}">+</button><button class="cart-item-remove" data-id="${item.id}">-</button></td>
+                        <td class="cart-item-name">${item.name}</td>
+                        <td class="cart-item-quantity">${item.quantity}</td>
+                        <td class="cart-item-price">${item.price}</td>
+                        <td class="cart-item-total">${item.price * item.quantity}</td>
+                        <td class="cart-item-actions"><button class="cart-item-add" data-id="${item.id}">+</button><button class="cart-item-remove" data-id="${item.id}">-</button></td>
                     `;
                     cartItemsContainer.appendChild(cartItemRow);
                     // si no hay imagen o no se puede cargar, se muestra una imagen por defecto
@@ -170,14 +170,15 @@ class Cart {
                     };
                 }
     
-                if(this.items.length === 0){
+                if (this.items.length === 0) {
                     checkoutButton.style.display = 'none';
-                }else{
+                } else {
                     checkoutButton.style.display = 'inline';
                 }
             }
         }
     }
+
 }
 
 const cart = new Cart();
