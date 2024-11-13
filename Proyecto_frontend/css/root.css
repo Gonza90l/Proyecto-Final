@@ -61,17 +61,6 @@ article {
 div {
   background-color: transparent;
 }
-header {
-  background-color: var(--primary-color);
-  text-align: center;
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000; /* Asegura que el header esté por encima de otros elementos */ 
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.425); /* Añade una sombra para destacar el header */
-}
 
 footer {
   background-color: var(--footer-color);
