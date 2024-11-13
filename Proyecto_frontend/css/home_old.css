@@ -1,0 +1,35 @@
+.home-section {
+    background-image: url("../img/wallpaper-home.jpg");
+    padding-top: 2%;
+    padding-bottom: 2%; 
+    padding-left: 5%; 
+    padding-right: 5%; 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */ 
+} 
+    
+@media (min-width: 768px) {
+    .home-section { 
+        padding-left: 10%; 
+        padding-right: 10%; 
+    } 
+} 
+@media (min-width: 1024px) { 
+    .home-section { 
+        padding-left: 15%; 
+        padding-right: 15%; 
+    }
+}
+
+.home-section > ul {
+    background-color: rgba(128, 128, 128, 0.247);
+    padding: 20px; 
+    width: 100%; 
+    max-width: 450px; /* Limita el ancho máximo para que sea responsivo */ 
+    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */ 
+    list-style-position: inside; /* Viñeta al lado del texto */ 
+    text-align: center; /* Alinea el texto a la izquierda para que coincida con la viñeta */ 
+    margin: 0 auto; /* Centra el contenido */
+}
