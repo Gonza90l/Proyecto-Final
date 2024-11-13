@@ -42,10 +42,10 @@ class Cart {
         }
         console.log('Cart items:', this.items);
         routerInstance.showNotification('Producto añadido al carrito', 'info');
-        this.saveCart();
+        await this.saveCart(); // Cambiar a await para asegurar que el carrito se guarde antes de renderizar
     }
 
-    removeItem(itemId) {
+    async removeItem(itemId) {
         const itemIndex = this.items.findIndex(item => item.id == itemId);
         if (itemIndex > -1) {
             if (this.items[itemIndex].quantity > 1) {
@@ -54,7 +54,7 @@ class Cart {
                 this.items.splice(itemIndex, 1);
             }
         }
-        this.saveCart();
+        await this.saveCart();
     }
 
     getTotal() {
@@ -65,9 +65,9 @@ class Cart {
         return this.items;
     }
 
-    clearCart() {
+    async clearCart() {
         this.items = [];
-        this.saveCart();
+        await this.saveCart();
     }
 
     getItemQuantity(itemId) {
@@ -75,18 +75,19 @@ class Cart {
         return item ? item.quantity : 0;
     }
 
-    saveCart() {
+    async saveCart() {
         localStorage.setItem('cart', JSON.stringify(this.items));
-        this.renderCart();
+        await this.renderCart();
     }
 
-    loadCart() {
+    async loadCart() {
         const savedCart = localStorage.getItem('cart');
         this.items = savedCart ? JSON.parse(savedCart) : [];
-        this.renderCart();
+        await this.renderCart();
     }
 
     async renderCart() {
+        console.log('Rendering cart');
         const cartButton = document.getElementById('cart-button');
         const itemCount = document.getElementById('item-count');
         if (itemCount) {
