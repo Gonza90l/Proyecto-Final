@@ -9,7 +9,19 @@ class UserDashboardHandler {
 
     init() {
         this.renderUserDashboard();
+        this.addEvents();
     }
+
+    addEvents(){
+        //añadimos el evento de cerrar al modal
+        if(document.getElementById('close-add-reviews-modal')){
+            document.getElementById('close-add-reviews-modal').addEventListener('click', () => {
+                document.getElementById('review-modal').style.display = 'none';
+            });
+        }
+
+    }
+
 
     async renderUserDashboard() {
         // renderizamos la tabla de pedidos
@@ -206,7 +218,7 @@ async function addReview(orderId) {
             <option value="2">2 - Malo</option>
             <option value="3">3 - Regular</option>
             <option value="4">4 - Bueno</option>
-            <option value="5">5 - Excelente</option>
+            <option selected value="5">5 - Excelente</option>
         `;
         section.appendChild(ratingSelect);
         
