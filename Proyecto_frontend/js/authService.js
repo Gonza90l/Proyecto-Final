@@ -22,7 +22,6 @@ class AuthService {
             expiry: 0
         };
 
-                
         //marcamos el tiempo en que se ejecuta la funcion
         console.log('AuthService initialized at', new Date().toLocaleTimeString());
 
@@ -93,15 +92,15 @@ class AuthService {
      * 
      * @param {string} email - El nombre de usuario.
      * @param {string} password - La contraseña del usuario.
-     * @returns {Promise<boolean>} - Retorna una promesa que resuelve a true si el login es exitoso, de lo contrario lanza un error.
+     * @returns {Promise<{success: boolean, message?: string}>} - Retorna una promesa que resuelve a un objeto con la propiedad success y opcionalmente message si hay errores.
      */
     async login(email, password) {
         try {
-            // creamnos un dto con los datos del usuario
+            // Creamos un dto con los datos del usuario
             const loguinRequestDto = new LoguinRequestDto(email, password);
-
+    
             const response = await this.apiClient.post('/login', loguinRequestDto);
-
+    
             // Verificamos el código de estado antes de llamar a response.json()
             if (response.status === 200) {
                 const apiResponse = response.data; // Obtener los datos JSON de la respuesta
@@ -111,20 +110,21 @@ class AuthService {
                     localStorage.setItem('authToken', this.token);
                     localStorage.setItem('tokenExpiry', this.tokenExpiry);
                     this.apiClient.token = this.token; // Actualiza el token en ApiClient
-                    return true;
+                    return { success: true };
                 } else {
-                    throw new Error('Login failed: token not found');
+                    return { success: false, message: 'Login failed: token not found' };
                 }
             } else if (response.status === 401) {
-                console.error('Invalid credentials');
-                return false;
+                return { success: false, message: 'Invalid credentials' };
             } else {
-                console.error('Unexpected status code:', response.status); // Error desconocido
-                throw new Error('Login failed');
+                return { success: false, message: `Unexpected status code: ${response.status}` };
             }
         } catch (error) {
-            console.error('Login error:', error);
-            return false;
+            if(error.status === 401){
+                return { success: false, message: 'Invalid credentials' };
+            }else{
+                return { success: false, message: error };
+            }
         }
     }
 
@@ -195,7 +195,7 @@ class AuthService {
 
     async getUserId() {
         try {
-            const token = localStorage.getItem('authToken');
+            const token = this.token;
             if (!token) {
                 throw new Error('No token found');
             }
@@ -221,7 +221,7 @@ class AuthService {
 
     async getRole() {
         try {
-            const token = localStorage.getItem('authToken');
+            const token = this.token;
             if (!token) {
                 throw new Error('No token found');
             }

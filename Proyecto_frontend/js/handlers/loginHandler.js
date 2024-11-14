@@ -50,20 +50,18 @@ class LoginHandler {
     }
 }
 
-//login, esta función se encarga de hacer el login del usuario
+// login, esta función se encarga de hacer el login del usuario
 async function login(email, password) {
     routerInstance.showLoading();
     try {
-        const isAuthenticated = await authService.login(email, password);
-        if (isAuthenticated) {
-            //window.history.pushState({}, '', '/');
-            //routerInstance.router();
+        const result = await authService.login(email, password);
+        if (result.success) {
             routerInstance.navigate('/');
         } else {
-            routerInstance.showNotification('Usuario o contraseña incorrectos', 'warning');
+            routerInstance.showNotification(result.message, 'warning');
         }
     } catch (error) {
-        routerInstance.showNotification('Error al iniciar sesión', 'error');
+        routerInstance.showNotification('Error al iniciar sesión', 'critical');
     }
     routerInstance.hideLoading();
 }
