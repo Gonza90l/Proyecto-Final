@@ -19,6 +19,33 @@ base_url = '' #'/api/v1'
 @main.route(base_url + '/login', methods=['POST'])
 @inject
 def login(users_controller: UsersController):
+    """
+    Endpoint de inicio de sesión
+    ---
+    tags:
+      - Usuarios
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          id: Login
+          required:
+            - username
+            - password
+          properties:
+            username:
+              type: string
+              description: El nombre de usuario
+            password:
+              type: string
+              description: La contraseña del usuario
+    responses:
+      200:
+        description: Inicio de sesión exitoso
+      401:
+        description: No autorizado
+    """
     return users_controller.login()
 
 @main.route(base_url + '/register', methods=['POST'])
