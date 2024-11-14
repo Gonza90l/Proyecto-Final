@@ -60,7 +60,7 @@ class BaseModel():
 
     @classmethod
     def find_all(cls, mysql: IDatabase):
-        """Retrieve all records from the table and convert them into model instances."""
+        """Devuelve una lista de instancias de todos los registros en la tabla."""
         query = f"SELECT * FROM {cls._table}"
         if cls._deleted_flag:
             query += f" WHERE {cls._deleted_flag} = 0"
@@ -112,6 +112,7 @@ class BaseModel():
 
     @staticmethod
     def execute_query(mysql, query, params=None, return_cursor=False):
+        """Ejecuta una consulta en la base de datos y devuelve el cursor"""
         cursor = mysql.connection.cursor()
         cursor.execute(query, params)
         mysql.connection.commit()
@@ -121,6 +122,7 @@ class BaseModel():
 
     @staticmethod
     def fetch_one(mysql, query, params=None):
+        """Ejecuta una consulta y devuelve solo el primer resultado."""
         cursor = mysql.connection.cursor()
         cursor.execute(query, params)
         result = cursor.fetchone()
@@ -130,6 +132,7 @@ class BaseModel():
 
     @staticmethod
     def fetch_all(mysql, query, params=None):
+        """Ejecuta una consulta y devuelve todos los resultados."""
         cursor = mysql.connection.cursor()
         cursor.execute(query, params)
         results = cursor.fetchall()
@@ -138,6 +141,7 @@ class BaseModel():
         return results
 
     def __str__(self):
+        """Devuelve una representación en cadena del modelo."""
         return str(self._data)
 
     # Método para convertir el objeto a diccionario basado en el DTO correspondiente    
