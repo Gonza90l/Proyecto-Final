@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 import logging
 from flaskr.database.database_interface import IDatabase
 
+
 class FlaskApp:
     def __init__(self):
         load_dotenv()
@@ -22,6 +23,7 @@ class FlaskApp:
         self.configure_injection()
         self.configure_cors()
         self.configure_ssl()
+        self.configure_swagger()  # Agregar configuración de Swagger
 
 
     def configure_app(self):
@@ -76,6 +78,14 @@ class FlaskApp:
         self._context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
         # Cargar el certificado y la clave
         self._context.load_cert_chain(certfile=os.getenv('SSL_CERTFILE'), keyfile=os.getenv('SSL_KEYFILE'))
+
+    def configure_swagger(self):
+        try:
+            from flasgger import Swagger
+            # Configurar Swagger
+            self._swagger = Swagger(self._app)
+        except ImportError:
+            self._app.logger.warning("Flasgger no está instalado. Swagger no se configurará.")
 
     def get_app(self):
         return self._app
