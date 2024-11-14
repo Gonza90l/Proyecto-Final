@@ -56,6 +56,9 @@ class UsersService:
         if update_user_dto.email != user.email and User.find_by_email(self._mysql, update_user_dto.email):
             raise Exception("Email already in use")
 
+        # Encriptamos la contraseña
+        user.password = generate_password_hash(user.password)
+
         # Actualizamos los campos del usuario
         user.set(**update_user_dto.to_dict())
         # Guardamos los cambios
