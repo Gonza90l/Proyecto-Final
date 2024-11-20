@@ -37,8 +37,6 @@ body {
 
 main {
   background-image: url("../img/wallpaper-dashboard.jpeg");
-  
-  padding-bottom: 2%; 
   background-size: cover; 
   background-repeat: no-repeat; 
   background-attachment: fixed; 

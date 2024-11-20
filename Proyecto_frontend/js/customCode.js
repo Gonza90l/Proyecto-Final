@@ -100,7 +100,14 @@ routerInstance.onViewLoaded = async () => {
     // Hacer que navigate esté disponible globalmente
     window.navigate = routerInstance.navigate.bind(routerInstance);
 
+
+    // Obtener el año actual para el footer
+    var currentYear = new Date().getFullYear(); 
+    // Asignar el año actual al elemento con el id 'footerYear' 
+    document.getElementById('footerYear').textContent = currentYear;
+
 };
+
 
 //*******************************************************************************************
 // Codigo general que se ejecutará en todas las vistas de la aplicación
