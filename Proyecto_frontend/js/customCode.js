@@ -100,15 +100,27 @@ routerInstance.onViewLoaded = async () => {
     // Hacer que navigate esté disponible globalmente
     window.navigate = routerInstance.navigate.bind(routerInstance);
 
+    // Función para actualizar el año en el footer
+    function updateFooterYear() {
+        // Obtener el elemento con el id 'footerYear'
+        const footerYearElement = document.getElementById('footerYear');
+        
+        // Verificar si el elemento existe
+        if (footerYearElement) {
+            // Obtener el año actual
+            const currentYear = new Date().getFullYear();
+            // Asignar el año actual al elemento
+            footerYearElement.textContent = currentYear;
+        } else {
+            console.warn("El elemento con id 'footerYear' no se encontró en el DOM.");
+        }
+    }
+   
+    
+    // Llamar a la función para actualizar el año al cargar la página
+    updateFooterYear();
 
-    // Obtener el año actual para el footer
-    var currentYear = new Date().getFullYear(); 
-    // Asignar el año actual al elemento con el id 'footerYear' 
-    document.getElementById('footerYear').textContent = currentYear;
-
-};
-
-
+}
 //*******************************************************************************************
 // Codigo general que se ejecutará en todas las vistas de la aplicación
 // Permite incorporar funciones que se necesiten
