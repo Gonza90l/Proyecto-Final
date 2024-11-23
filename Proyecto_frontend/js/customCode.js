@@ -8,7 +8,9 @@ import CheckOutHandler from './handlers/checkoutHandler.js';
 import UserDashboardHandler from './handlers/userDashboardHandler.js';
 import AdminOrdersHandler from './handlers/adminOrdersHandler.js';
 import authService from './authService.js';
-import NotificactionHandler from './handlers/notifiactionHandler.js';
+import NotificationHandler from './handlers/notificationHandler.js';
+
+
 
 routerInstance.onViewLoaded = async () => {
     console.log('onViewLoaded function executed');
@@ -93,7 +95,7 @@ routerInstance.onViewLoaded = async () => {
      }
 
     // instanciamos el manejador de notificaciones
-    const notificationHandler = new NotificactionHandler();
+    const notificationHandler = new NotificationHandler();
     notificationHandler.init();
 
      // Inicializar el manejador de eventos de login / reguistro
