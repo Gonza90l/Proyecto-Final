@@ -2,9 +2,12 @@ import authService from '../authService.js';
 import notificationsService from '../notificationService.js';
 import { routerInstance } from '../router.js';
 
+var intervalId = null; // Almacena el ID del intervalo
+
 class NotificationHandler {
     constructor() {
         this.previousNotificationCount = 0; // Almacena el contador de notificaciones anterior
+        this.eventsAdded = false; // Variable de estado para rastrear si los eventos ya han sido agregados
     }
 
     async init() {
@@ -15,42 +18,49 @@ class NotificationHandler {
         this.ensureModalExists();
         await this.renderNotifications();
 
-        // Event listener para abrir el modal
-        const notificationIcon = document.getElementById('notificaction-icon');
-        if (notificationIcon) {
-            notificationIcon.addEventListener('click', () => {
-                this.openModal();
-            });
-        }
-
-        // Event listener para cerrar el modal
-        const closeModal = document.getElementById('close-modal');
-        if (closeModal) {
-            closeModal.addEventListener('click', () => {
-                this.closeModal();
-            });
-        }
-
-        // Event listener para marcar todas las notificaciones como leídas
-        const markAllReadButton = document.getElementById('mark-all-read');
-        if (markAllReadButton) {
-            markAllReadButton.addEventListener('click', () => {
-                this.markAllAsRead();
-            });
-        }
-
-        // Cerrar el modal si se hace clic fuera del contenido del modal
-        window.addEventListener('click', (event) => {
-            const modal = document.getElementById('notification-modal');
-            if (event.target === modal) {
-                this.closeModal();
+        if (!this.eventsAdded) {
+            // Event listener para abrir el modal
+            const notificationIcon = document.getElementById('notificaction-icon');
+            if (notificationIcon) {
+                notificationIcon.addEventListener('click', () => {
+                    this.openModal();
+                });
             }
-        });
+
+            // Event listener para cerrar el modal
+            const closeModal = document.getElementById('close-modal');
+            if (closeModal) {
+                closeModal.addEventListener('click', () => {
+                    this.closeModal();
+                });
+            }
+
+            // Event listener para marcar todas las notificaciones como leídas
+            const markAllReadButton = document.getElementById('mark-all-read');
+            if (markAllReadButton) {
+                markAllReadButton.addEventListener('click', () => {
+                    this.markAllAsRead();
+                });
+            }
+
+            // Cerrar el modal si se hace clic fuera del contenido del modal
+            window.addEventListener('click', (event) => {
+                const modal = document.getElementById('notification-modal');
+                if (event.target === modal) {
+                    this.closeModal();
+                }
+            });
+
+            // Marcar que los eventos han sido agregados
+            this.eventsAdded = true;
+        }
 
         // Verificar nuevas notificaciones cada minuto
-        setInterval(async () => {
-            await this.renderNotifications('interval');
-        }, 15000); // 15 segundos
+        if (!intervalId) {
+            intervalId = setInterval(async () => {
+                await this.renderNotifications('interval');
+            }, 15000); // 15 segundos
+        }
     }
 
     ensureModalExists() {

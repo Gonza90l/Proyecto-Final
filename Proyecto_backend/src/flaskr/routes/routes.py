@@ -7,6 +7,7 @@ from flaskr.controllers.image_controller import ImageController
 from flaskr.controllers.review_controller import ReviewController
 from flaskr.controllers.ipn_controller import ipnController
 from flaskr.controllers.notification_controller import NotificationController
+from flaskr.controllers.statistics_controller import StatisticsController
 from flask_injector import inject
 
 # Definir el Blueprint
@@ -259,3 +260,9 @@ def get_notification(notification_controller: NotificationController, notificati
 def set_as_read(notification_controller: NotificationController, notification_id):
     return notification_controller.set_as_read(notification_id)
 
+
+#rutas para las estadisticas
+@main.route(base_url + '/statistics', methods=['GET'])
+@inject
+def get_statistics(statistics_controller):
+    return statistics_controller.get_statistics()
