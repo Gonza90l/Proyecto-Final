@@ -2,6 +2,7 @@
 import authService from './authService.js';
 import ApiClient from './apiClient.js';
 import config from './config.js';
+import { routerInstance } from './router.js';
 
 
 class OrdersService {
