@@ -26,7 +26,7 @@ class AuthService {
         console.log('AuthService initialized at', new Date().toLocaleTimeString());
 
         this.token = localStorage.getItem('authToken');
-        this.tokenExpiry = localStorage.getItem('tokenExpiry');
+        this.tokenExpiry = this.getExpiration();
         if (this.token && this.tokenExpiry) {
             console.log('Token found:', this.token);
             this.apiClient.token = this.token; // Actualiza el token en ApiClient
@@ -82,6 +82,10 @@ class AuthService {
 
     //devolvemo el token del usuario
     getToken() {
+        //si el token esta vencido lo eliminamos y devoovemos null
+        if (this.isTokenExpired()) {
+            return null;
+        }
         return this.token;
     }
 
@@ -166,29 +170,31 @@ class AuthService {
      */
     async isAuthenticated() {
         const now = Date.now();
-
+    
         if (!this.token || this.isTokenExpired()) {
             return false;
         }
-
+    
         // Verificar si el estado de autenticación está en caché y no ha expirado
         if (this.authCache.expiry > now) {
             return this.authCache.isAuthenticated;
         }
-
+    
         try {
             const data = await this.apiClient.post('/verify_token', {});
             // Si la respuesta es exitosa, el token es válido
             const isAuthenticated = data.status === 200;
-            console.log('Token verification:', data);
-
+    
+            // Calcular el tiempo restante del token
+            const tokenExpiryTime = this.tokenExpiry - now;
+            const cacheExpiryTime = Math.min(tokenExpiryTime, 5 * 60 * 1000); // Caché válida por el tiempo restante del token o 5 minutos, lo que sea menor
+    
             // Actualizar la caché con el nuevo estado de autenticación y su tiempo de expiración
             this.authCache.isAuthenticated = isAuthenticated;
-            this.authCache.expiry = now + 5 * 60 * 1000; // Caché válida por 5 minutos
-
+            this.authCache.expiry = now + cacheExpiryTime;
+    
             return isAuthenticated;
         } catch (error) {
-            console.error('Token verification failed:', error);
             return false;
         }
     }
@@ -211,10 +217,32 @@ class AuthService {
                 throw new Error('User ID not found in token');
             }
             const id = decodedToken.id;
-            console.log('User ID:', id);
             return id;
         } catch (error) {
-            console.error('Error getting user ID:', error);
+            return null;
+        }
+    }
+
+    async getExpiration() {
+        try {
+            const token = this.token;
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            const decodedToken = JSON.parse(jsonPayload);
+            if (!decodedToken.exp) {
+                throw new Error('Expiration not found in token');
+            }
+            const expiration = new Date(decodedToken.exp * 1000);
+            return expiration;
+        } catch (error) {
             return null;
         }
     }
@@ -237,10 +265,8 @@ class AuthService {
                 throw new Error('Role not found in token');
             }
             const role = decodedToken.role.toLowerCase();
-            console.log('Role:', role);
             return role;
         } catch (error) {
-            console.error('Error getting role:', error);
             return null;
         }
     }

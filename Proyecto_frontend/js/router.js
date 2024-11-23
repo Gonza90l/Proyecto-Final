@@ -84,6 +84,7 @@ class Router {
     }
 
     async router() {
+        console.log('Routing to', window.location.pathname);
         if (this.isRouting) return; // Prevent multiple executions
         this.isRouting = true;
 
