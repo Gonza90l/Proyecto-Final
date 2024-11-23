@@ -66,7 +66,6 @@ routerInstance.onViewLoaded = async () => {
                      <li><a onclick="navigate('/admin-dashboard')" href="#" title="Dashboard"><span class="material-icons" aria-label="Dashboard">dashboard</span><span class="fallback-text">Dashboard</span></a></li>
                      <li><a onclick="navigate('/admin-menu')" href="#" title="Administrar Menús"><span class="material-icons" aria-label="Administrar Menús">restaurant_menu</span><span class="fallback-text">Administrar Menús</span></a></li>
                      <li><a onclick="navigate('/admin-orders')" href="#" title="Administrar Pedidos"><span class="material-icons" aria-label="Administrar Pedidos">list_alt</span><span class="fallback-text">Administrar Pedidos</span></a></li>
-                     <li><a onclick="" href="#" title="Notifications"><span class="material-icons" aria-label="Notifications">notifications</span><span class="fallback-text">Notifications</span></a></li>
                      <li><a href="#" id="logout-button" title="Cerrar Sesión"><span class="material-icons" aria-label="Cerrar Sesión">logout</span><span class="fallback-text">Cerrar Sesión</span></a></li>
                  </ul>
                  `;

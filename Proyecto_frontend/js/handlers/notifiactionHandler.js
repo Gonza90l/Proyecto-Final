@@ -3,7 +3,9 @@ import notificationsService from '../notificationService.js';
 import { routerInstance } from '../router.js';
 
 class NotificationHandler {
-    constructor() {}
+    constructor() {
+        this.previousNotificationCount = 0; // Almacena el contador de notificaciones anterior
+    }
 
     async init() {
         if (!authService.isAuthenticated()) {
@@ -44,6 +46,11 @@ class NotificationHandler {
                 this.closeModal();
             }
         });
+
+        // Verificar nuevas notificaciones cada minuto
+        setInterval(async () => {
+            await this.renderNotifications('interval');
+        }, 15000); // 15 segundos
     }
 
     ensureModalExists() {
@@ -62,13 +69,21 @@ class NotificationHandler {
         }
     }
 
-    async renderNotifications() {
+    async renderNotifications(flag = null) {
         const notifications = await this.getAllNotifications();
         
         let notifications_counter = 0;
         if (notifications.data != undefined && notifications.data.length > 0) {
             notifications_counter = notifications.data.filter(notification => notification.read_at === null).length;
         }
+
+        // Comparar el contador actual con el anterior
+        if (flag === 'interval' && notifications_counter > this.previousNotificationCount) {
+            routerInstance.showNotification(`Tienes ${notifications_counter} notificaciones nuevas`, 'info');
+        }
+
+        // Actualizar el contador de notificaciones anterior
+        this.previousNotificationCount = notifications_counter;
 
         const notificationList = document.getElementById('notification-count');
         if (notificationList) {
@@ -135,10 +150,7 @@ class NotificationHandler {
                 //agregamos un mensaje de que no hay notificaciones
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
-
-
                     <div>
-
                         <p><strong>No hay notificaciones</strong></p>
                     </div>
                 `;
