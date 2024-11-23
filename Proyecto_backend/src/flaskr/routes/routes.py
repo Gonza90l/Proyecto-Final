@@ -253,17 +253,9 @@ def get_notifications(notification_controller: NotificationController):
 def get_notification(notification_controller: NotificationController, notification_id):
     return notification_controller.get_notification(notification_id)
 
-@main.route(base_url + '/notifications', methods=['POST'])
+#amrcar la notificacion como leida
+@main.route(base_url + '/notifications/<int:notification_id>/read', methods=['PUT'])
 @inject
-def create_notification(notification_controller: NotificationController):
-    return notification_controller.create_notification()
+def set_as_read(notification_controller: NotificationController, notification_id):
+    return notification_controller.set_as_read(notification_id)
 
-@main.route(base_url + '/notifications/<int:notification_id>', methods=['PUT'])
-@inject
-def update_notification(notification_controller: NotificationController, notification_id):
-    return notification_controller.update_notification(notification_id)
-
-@main.route(base_url + '/notifications/<int:notification_id>', methods=['DELETE'])
-@inject
-def delete_notification(notification_controller: NotificationController, notification_id):
-    return notification_controller.delete_notification(notification_id)

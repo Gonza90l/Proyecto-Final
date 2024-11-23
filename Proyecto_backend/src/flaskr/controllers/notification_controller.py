@@ -4,7 +4,6 @@ from flaskr.controllers.base_controller import BaseController
 from flaskr.services.notification_service import NotificationService
 from flaskr.auth import get_user_id, get_user_role, token_required, role_required
 
-
 class NotificationController(BaseController):
     @inject
     def __init__(self, notification_service: NotificationService):
@@ -34,3 +33,13 @@ class NotificationController(BaseController):
         #CREAMOS LA NOTIFICACION
         notification_id = self._notification_service.create_notification(user_id)
         return self.send_response(notification_id)
+
+    #marcamos la notificacion como leida
+    @token_required
+    def set_as_read(self, notification_id):
+        #OBTENEMOS EL ID DEL USUARIO
+        user_id = get_user_id()
+
+        #ACTUALIZAMOS LA NOTIFICACION
+        self._notification_service.set_as_read(notification_id, user_id)
+        return self.respond_success()
