@@ -8,6 +8,7 @@ import CheckOutHandler from './handlers/checkoutHandler.js';
 import UserDashboardHandler from './handlers/userDashboardHandler.js';
 import AdminOrdersHandler from './handlers/adminOrdersHandler.js';
 import authService from './authService.js';
+import NotificactionHandler from './handlers/notifiactionHandler.js';
 
 routerInstance.onViewLoaded = async () => {
     console.log('onViewLoaded function executed');
@@ -54,7 +55,7 @@ routerInstance.onViewLoaded = async () => {
                  <ul>
                      <li><a onclick="navigate('/')" href="#" title="Mis Pedidos"><span class="material-icons" aria-label="Administrar Pedidos">list_alt</span><span class="fallback-text">Mis Pedidos</span></a></li>
                      <li><a onclick="navigate('/menu')" href="#" title="Menu"><span class="material-icons" aria-label="Administrar Menús">restaurant_menu</span><span class="fallback-text">Menú</span></a></li>
-                     <li><a onclick="" href="#" title="Notifications"><span class="material-icons" aria-label="Notifications">notifications</span><span class="fallback-text">Notifications</span></a></li>
+                     <li><a id="notificaction-icon" onclick="" href="#" title="Notifications"><span class="material-icons" aria-label="Notifications">notifications</span><span class="fallback-text">Notifications</span><span style="display:none;" class="notification-bubble" id="notification-count"></span></a></li>
                      <li><a href="#" id="logout-button" title="Cerrar Sesión"><span class="material-icons" aria-label="Cerrar Sesión">logout</span><span class="fallback-text">Cerrar Sesión</span></a></li>
                  </ul>
                  `;
@@ -91,6 +92,10 @@ routerInstance.onViewLoaded = async () => {
              navigation.classList.toggle('active');
          });
      }
+
+    // instanciamos el manejador de notificaciones
+    const notificationHandler = new NotificactionHandler();
+    notificationHandler.init();
 
      // Inicializar el manejador de eventos de login / reguistro
      const loginHandler = new LoginHandler();

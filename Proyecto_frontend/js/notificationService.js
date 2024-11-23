@@ -1,18 +1,25 @@
-// Tipo de instancia: Singleton
+// Descripción: Servicio que se encarga de realizar las peticiones al backend relacionadas con las notificaciones
+import ApiClient from './apiClient.js';
+import authService from './authService.js';
+import config from './config.js';
 
 class NotificationsService {
-    constructor() {
-        
-    }
+    constructor() {}
 
-    init() {
+    init() {}
 
+    _getApiClient() {
+        const token = authService.getToken();
+        const apiClient = new ApiClient(config.apiBaseUrl);
+        apiClient.token = token;
+        return apiClient;
     }
 
     async getAllNotifications() {
         if (!authService.isAuthenticated()) {
             throw new Error('Unauthorized');
         }
+        const apiClient = this._getApiClient();
         return await apiClient.get('/notifications');
     }
 
@@ -20,6 +27,7 @@ class NotificationsService {
         if (!authService.isAuthenticated()) {
             throw new Error('Unauthorized');
         }
+        const apiClient = this._getApiClient();
         return await apiClient.get(`/notifications/${id}`);
     }
 
@@ -27,6 +35,7 @@ class NotificationsService {
         if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
             throw new Error('Unauthorized');
         }
+        const apiClient = this._getApiClient();
         return await apiClient.post('/notifications', notificationData);
     }
 
@@ -34,6 +43,7 @@ class NotificationsService {
         if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
             throw new Error('Unauthorized');
         }
+        const apiClient = this._getApiClient();
         return await apiClient.put(`/notifications/${id}`, notificationData);
     }
 
@@ -41,6 +51,7 @@ class NotificationsService {
         if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
             throw new Error('Unauthorized');
         }
+        const apiClient = this._getApiClient();
         return await apiClient.delete(`/notifications/${id}`);
     }
 }

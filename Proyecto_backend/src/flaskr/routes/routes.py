@@ -6,6 +6,7 @@ from flaskr.controllers.order_controller import OrderController
 from flaskr.controllers.image_controller import ImageController
 from flaskr.controllers.review_controller import ReviewController
 from flaskr.controllers.ipn_controller import ipnController
+from flaskr.controllers.notification_controller import NotificationController
 from flask_injector import inject
 
 # Definir el Blueprint
@@ -240,3 +241,29 @@ def ipn(ipn_controller: ipnController):
 def get_review_by_order_id(review_controller: ReviewController, id):
     return review_controller.get_review_by_order_id(id)
     
+
+#rutas para las notifaciones
+@main.route(base_url + '/notifications', methods=['GET'])
+@inject
+def get_notifications(notification_controller: NotificationController):
+    return notification_controller.get_notifications()
+
+@main.route(base_url + '/notifications/<int:notification_id>', methods=['GET'])
+@inject
+def get_notification(notification_controller: NotificationController, notification_id):
+    return notification_controller.get_notification(notification_id)
+
+@main.route(base_url + '/notifications', methods=['POST'])
+@inject
+def create_notification(notification_controller: NotificationController):
+    return notification_controller.create_notification()
+
+@main.route(base_url + '/notifications/<int:notification_id>', methods=['PUT'])
+@inject
+def update_notification(notification_controller: NotificationController, notification_id):
+    return notification_controller.update_notification(notification_id)
+
+@main.route(base_url + '/notifications/<int:notification_id>', methods=['DELETE'])
+@inject
+def delete_notification(notification_controller: NotificationController, notification_id):
+    return notification_controller.delete_notification(notification_id)
