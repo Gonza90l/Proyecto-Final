@@ -19,37 +19,11 @@ class NotificationHandler {
         await this.renderNotifications();
 
         if (!this.eventsAdded) {
-            // Event listener para abrir el modal
-            const notificationIcon = document.getElementById('notificaction-icon');
-            if (notificationIcon) {
-                notificationIcon.addEventListener('click', () => {
-                    this.openModal();
-                });
-            }
-
-            // Event listener para cerrar el modal
-            const closeModal = document.getElementById('close-modal');
-            if (closeModal) {
-                closeModal.addEventListener('click', () => {
-                    this.closeModal();
-                });
-            }
-
-            // Event listener para marcar todas las notificaciones como leídas
-            const markAllReadButton = document.getElementById('mark-all-read');
-            if (markAllReadButton) {
-                markAllReadButton.addEventListener('click', () => {
-                    this.markAllAsRead();
-                });
-            }
-
-            // Cerrar el modal si se hace clic fuera del contenido del modal
-            window.addEventListener('click', (event) => {
-                const modal = document.getElementById('notification-modal');
-                if (event.target === modal) {
-                    this.closeModal();
-                }
-            });
+            // Eliminar eventos existentes y añadir nuevos eventos
+            this.addEventListener('notificaction-icon', 'click', openModal.bind(this));
+            this.addEventListener('close-modal', 'click', closeModal.bind(this));
+            this.addEventListener('mark-all-read', 'click', markAllAsRead.bind(this));
+            this.addEventListener(window, 'click', handleWindowClick.bind(this));
 
             // Marcar que los eventos han sido agregados
             this.eventsAdded = true;
@@ -60,6 +34,17 @@ class NotificationHandler {
             intervalId = setInterval(async () => {
                 await this.renderNotifications('interval');
             }, 15000); // 15 segundos
+        }
+    }
+
+    addEventListener(elementId, event, handler) {
+        const element = elementId === window ? window : document.getElementById(elementId);
+        if (element) {
+            const eventKey = `${elementId}-${event}`;
+            if (!element[eventKey]) {
+                element.addEventListener(event, handler);
+                element[eventKey] = true;
+            }
         }
     }
 
@@ -182,28 +167,39 @@ class NotificationHandler {
         }
     }
 
-    async markAllAsRead() {
-        const notifications = await this.getAllNotifications();
-        const unreadNotifications = notifications.data.filter(notification => notification.read_at === null);
-        unreadNotifications.forEach(async notification => {
-            await this.markAsRead(notification.id);
-        });
-        //ocultamos el modal
-        this.closeModal();
-    }
+    
+}
 
-    openModal() {
-        const modal = document.getElementById('notification-modal');
-        if (modal) {
-            modal.style.display = 'block';
-        }
-    }
 
-    closeModal() {
-        const modal = document.getElementById('notification-modal');
-        if (modal) {
-            modal.style.display = 'none';
-        }
+async function markAllAsRead() {
+    const notifications = await this.getAllNotifications();
+    const unreadNotifications = notifications.data.filter(notification => notification.read_at === null);
+    unreadNotifications.forEach(async notification => {
+        await this.markAsRead(notification.id);
+    });
+    //ocultamos el modal
+    this.closeModal();
+}
+
+// Event handler functions
+function openModal() {
+    const modal = document.getElementById('notification-modal');
+    if (modal) {
+        modal.style.display = 'block';
+    }
+}
+
+function closeModal() {
+    const modal = document.getElementById('notification-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function handleWindowClick(event) {
+    const modal = document.getElementById('notification-modal');
+    if (event.target === modal) {
+        closeModal();
     }
 }
 
