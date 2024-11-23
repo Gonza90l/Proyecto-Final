@@ -7,12 +7,15 @@ from flaskr.dtos.create_order_request_dto import CreateOrderRequestDTO
 from flaskr.dtos.create_order_has_menu_request_dto import CreateOrderHasMenuRequestDTO
 from datetime import datetime
 from flaskr.auth import get_user_id, get_user_role
+from flaskr.services.notification_service import NotificationService
+from flaskr.dtos.create_notification_request_dto import CreateNotificationRequestDTO
 
 class OrderService:
 
     @inject
-    def __init__(self, mysql: IDatabase):
+    def __init__(self, mysql: IDatabase, notification_service: NotificationService):
         self._mysql = mysql
+        self._notification_service = notification_service
 
     def get_orders(self):
         orders = Order.find_all(self._mysql)
@@ -62,6 +65,9 @@ class OrderService:
             except ValueError as e:
                 raise ValueError(f"Invalid DTO format for order item: {item_dto}") from e
 
+        # Enviar notificación de creación de pedido
+        self._send_order_status_change_notification(order.user_id, order.id, "CREATED")
+
         return order.id
 
     def processPayment(self, order_id):
@@ -70,6 +76,10 @@ class OrderService:
             raise OrderNotFoundException("Order not found")
         order.status = "PAID"
         order.update()
+
+        # Enviar notificación de pago de pedido
+        self._send_order_status_change_notification(order.user_id, order.id, "PAID")
+
         return order
 
     def update_order(self, order_id, create_order_request_dto):
@@ -99,6 +109,10 @@ class OrderService:
             if order.status == 'CREATED' and create_order_request_dto.status != 'CANCELED':
                 if create_order_request_dto.order_items != order.order_items:
                     raise PermissionError("You can only modify the content of orders that are in 'CREATED' status")
+
+        # Enviar notificación al usuario si el estado del pedido cambia
+        if order.status != create_order_request_dto.status:
+            self._send_order_status_change_notification(order.user_id, order.id, create_order_request_dto.status)
 
         # Actualizamos los datos del pedido
         order.from_dto(create_order_request_dto)
@@ -133,3 +147,23 @@ class OrderService:
 
     def delete_order(self, order_id):
         raise Exception("Not implemented, orders cannot be deleted, only updated and created")
+
+    def _send_order_status_change_notification(self, user_id, order_id, status):
+        if status == "CREATED":
+            subject = "Order Created"
+            body = f"Your order with ID {order_id} has been created."
+        elif status == "PAID":
+            subject = "Order Paid"
+            body = f"Your order with ID {order_id} has been paid."
+        else:
+            subject = "Order Status Update"
+            body = f"Your order with ID {order_id} status changed to {status}."
+
+        notification_dto = CreateNotificationRequestDTO(
+            user_id=user_id,
+            subject=subject,
+            body=body,
+            created_at=datetime.utcnow()
+        )
+
+        self._notification_service.create_notification(notification_dto)

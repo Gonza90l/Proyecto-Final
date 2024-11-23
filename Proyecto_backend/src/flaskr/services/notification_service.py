@@ -2,6 +2,7 @@ from flaskr.models.notification import Notification
 from flaskr.exceptions.notification_service_exceptions import NotificationNotFoundException
 from flask_injector import inject
 from flaskr.database.database_interface import IDatabase
+from datetime import datetime
 
 class NotificationService:
     
@@ -22,6 +23,7 @@ class NotificationService:
     def create_notification(self, create_notification_request_dto):
         notification = Notification(self._mysql)
         notification.from_dto(create_notification_request_dto)
+        notification.created_at = datetime.utcnow()
         notification.insert()
         return notification.id
 
@@ -37,4 +39,14 @@ class NotificationService:
         if not notification:
             raise NotificationNotFoundException("Notification not found")
         notification.delete()
+        return notification_id
+
+    def set_as_read(self, notification_id, user_id):
+        notification = Notification.find_by_id(self._mysql, notification_id)
+        if not notification:
+            raise NotificationNotFoundException("Notification not found")
+        if notification.user_id != user_id:
+            raise NotificationNotFoundException("Notification does not belong to the user")
+        notification.read_at = datetime.utcnow()
+        notification.update()
         return notification_id

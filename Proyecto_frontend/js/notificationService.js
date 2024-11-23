@@ -40,7 +40,7 @@ class NotificationsService {
     }
 
     async updateNotification(id, notificationData) {
-        if (!authService.isAuthenticated() || authService.getUserRole() !== 'admin') {
+        if (!authService.isAuthenticated()) {
             throw new Error('Unauthorized');
         }
         const apiClient = this._getApiClient();
@@ -53,6 +53,14 @@ class NotificationsService {
         }
         const apiClient = this._getApiClient();
         return await apiClient.delete(`/notifications/${id}`);
+    }
+
+    async markNotificationAsRead(id) {
+        if (!authService.isAuthenticated()) {
+            throw new Error('Unauthorized');
+        }
+        const apiClient = this._getApiClient();
+        return await apiClient.put(`/notifications/${id}/read`);
     }
 }
 

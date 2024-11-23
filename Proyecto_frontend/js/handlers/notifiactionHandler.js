@@ -108,6 +108,8 @@ class NotificationHandler {
 
     populateNotificationList(notifications) {
         const notificationList = document.getElementById('notification-list');
+        //filtramos las notificaciones no leídas
+        notifications = notifications.filter(notification => notification.read_at === null);
         if (notificationList) {
             notificationList.innerHTML = '';
             notifications.forEach(notification => {
@@ -125,11 +127,33 @@ class NotificationHandler {
                 notificationList.appendChild(listItem);
             });
         }
+        //si no hay notificaciones no leídas ocultamos el botón de marcar todas como leídas
+        const markAllReadButton = document.getElementById('mark-all-read');
+        if (markAllReadButton) {
+            if (notifications.length === 0) {
+                markAllReadButton.style.display = 'none';
+                //agregamos un mensaje de que no hay notificaciones
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+
+
+                    <div>
+
+                        <p><strong>No hay notificaciones</strong></p>
+                    </div>
+                `;
+                notificationList.appendChild(listItem);
+
+            } else {
+                markAllReadButton.style.display = 'block';
+                
+            }
+        }
     }
 
     async markAsRead(notificationId) {
         try {
-            await notificationsService.updateNotification(notificationId, { read_at: new Date().toISOString() });
+            await notificationsService.markNotificationAsRead(notificationId);
             await this.renderNotifications();
         } catch (error) {
             console.error('Error marking notification as read:', error);
@@ -137,16 +161,13 @@ class NotificationHandler {
     }
 
     async markAllAsRead() {
-        try {
-            const notifications = await this.getAllNotifications();
-            const unreadNotifications = notifications.data.filter(notification => notification.read_at === null);
-            await Promise.all(unreadNotifications.map(notification => 
-                notificationsService.updateNotification(notification.id, { read_at: new Date().toISOString() })
-            ));
-            await this.renderNotifications();
-        } catch (error) {
-            console.error('Error marking all notifications as read:', error);
-        }
+        const notifications = await this.getAllNotifications();
+        const unreadNotifications = notifications.data.filter(notification => notification.read_at === null);
+        unreadNotifications.forEach(async notification => {
+            await this.markAsRead(notification.id);
+        });
+        //ocultamos el modal
+        this.closeModal();
     }
 
     openModal() {
