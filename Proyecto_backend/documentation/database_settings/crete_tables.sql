@@ -93,18 +93,21 @@ ENGINE = InnoDB;
 -- Table `proyecto_informatico`.`notification`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`notification` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `created_at` DATETIME NOT NULL,
   `read_at` DATETIME NULL,
   `subject` VARCHAR(255) NOT NULL,
   `body` VARCHAR(500) NOT NULL,
   `user_id` BIGINT NOT NULL,
-  PRIMARY KEY (`user_id`),
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_notification_user1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_notification_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `proyecto_informatico`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
 
 
 -- -----------------------------------------------------

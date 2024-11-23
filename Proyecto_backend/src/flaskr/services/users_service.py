@@ -99,7 +99,7 @@ class UsersService:
             token = jwt.encode({
                 'id': user.id,
                 'role': user.role,
-                'exp': datetime.utcnow() + timedelta(minutes=1),
+                'exp': datetime.utcnow() + timedelta(hours=24),
                 'name': user.name
             }, secret_key, algorithm='HS256')
             print("login", token)
