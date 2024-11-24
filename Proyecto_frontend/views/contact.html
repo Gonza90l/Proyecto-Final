@@ -1,0 +1,25 @@
+<!-- contact view -->
+<section class="contact-section">
+    <form id="contact-form">
+        <h2>Formulario de Contacto</h2>
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Correo Electrónico:</label><br>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Teléfono:</label>
+        <input type="tel" id="phone" name="phone">
+
+        <label for="subject">Asunto:</label>
+        <input type="text" id="subject" name="subject" required>
+
+        <label for="message">Mensaje:</label>
+        <textarea id="message" name="message" rows="4" cols="50" required></textarea>
+
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="message-sent" style="display:none;">
+        ¡Mensaje enviado! Pronto nos pondremos en contacto contigo.
+    </div>
+</section>
