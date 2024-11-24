@@ -1,61 +1,61 @@
-<mxfile host="Electron" modified="2024-11-23T23:40:40.781Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.0 Chrome/114.0.5735.289 Electron/25.8.3 Safari/537.36" etag="EVzA8XVeynaaLa4Uk86r" version="22.0.0" type="device">
+<mxfile host="Electron" modified="2024-11-24T00:03:10.271Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.0 Chrome/114.0.5735.289 Electron/25.8.3 Safari/537.36" etag="cYE0SVYdzZv4TUaHnhwb" version="22.0.0" type="device">
   <diagram name="Page-1" id="c4acf3e9-155e-7222-9cf6-157b1a14988f">
-    <mxGraphModel dx="1120" dy="532" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+    <mxGraphModel dx="2240" dy="2164" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-1" value="&amp;lt;&amp;lt;módulo&amp;gt;&amp;gt; injection_config " style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-1" value="&amp;lt;&amp;lt;módulo&amp;gt;&amp;gt; injection_config " style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="20" y="480" width="180" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-2" value="&lt;div&gt;- _app: Flask&lt;/div&gt;&lt;div&gt;- _db: IDatabase&lt;/div&gt;&lt;div&gt;- _context: ssl.SSLContext&lt;/div&gt;&lt;div&gt;- _swagger: Swagger&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-1">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-2" value="&lt;div&gt;- _app: Flask&lt;/div&gt;&lt;div&gt;- _db: IDatabase&lt;/div&gt;&lt;div&gt;- _context: ssl.SSLContext&lt;/div&gt;&lt;div&gt;- _swagger: Swagger&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="P1A6MYlfa6dCKhYoC_HP-1" vertex="1">
           <mxGeometry y="26" width="180" height="94" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-1">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="P1A6MYlfa6dCKhYoC_HP-1" vertex="1">
           <mxGeometry y="120" width="180" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-4" value="&lt;div&gt;+ configure(binder, db)&amp;nbsp;&amp;nbsp;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-1">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-4" value="&lt;div&gt;+ configure(binder, db)&amp;nbsp;&amp;nbsp;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="P1A6MYlfa6dCKhYoC_HP-1" vertex="1">
           <mxGeometry y="128" width="180" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-6" value="FlaskApp" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-6" value="FlaskApp" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="20" y="60" width="180" height="360" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-7" value="&lt;div&gt;- _app: Flask&lt;/div&gt;&lt;div&gt;- _db: IDatabase&lt;/div&gt;&lt;div&gt;- _context: ssl.SSLContext&lt;/div&gt;&lt;div&gt;- _swagger: Swagger&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-6">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-7" value="&lt;div&gt;- _app: Flask&lt;/div&gt;&lt;div&gt;- _db: IDatabase&lt;/div&gt;&lt;div&gt;- _context: ssl.SSLContext&lt;/div&gt;&lt;div&gt;- _swagger: Swagger&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="P1A6MYlfa6dCKhYoC_HP-6" vertex="1">
           <mxGeometry y="26" width="180" height="94" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-8" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-6">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-8" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="P1A6MYlfa6dCKhYoC_HP-6" vertex="1">
           <mxGeometry y="120" width="180" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-9" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Constructores&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ __init__(self)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Métodos&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ configure_app(self)&lt;/div&gt;&lt;div&gt;+ configure_database(self)&lt;/div&gt;&lt;div&gt;+ configure_middlewares(self)&lt;/div&gt;&lt;div&gt;+ configure_routes(self)&lt;/div&gt;&lt;div&gt;+ configure_injection(self)&lt;/div&gt;&lt;div&gt;+ configure_cors(self)&lt;/div&gt;&lt;div&gt;+ configure_ssl(self)&lt;/div&gt;&lt;div&gt;+ configure_swagger(self)&lt;/div&gt;&lt;div&gt;+ get_app(self)&lt;/div&gt;&lt;div&gt;+ get_ssl_context(self)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-6">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-9" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Constructores&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ __init__(self)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Métodos&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ configure_app(self)&lt;/div&gt;&lt;div&gt;+ configure_database(self)&lt;/div&gt;&lt;div&gt;+ configure_middlewares(self)&lt;/div&gt;&lt;div&gt;+ configure_routes(self)&lt;/div&gt;&lt;div&gt;+ configure_injection(self)&lt;/div&gt;&lt;div&gt;+ configure_cors(self)&lt;/div&gt;&lt;div&gt;+ configure_ssl(self)&lt;/div&gt;&lt;div&gt;+ configure_swagger(self)&lt;/div&gt;&lt;div&gt;+ get_app(self)&lt;/div&gt;&lt;div&gt;+ get_ssl_context(self)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="P1A6MYlfa6dCKhYoC_HP-6" vertex="1">
           <mxGeometry y="128" width="180" height="232" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-10" value="UsersService" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="240" y="730" width="350" height="400" as="geometry" />
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-10" value="UsersService" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="730" width="350" height="320" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-11" value="- _mysql: MySQL" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-10">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-11" value="- _mysql: MySQL" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="P1A6MYlfa6dCKhYoC_HP-10" vertex="1">
           <mxGeometry y="26" width="350" height="94" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-12" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-10">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-12" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="P1A6MYlfa6dCKhYoC_HP-10" vertex="1">
           <mxGeometry y="120" width="350" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-13" value="&lt;div&gt;&lt;div&gt;&amp;lt;&amp;lt;Constructores&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ __init__(self, mysql: MySQL)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Comandos de consulta&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ find_by_id(self, user_id: int) -&amp;gt; User&lt;/div&gt;&lt;div&gt;+ find_by_email(self, email: str) -&amp;gt; User&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Comandos de modificación&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ delete_user(self, user_id: int) -&amp;gt; bool&lt;/div&gt;&lt;div&gt;+ login(self, login_request_dto: LoginRequestDTO) -&amp;gt; str&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-10">
-          <mxGeometry y="128" width="350" height="272" as="geometry" />
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-13" value="&lt;div&gt;&lt;div&gt;&amp;lt;&amp;lt;Constructores&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ __init__(self, mysql: MySQL)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Comandos de consulta&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ find_by_id(self, user_id: int) -&amp;gt; User&lt;/div&gt;&lt;div&gt;+ find_by_email(self, email: str) -&amp;gt; User&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Comandos de modificación&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ delete_user(self, user_id: int) -&amp;gt; bool&lt;/div&gt;&lt;div&gt;+ login(self, login_request_dto: LoginRequestDTO) -&amp;gt; str&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="P1A6MYlfa6dCKhYoC_HP-10" vertex="1">
+          <mxGeometry y="128" width="350" height="192" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-16" value="  Binder   " style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-16" value="  Binder   " style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="410" y="500" width="180" height="66" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-18" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-16">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-18" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="P1A6MYlfa6dCKhYoC_HP-16" vertex="1">
           <mxGeometry y="26" width="180" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-19" value="&lt;div&gt;+ bind(service, impl, scope)&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="P1A6MYlfa6dCKhYoC_HP-16">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-19" value="&lt;div&gt;+ bind(service, impl, scope)&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="P1A6MYlfa6dCKhYoC_HP-16" vertex="1">
           <mxGeometry y="34" width="180" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-20" value="Use" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="P1A6MYlfa6dCKhYoC_HP-2" target="P1A6MYlfa6dCKhYoC_HP-19">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-20" value="Use" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="P1A6MYlfa6dCKhYoC_HP-2" target="P1A6MYlfa6dCKhYoC_HP-19" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="380" y="680" as="sourcePoint" />
             <mxPoint x="540" y="680" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="P1A6MYlfa6dCKhYoC_HP-22" value="1" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;exitX=0.5;exitY=1.125;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.731;entryY=0.008;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="P1A6MYlfa6dCKhYoC_HP-19" target="P1A6MYlfa6dCKhYoC_HP-10">
+        <mxCell id="P1A6MYlfa6dCKhYoC_HP-22" value="1" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;exitX=0.5;exitY=1.125;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.731;entryY=0.008;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="P1A6MYlfa6dCKhYoC_HP-19" target="P1A6MYlfa6dCKhYoC_HP-10" edge="1">
           <mxGeometry x="-0.5789" y="10" relative="1" as="geometry">
             <mxPoint x="600" y="630" as="sourcePoint" />
             <mxPoint x="650" y="660" as="targetPoint" />
@@ -64,6 +64,89 @@
               <mxPoint x="496" y="670" />
             </Array>
             <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-1" value="ReviewService" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="620" width="350" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-2" value="- _mysql: IDatabase" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-1">
+          <mxGeometry y="26" width="350" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-1">
+          <mxGeometry y="120" width="350" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-4" value="&lt;div&gt;&amp;lt;&amp;lt;Constructores&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ __init__(self, mysql: IDatabase)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Comandos de consulta&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ get_review_by_id(self, product_id: int) -&amp;gt; dict&lt;/div&gt;&lt;div&gt;+ order_has_review(self, order_id: int) -&amp;gt; bool&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Comandos de modificación&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ create_review(self, product_id: int, order_id: int, rating: int, comment: str) -&amp;gt; bool&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-1">
+          <mxGeometry y="128" width="350" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-5" value="1" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="P1A6MYlfa6dCKhYoC_HP-19" target="yyelKcN5H34rOJ5qzm9m-1">
+          <mxGeometry x="-1" y="3" relative="1" as="geometry">
+            <mxPoint x="340" y="590" as="sourcePoint" />
+            <mxPoint x="500" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-6" value="&lt;div&gt;&amp;lt;&amp;lt;Interfaz&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;IDatabase&lt;/div&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="110" width="180" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-8" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-6">
+          <mxGeometry y="50" width="180" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-9" value="&lt;div&gt;&lt;div&gt;+ init_app(self, app: Flask) -&amp;gt; None&lt;/div&gt;&lt;div&gt;+ get_connection(self) -&amp;gt; Connection&lt;/div&gt;&lt;div&gt;+ get_cursor(self) -&amp;gt; Cursor&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-6">
+          <mxGeometry y="58" width="180" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-10" value="1" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;exitX=0.731;exitY=-0.003;exitDx=0;exitDy=0;entryX=0.556;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" edge="1" parent="1" source="yyelKcN5H34rOJ5qzm9m-1" target="yyelKcN5H34rOJ5qzm9m-9">
+          <mxGeometry x="-0.8826" y="-14" relative="1" as="geometry">
+            <mxPoint x="510" y="490" as="sourcePoint" />
+            <mxPoint x="670" y="490" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-11" value="FlaskMySQLDatabase" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="90" width="180" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-12" value="- mysql: MySQL" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-11">
+          <mxGeometry y="26" width="180" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-13" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-11">
+          <mxGeometry y="80" width="180" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-14" value="&lt;div&gt;&lt;div&gt;&amp;lt;&amp;lt;Constructores&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ __init__(self)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Métodos&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ init_app(self, app: Flask) -&amp;gt; None&lt;/div&gt;&lt;div&gt;+ connection(self) -&amp;gt; Connection&lt;/div&gt;&lt;div&gt;+ get_connection(self) -&amp;gt; Connection&lt;/div&gt;&lt;div&gt;+ get_cursor(self) -&amp;gt; Cursor&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-11">
+          <mxGeometry y="88" width="180" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-16" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=-0.011;exitY=0.188;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="yyelKcN5H34rOJ5qzm9m-14" target="yyelKcN5H34rOJ5qzm9m-9">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="730" y="200" as="sourcePoint" />
+            <mxPoint x="890" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-17" value="MySQLConnectorDatabase" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="-220" width="180" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-18" value="- _connection: Connection" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-17">
+          <mxGeometry y="26" width="180" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-19" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-17">
+          <mxGeometry y="80" width="180" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-20" value="&lt;div&gt;&amp;lt;&amp;lt;Constructores&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ __init__(self)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Métodos&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ init_app(self, app: Flask) -&amp;gt; None&lt;/div&gt;&lt;div&gt;+ connection(self) -&amp;gt; Connection&lt;/div&gt;&lt;div&gt;+ get_connection(self) -&amp;gt; Connection&lt;/div&gt;&lt;div&gt;+ get_cursor(self) -&amp;gt; Cursor&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="yyelKcN5H34rOJ5qzm9m-17">
+          <mxGeometry y="88" width="180" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-21" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=-0.011;exitY=0.281;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1.006;entryY=0.176;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="yyelKcN5H34rOJ5qzm9m-20" target="yyelKcN5H34rOJ5qzm9m-9">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="800" y="170" as="sourcePoint" />
+            <mxPoint x="960" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-22" value="1" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;exitX=1.056;exitY=0.052;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.011;entryY=0.294;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="P1A6MYlfa6dCKhYoC_HP-9" target="yyelKcN5H34rOJ5qzm9m-9">
+          <mxGeometry x="-0.8694" y="-13" relative="1" as="geometry">
+            <mxPoint x="590" y="350" as="sourcePoint" />
+            <mxPoint x="510" y="204" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yyelKcN5H34rOJ5qzm9m-23" value="Use" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0.517;exitY=1.013;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="P1A6MYlfa6dCKhYoC_HP-9" target="P1A6MYlfa6dCKhYoC_HP-1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="160" y="440" as="sourcePoint" />
+            <mxPoint x="320" y="440" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
