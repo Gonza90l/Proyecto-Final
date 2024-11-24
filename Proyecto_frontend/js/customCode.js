@@ -116,19 +116,36 @@ routerInstance.onViewLoaded = async () => {
         footerYearElement.textContent = currentYear;
     }
 
+
+    // codigo para el envio de formulario de contacto
     document.getElementById('contact-form').addEventListener('submit', function(event) {
         event.preventDefault(); // Evitar el envío del formulario
 
         // Mostrar el mensaje de confirmación
-        const messageSentElement = document.getElementById('message-sent');
-        messageSentElement.style.display = 'block';
+        showMessage('¡Mensaje enviado! Pronto nos pondremos en contacto contigo.');
         
-        // Ocultar el formulario
-        this.style.display = 'none';
-
         // Borrar el contenido del formulario
         this.reset();
-    })
+
+        // Ocultar el formulario 
+        this.style.display = 'none';
+    });
+
+    function showMessage(message) {
+        // Mostrar el mensaje de confirmación
+        const messageSentElement = document.getElementById('message-sent');
+        messageSentElement.textContent = message;
+        messageSentElement.style.display = 'block';
+        
+        // Redirigir al home después de 5 segundos
+        setTimeout(() => {
+            Redirect('/');
+        }, 8000); // Ajuste a 5 segundos
+    }
+    function Redirect(url) {
+            window.location.href = url;
+    }
+
 
 }
 //*******************************************************************************************
