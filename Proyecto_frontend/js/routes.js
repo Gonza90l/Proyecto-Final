@@ -11,6 +11,7 @@ export const routeConfig = [
     { path: '/404', view: '/views/404.html' },
     { path: '/login', view: '/views/login.html' },
     { path: '/register', view: '/views/register.html' },
+    { path: '/contact', view: '/views/contact.html' },
     { path: '/dashboard', view: '/views/user-dashboard.html', protected: true, role: 'user' }, // Dashboard para usuario regular
     { path: '/admin-dashboard', view: '/views/admin-dashboard.html', protected: true, role: 'admin' }, // Dashboard para admins
     { path: '/admin-menu', view: '/views/admin-menu.html', protected: true, role: 'admin' }, // Dashboard para admins

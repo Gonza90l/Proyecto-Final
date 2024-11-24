@@ -115,7 +115,20 @@ routerInstance.onViewLoaded = async () => {
         // Asignar el año actual al elemento
         footerYearElement.textContent = currentYear;
     }
-    
+
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evitar el envío del formulario
+
+        // Mostrar el mensaje de confirmación
+        const messageSentElement = document.getElementById('message-sent');
+        messageSentElement.style.display = 'block';
+        
+        // Ocultar el formulario
+        this.style.display = 'none';
+
+        // Borrar el contenido del formulario
+        this.reset();
+    })
 
 }
 //*******************************************************************************************

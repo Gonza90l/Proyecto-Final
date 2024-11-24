@@ -1,0 +1,66 @@
+.contact-section {
+    background-image: url("../img/wallpaper-home.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    flex: auto;
+    flex-direction: column;
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh;
+}
+
+.contact-section > form {
+    color: var(--text-color);
+    width: 35%; 
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(5px);
+    overflow: hidden;
+}
+
+.contact-section > form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #302929;
+    opacity: 0.8;
+    z-index: -1;
+}
+
+.contact-section > form > h2 {
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.contact-section > form > input,
+.contact-section > form > button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--modal-border-color);
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.contact-section > form > button {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.contact-section > form > button:hover {
+    background-color: var(--accent-color);
+}
