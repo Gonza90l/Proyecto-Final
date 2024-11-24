@@ -108,7 +108,7 @@
         justify-content: space-between;
         padding: 1rem;
         border: none;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--border-color);
         position: relative;
     }
 
@@ -134,12 +134,12 @@
     .orders-table th, .orders-table td {
         padding: 0.75rem;
         text-align: left;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--border-color);
     }
 
     .orders-table th {
         background-color: var(--secondary-color);
-        color: white;
+        color: var(--text-color);
     }
 
     .orders-table tr {
