@@ -44,7 +44,7 @@ main {
 }
 
 section {
-  background-color: var(--background-color); 
+  background-color: transparent;
   font-family: Arial, Helvetica, sans-serif; /* establecemos las propiedades de la fuente*/
   font-size: large;
   color: var(--text-color);
@@ -89,4 +89,8 @@ button {
 
 button:hover {
   background: var(--accent-color);
+}
+
+table {
+  background-color: var(--background-color);
 }

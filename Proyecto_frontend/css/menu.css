@@ -85,3 +85,30 @@
         opacity: 1;
     }
 }
+
+/*Menu admin, mostrar en forma de tabla */
+/* Faltaria el responsivo, borrar comentario si se implementa */
+
+.admin-menu-section {
+    padding: 2rem;
+    /* margin-top: 5rem; */
+    background-color: rgba(7, 7, 7, 0.568);
+}
+
+.menu-table {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+
+}
+
+.menu-table th, .menu-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+}
+    
+.menu-table th {
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+}
