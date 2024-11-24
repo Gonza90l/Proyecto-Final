@@ -64,3 +64,9 @@
 .contact-section > form > button:hover {
     background-color: var(--accent-color);
 }
+
+.contact-section > div {
+    background-color: var(--modal-bg-color);
+    border-radius: 2%;
+    padding: 5%;
+}
