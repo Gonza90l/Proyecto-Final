@@ -175,6 +175,7 @@ class UserMenuHandler {
                                     <img src="" alt="Imagen de la comida" class="menu-item-image" data-photo="${item.photo}">
                                     <h3>Descripción</h3>
                                     <p>${item.description}</p>
+                                    <span class='price-container'>Precio: $${item.price}</span>
                                 </div>
                                 <footer>
                                     <input type="number" min="1" max="99" value="1" class="quantity-input">
