@@ -1,29 +1,38 @@
 /* Estilos para la sección de checkout */
 .checkout-section {
-
+    /* background-color: var(--modal-content-bg-color); */
+    color: var(--text-color);
     padding: 2rem;
     max-width: 600px;
     margin: 2rem auto;
-    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
 }
 
-.checkout-section h1 {
+.checkout-section form {
+    background-color: var(--modal-content-bg-color);
+    color: var(--text-color);
+    border-radius: 10px;
+    margin-top: 2rem;
+    padding: 2rem;
+}
+/* 
+.checkout-section h2 {
     text-align: center;
     color: var(--secondary-color);
     margin-bottom: 1.5rem;
-}
+} */
 
 .checkout-section .form-group {
     margin-bottom: 1rem;
+    
 }
-
+/* 
 .checkout-section label {
     display: block;
     margin-bottom: 0.5rem;
     color: #333;
-}
+} */
 
 .checkout-section input {
     width: 100%;
