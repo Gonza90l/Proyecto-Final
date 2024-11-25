@@ -12,7 +12,7 @@
   --border-color: #4b6177; /* Color del borde: Azul Grisaceo */
   --footer-color: #091b2c; /* Color del borde: Azul Mas Oscuro */
   --modal-bg-color: rgba(0, 0, 0, 0.4);
-  --modal-content-bg-color: #1a1918;
+  --modal-content-bg-color: #1a1918b0;
   --modal-border-color: #888;
   --close-button-color: #aaa;
   --close-button-hover-color: black;
@@ -93,4 +93,46 @@ button:hover {
 
 table {
   background-color: var(--background-color);
+}
+
+/*ëstilo comun para los formularios*/
+form {
+  background-color: var(--modal-content-bg-color);
+  backdrop-filter: blur(5px);
+  color: var(--text-color);
+  border-radius: 15px;
+  margin-top: 2rem;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Asegura que el pseudo-elemento no se salga del borde del formulario */
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--modal-border-color);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+input:focus {
+  border-color: var(--secondary-color);
+  outline: none;
+}
+      /* AComodar error de boton al final del form y ver el meduaqueris */
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--modal-border-color);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+textarea:focus {
+  border-color: var(--secondary-color);
+  outline: none;
 }
