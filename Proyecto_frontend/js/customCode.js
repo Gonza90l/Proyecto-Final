@@ -9,7 +9,7 @@ import UserDashboardHandler from './handlers/userDashboardHandler.js';
 import AdminOrdersHandler from './handlers/adminOrdersHandler.js';
 import authService from './authService.js';
 import NotificationHandler from './handlers/notificationHandler.js';
-
+import AdminDashboardHandler from './handlers/adminDashboardHandler.js';
 
 
 routerInstance.onViewLoaded = async () => {
@@ -102,6 +102,10 @@ routerInstance.onViewLoaded = async () => {
      const loginHandler = new LoginHandler();
      loginHandler.init();
 
+    //instanciamos el handler AdminDashboardHandler
+    const adminDashboardHandler = new AdminDashboardHandler();
+    await adminDashboardHandler.init();
+
 
     // Hacer que navigate esté disponible globalmente
     window.navigate = routerInstance.navigate.bind(routerInstance);
@@ -117,14 +121,18 @@ routerInstance.onViewLoaded = async () => {
     }
 
 
-    // codigo para el envio de formulario de contacto
-    document.getElementById('contact-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Evitar el envío del formulario
+    // Código para el envío de formulario de contacto
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío del formulario
 
-        routerInstance.showNotification('Su mensaje fue enviado correctamente', 'info');
+            routerInstance.showNotification('Su mensaje fue enviado correctamente', 'info');
 
-        routerInstance.navigate('/');
-    });
+            routerInstance.navigate('/');
+        });
+    }
+
 
 
 }

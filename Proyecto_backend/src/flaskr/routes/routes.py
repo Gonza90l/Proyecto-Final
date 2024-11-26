@@ -264,5 +264,5 @@ def set_as_read(notification_controller: NotificationController, notification_id
 #rutas para las estadisticas
 @main.route(base_url + '/statistics', methods=['GET'])
 @inject
-def get_statistics(statistics_controller):
+def get_statistics(statistics_controller: StatisticsController):
     return statistics_controller.get_statistics()

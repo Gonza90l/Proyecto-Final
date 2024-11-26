@@ -5,6 +5,7 @@ import menuService from './menuService.js';
 import notificationService from './notificationService.js';
 import checkoutService from './checkoutService.js';
 import reviewService from './reviewService.js';
+import statisticsService from './statisticsService.js';
 import './customCode.js'; 
 import cart from './cart.js';
 
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     notificationService.init();
     checkoutService.init();
     reviewService.init();
+    statisticsService.init();
     cart.init();
     routerInstance.router();
 });
