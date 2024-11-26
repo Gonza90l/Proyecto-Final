@@ -17,6 +17,7 @@
 
 .orders-table {
     width: 100%;
+    margin-top: 5px;
     border-collapse: collapse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -30,6 +31,9 @@
 .orders-table th {
     background-color: var(--secondary-color);
     color: white;
+}
+.delete-menu {
+    background-color: var(--cancel-color);
 }
 
 .status {
@@ -95,11 +99,11 @@
         border-radius: 10px;
         background-color: rgba(7, 7, 7, 0.568); /* Mantiene la transparencia original */
         overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
     }
 
     .orders-table tr:hover {
-        transform: translateY(-5px);
+        /* transform: translateY(-5px); */
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
@@ -148,11 +152,11 @@
         border-radius: 10px;
         background-color: rgba(7, 7, 7, 0.568); /* Mantiene la transparencia original */
         overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
     }
 
     .orders-table tr:hover {
-        transform: translateY(-5px);
+        /* transform: translateY(-5px); */
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 

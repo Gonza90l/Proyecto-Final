@@ -145,6 +145,9 @@ textarea:focus {
 }
 select {
   color: var(--text-color);
+  background-color: var(--background-color);
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 select:focus {
   border-color: var(--secondary-color);
