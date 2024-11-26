@@ -25,10 +25,9 @@ export class ApiClient {
             return await this._handleResponse(response);
         } catch (error) {
             if (retries > 0 && (error.name === 'TypeError' || error.message === 'Failed to fetch')) {
-                console.warn(`Retrying... (${this.maxRetries - retries + 1}/${this.maxRetries})`);
+                //console.warn(`Retrying... (${this.maxRetries - retries + 1}/${this.maxRetries})`);
                 return await this._fetchWithRetry(url, options, retries - 1);
             } else {
-                console.error('Failed after maximum retries');
                 throw error;
             }
         }

@@ -50,14 +50,11 @@ class MenuService {
 
         // Debemos subir la imagen al servidor y obtener la URL de la imagen
         if (image instanceof File) {
-            console.log("1", image.type);
             if (image.type.startsWith('image/')) {
-                console.log("2", image.type);
                 // Usamos la API en el endpoint /images    
                 try {
                     const response = await apiClient.uploadFile('/images', image);
                     menuItemData.image = response.data.file_path;
-                    console.log('Image uploaded:', response.data);
                 } catch (error) {
                     console.error('Error uploading image:', error);
                     menuItemData.image = "";
@@ -89,20 +86,15 @@ class MenuService {
             console.log('Unauthorized', await authService.getRole(), await authService.isAuthenticated());
             throw new Error('Unauthorized');
         }
-        console.log('Updating menu item:', menuItemData);
-
         const apiClient = this._getApiClient();
 
         // Check if the image needs to be updated
         if (image && image instanceof File) {
-            console.log("1", image.type);
             if (image.type.startsWith('image/')) {
-                console.log("2", image.type);
                 // Usamos la API en el endpoint /images    
                 try {
                     const response = await apiClient.uploadFile('/images', image);
                     menuItemData.image = response.data.file_path;
-                    console.log('Image uploaded:', response.data);
                 } catch (error) {
                     console.error('Error uploading image:', error);
                     menuItemData.image = "";

@@ -108,7 +108,6 @@ class NotificationHandler {
         }
         try {
             const notifications = await notificationsService.getAllNotifications();
-            console.log('Notifications:', notifications);
             return notifications;
         } catch (error) {
             console.error('Error fetching notifications:', error);
@@ -178,7 +177,7 @@ async function markAllAsRead() {
         await this.markAsRead(notification.id);
     });
     //ocultamos el modal
-    this.closeModal();
+    closeModal();
 }
 
 // Event handler functions

@@ -1,5 +1,6 @@
 import statisticsService from '../statisticsService.js';
 import { routerInstance } from '../router.js';
+import authService from '../authService.js';
 
 class AdminDashboardHandler {
     constructor() {
@@ -7,12 +8,15 @@ class AdminDashboardHandler {
     }
 
     async init() {
+        //si es aDMIN
+        if (authService.getRole() != 'admin') {
+           return;
+        }
         try {
             const response = await this.statisticsService.getStatistics();
             const statistics = response.data;
             this.renderStatistics(statistics);
         }catch (error) {
-            console.error(error);
         }
     }
 

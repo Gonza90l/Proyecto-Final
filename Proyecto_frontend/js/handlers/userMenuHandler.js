@@ -7,17 +7,14 @@ import reviewsService from '../reviewService.js';
 class UserMenuHandler {
 
     constructor() {
-        console.log('UserMenuHandler instance created');
     }
 
     async init() {
-        console.log('UserMenuHandler initialized');
         this.loadMenus();
         this.configureButtons();
     }
 
     async loadMenus() {
-        console.log('loadMenus called');
         if(await authService.isAuthenticated()){
             try {
                 const menuItems = await menuService.getAllMenuItems();
@@ -29,7 +26,7 @@ class UserMenuHandler {
     }
 
     configureButtons() {
-        console.log('configureButtons called');
+
         
         const modalCart = document.getElementById('close-modal-cart');
         if (modalCart) {
@@ -63,7 +60,6 @@ class UserMenuHandler {
         const fullStars = Math.floor(rating);
         const halfStar = rating % 1 >= 0.5 ? 1 : 0;
         const emptyStars = 5 - fullStars - halfStar;
-        console.log('Rating:', rating, 'Full stars:', fullStars, 'Half star:', halfStar, 'Empty stars:', emptyStars);
         return `
             ${'<span class="star full">★</span>'.repeat(fullStars)}${halfStar ? '<span class="star half">★</span>' : ''}${'<span class="star empty">☆</span>'.repeat(emptyStars)}
         `.trim();
@@ -72,7 +68,6 @@ class UserMenuHandler {
     async showComments(itemId) {
         try {
             const reviews = await reviewsService.getReviewById(itemId);
-            console.log('Reviews:', reviews);
             const comments = reviews.reviews || [];
             const commentsHtml = comments.map(comment => `
                 <div class="comment">
@@ -116,8 +111,7 @@ class UserMenuHandler {
     }
 
     async renderMenu(menuItems) {
-        console.log('renderMenu called');
-
+        
         this.menuSection = document.querySelector('.client-menu-section-first');
         if (this.menuSection) {
             const categoriesResponse = await menuService.getCategories();
@@ -135,7 +129,7 @@ class UserMenuHandler {
             const reviewsMap = {};
             for (const item of menuItems) {
                 const reviews = await reviewsService.getReviewById(item.id);
-                console.log('Reviews:', reviews);
+                
                 if(parseInt(reviews.count) > 0){
                     reviewsMap[item.id] = reviews.average ;
                 }else{
@@ -143,7 +137,7 @@ class UserMenuHandler {
                 }   
             }
 
-            console.log('MAP:', reviewsMap);
+            
 
     
             // Agrupar los elementos del menú por categoría
@@ -159,7 +153,7 @@ class UserMenuHandler {
     
             // Crear un section para cada categoría y agregarlo como hermano del section original
             for (const category in groupedItems) {
-                console.log('Category:', category);
+               
                 const categoryItems = groupedItems[category];
                 const sectionHtml = `
                     <section class="client-menu-section">
@@ -217,7 +211,7 @@ class UserMenuHandler {
                     const quantityInput = event.target.closest('article').querySelector('.quantity-input');
                     const quantity = parseInt(quantityInput.value, 10);
                     for (let i = 0; i < quantity; i++) {
-                        console.log('Adding item to cart:', item);
+                        
                         await cart.addItem(item);
                     }
                 });

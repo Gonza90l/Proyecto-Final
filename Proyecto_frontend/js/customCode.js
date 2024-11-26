@@ -13,7 +13,6 @@ import AdminDashboardHandler from './handlers/adminDashboardHandler.js';
 
 
 routerInstance.onViewLoaded = async () => {
-    console.log('onViewLoaded function executed');
     // ***************************************************************************************
     // Código que se ejecutará después de que el router haya cargado completamente las vistas
     // Aquí agregar el código que necesites ejecutar una vez que la vista se haya cargado

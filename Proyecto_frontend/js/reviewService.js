@@ -75,7 +75,6 @@ class ReviewsService {
         }
         const apiClient = this._getApiClient();
         const response = await apiClient.get(`/orders/${orderId}/review`);
-        console.log(response);
         return response.data; // Devuelve solo el valor de data
     }
     
