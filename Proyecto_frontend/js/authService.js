@@ -22,16 +22,10 @@ class AuthService {
             expiry: 0
         };
 
-        //marcamos el tiempo en que se ejecuta la funcion
-        console.log('AuthService initialized at', new Date().toLocaleTimeString());
-
         this.token = localStorage.getItem('authToken');
         this.tokenExpiry = this.getExpiration();
         if (this.token && this.tokenExpiry) {
-            console.log('Token found:', this.token);
             this.apiClient.token = this.token; // Actualiza el token en ApiClient
-        } else {
-            console.log('No token found, user is not authenticated.');
         }
     }
 
@@ -61,7 +55,6 @@ class AuthService {
             const response = await this.apiClient.post('/register', registerRequestDto);
     
             if (response.status !== 200) {
-                console.error('Register error 1:', response.data);
                 // si existe el campo error en la respuesta, lo devolvemos
                 if (response.data.errors) {
                     return { success: false, error: response.data.errors };

@@ -30,7 +30,6 @@ class AdminMenuHandler {
                     price: parseFloat(formData.get('price')), // Convertir el precio a número de punto flotante
                     category_id: formData.get('category_id'),
                 };
-                console.log('menu', menu);
                 addOrUpdateMenu(menu);
             });
         }

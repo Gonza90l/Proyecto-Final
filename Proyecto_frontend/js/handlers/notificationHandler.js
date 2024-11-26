@@ -108,7 +108,6 @@ class NotificationHandler {
         }
         try {
             const notifications = await notificationsService.getAllNotifications();
-            console.log('Notifications:', notifications);
             return notifications;
         } catch (error) {
             console.error('Error fetching notifications:', error);
