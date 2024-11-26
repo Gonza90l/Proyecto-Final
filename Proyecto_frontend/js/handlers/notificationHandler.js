@@ -53,7 +53,7 @@ class NotificationHandler {
             const modalHtml = `
                 <div id="notification-modal" class="modal">
                     <div class="modal-content">
-                        <span class="close" id="close-modal">&times;</span>
+                        <span class="close-button" id="close-modal">&times;</span>
                         <h2>Notificaciones</h2>
                         <button id="mark-all-read">Marcar todo como leído</button>
                         <ul id="notification-list"></ul>
