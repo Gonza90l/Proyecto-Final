@@ -40,7 +40,6 @@ class Cart {
             item.quantity = 1;
             this.items.push(item);
         }
-        console.log('Cart items:', this.items);
         routerInstance.showNotification('Producto añadido al carrito', 'info');
         await this.saveCart(); // Cambiar a await para asegurar que el carrito se guarde antes de renderizar
     }
@@ -87,7 +86,6 @@ class Cart {
     }
 
     async renderCart() {
-        console.log('Rendering cart');
         const cartButton = document.getElementById('cart-button');
         const itemCount = document.getElementById('item-count');
         if (itemCount) {

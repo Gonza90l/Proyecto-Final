@@ -49,7 +49,6 @@ class UserDashboardHandler {
 
                 try {
                     // Llamar al servicio de reseñas
-                    console.log(data);
                     await reviewService.createReview(data); // Asumiendo que `addReviews` acepta un array de reseñas
                     routerInstance.showNotification('Reseñas enviadas con éxito','info');
                     routerInstance.navigate('/dashboard');
@@ -130,7 +129,6 @@ class UserDashboardHandler {
             // Añadir botón de comentarios y reseñas si el estado es "DELIVERED"
             if (order.status === 'DELIVERED') {
                 const hasComments = await reviewService.getReviewByOrderId(order.id);
-                console.log('order:', order.id, 'hasComments:', hasComments);
                 if (!hasComments) {
                     let btnComentarios = document.createElement("button");
                     btnComentarios.classList.add("add-review");
@@ -186,7 +184,6 @@ class UserDashboardHandler {
 // Métodos para actualizar y cancelar pedidos
 function updateOrder(orderId) {
     // Lógica para actualizar el pedido
-    console.log(`Actualizar pedido ${orderId}`);
 }
 
 async function cancelOrder(orderId) {
@@ -196,7 +193,6 @@ async function cancelOrder(orderId) {
     }
     //obtenemos el pedido
     let orderData = await ordersService.getOrderById(orderId);
-    console.log(orderData);
     if (!orderData) {
         routerinstance.showNotification('No se pudo obtener el pedido', 'danger');
         return;

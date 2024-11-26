@@ -8,7 +8,6 @@ class AdminOrdersHandler {
     }
 
     async init() {
-        console.log('AdminOrdersHandler initialized');
         this.renderOrders();
     }
 
@@ -196,7 +195,6 @@ async function cancelOrder(orderId) {
     }
     //obtenemos el pedido
     let orderData = await ordersService.getOrderById(orderId);
-    console.log(orderData);
     if (!orderData) {
         routerInstance.showNotification('No se pudo obtener el pedido', 'danger');
         return;

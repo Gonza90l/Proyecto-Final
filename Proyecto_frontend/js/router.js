@@ -29,7 +29,6 @@ class Router {
 
         // Cargar fragmentos al inicio
         document.addEventListener('DOMContentLoaded', this.router.bind(this));
-        console.log('Router initialized');
     }
 
     registerRoute(path, view, isProtected = false, role = null) {
@@ -40,12 +39,9 @@ class Router {
 
     async isAuthenticated() {
         //marcamos el tiempo en que se ejecuta la funcion
-        console.log('Checking authentication at', new Date().toLocaleTimeString());
         try {
-            console.log('Checking authentication');
             return await authService.isAuthenticated();
         } catch (err) {
-            console.error('Error checking authentication:', err);
             return false;
         }
     }
@@ -84,7 +80,6 @@ class Router {
     }
 
     async router() {
-        console.log('Routing to', window.location.pathname);
         if (this.isRouting) return; // Prevent multiple executions
         this.isRouting = true;
 
@@ -150,7 +145,6 @@ class Router {
             await this.loadFragments();
 
             if (this.onViewLoaded) {
-                console.log('Calling onViewLoaded callback');
                 this.onViewLoaded();
             }
         } catch (err) {
@@ -184,7 +178,6 @@ class Router {
     
             try {
                 if (!this.fragmentCache[fragmentName]) {
-                    console.log(`Loading fragment from ${url}`);
                     const response = await fetch(url);
                     if (!response.ok) throw new Error(`No se pudo cargar ${fragmentName}`);
                     
