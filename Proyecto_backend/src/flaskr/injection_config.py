@@ -8,6 +8,8 @@ from flaskr.services.image_service import ImageService
 from flaskr.services.review_service import ReviewService
 from flaskr.services.notification_service import NotificationService
 
+
+#cONFIGURAMOS LOS SERVicios que se usarán en el inyector de dependencias
 def configure(binder: Binder, db):
     # Bind de la base de datos mediante la interfaz IDatabase
     binder.bind(IDatabase, to=db, scope=singleton)
