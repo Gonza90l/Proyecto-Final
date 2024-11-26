@@ -36,10 +36,10 @@ class StatisticsController(BaseController):
 
             # Consulta para obtener la cantidad de pedidos pendientes (no 'DELIVERED')
             query_pending = """
-                SELECT COUNT(*) as pending_orders 
-                FROM `order`
-                WHERE status NOT IN ('DELIVERED')
-            """
+                    SELECT COUNT(*) as pending_orders 
+                    FROM `order`
+                    WHERE status NOT IN ('DELIVERED', 'CREATED')
+                """
             result_pending = self.execute_query(query_pending)
             pending_orders = result_pending[0]['pending_orders'] if result_pending else 0
 
