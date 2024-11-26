@@ -177,7 +177,7 @@ async function markAllAsRead() {
         await this.markAsRead(notification.id);
     });
     //ocultamos el modal
-    this.closeModal();
+    closeModal();
 }
 
 // Event handler functions
