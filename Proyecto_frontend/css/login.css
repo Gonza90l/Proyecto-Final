@@ -37,3 +37,11 @@
     padding: 10px 0;
     text-align: center;
 }
+
+
+/* Estilos responsivos para dispositivos móviles */
+@media (max-width: 600px) {
+    #login-form {
+        min-width: 300px;
+    }
+}

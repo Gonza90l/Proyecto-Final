@@ -37,3 +37,10 @@
     text-align: center;
     color: var(--text-color);
 }
+
+/* condigo responsivo para moviles */
+@media (max-width: 600px) {
+    #register-form {
+        min-width: 300px;
+    }
+}
