@@ -143,3 +143,10 @@ textarea:focus {
   border-color: var(--secondary-color);
   outline: none;
 }
+select {
+  color: var(--text-color);
+}
+select:focus {
+  border-color: var(--secondary-color);
+  outline: none;
+}
