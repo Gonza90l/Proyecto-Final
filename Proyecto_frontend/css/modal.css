@@ -23,6 +23,7 @@
 
 .modal-content {
     background-color: var(--modal-content-bg-color);
+    color: var(--text-color);
     margin: 15% auto;
     padding: 20px;
     border: 1px solid var(--modal-border-color);
@@ -85,6 +86,12 @@
     flex-direction: column;
     justify-content: center;
 }
+
+.modal-content .close {
+    font-size: xx-large;
+    cursor: pointer;
+}
+
 
 #modal-cart img {
     width: 100%;

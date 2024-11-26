@@ -16,7 +16,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añadir sombra para mejor visibilidad */
 }
 
-.error-content h1 {
+.error-content h2 {
     font-size: 2em;
     margin-bottom: 10px;
 }
