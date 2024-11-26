@@ -16,11 +16,8 @@
     position: relative;
     width: 35%; 
     padding: 20px;
-    border-radius: 15px;
     display: flex;
     flex-direction: column;
-
-    
 }
 
 .login-section > form::before {
@@ -30,7 +27,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #302929; /* Color de fondo del formulario */
+    background-color: var(--background-color); /* Color de fondo del formulario */
     opacity: 0.8; /* Nivel de opacidad */
     z-index: -1; /* Asegura que el pseudo-elemento esté detrás del contenido del formulario */
 }
@@ -39,5 +36,4 @@
     margin: 0;
     padding: 10px 0;
     text-align: center;
-
 }

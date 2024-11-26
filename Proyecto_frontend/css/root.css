@@ -7,6 +7,7 @@
   --primary-color: #B29138; /* Color principal: Dorado */
   --secondary-color: #556B2F; /* Color secundario: Verde Oliva */
   --accent-color: #fa2c2c; /* Color de acento: rojo brillante */
+  --cancel-color: #ec7b5f; /* Color de acento: rojo brillante */
   --background-color: #1a1918; /* Color del fondo: Negro */
   --text-color: #bfc9c9; /* Color del texto: BLANco */
   --border-color: #4b6177; /* Color del borde: Azul Grisaceo */
@@ -86,9 +87,15 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
-
 button:hover {
   background: var(--accent-color);
+}
+
+button[type="cancel"] {
+  background-color: var(--cancel-color);
+}
+button:hover[type="cancel"] {
+  background-color: var(--accent-color);
 }
 
 table {

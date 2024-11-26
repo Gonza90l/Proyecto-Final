@@ -1,6 +1,5 @@
 /* Estilos para la sección de checkout */
 .checkout-section {
-    /* background-color: var(--modal-content-bg-color); */
     color: var(--text-color);
     padding: 2rem;
     max-width: 600px;
@@ -16,23 +15,12 @@
     margin-top: 2rem;
     padding: 2rem;
 }
-/* 
-.checkout-section h2 {
-    text-align: center;
-    color: var(--secondary-color);
-    margin-bottom: 1.5rem;
-} */
 
 .checkout-section .form-group {
     margin-bottom: 1rem;
     
 }
-/* 
-.checkout-section label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #333;
-} */
+
 
 .checkout-section input {
     width: 100%;
@@ -52,22 +40,12 @@
     padding: 0.75rem;
     border: none;
     border-radius: 5px;
-    background-color: var(--secondary-color);
-    color: white;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 1rem;
 }
 
-.checkout-section button[type="cancel"] {
-    background-color: #ccc;
-    margin-right: 4%;
-}
-
-.checkout-section button:hover {
-    background-color: var(--accent-color);
-}
 
 .checkout-section p {
     text-align: center;
