@@ -1,5 +1,5 @@
 import authService from './authService.js';
-import CreateOrderRequestDto from './dtos/createOrderRequestDto.js';
+import CreateOrderRequestDto from './dtos/CreateOrderRequestDto.js';
 import menuService from './menuService.js';
 import orderService from './orderService.js';
 import { routerInstance } from './router.js';

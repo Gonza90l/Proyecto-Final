@@ -1,0 +1,22 @@
+# Use the official Apache image from the Docker Hub
+FROM httpd:2.4
+
+# Copy the frontend files into the container
+COPY . /usr/local/apache2/htdocs/
+
+# Copy the SSL certificates into the container
+COPY ssl /usr/local/apache2/conf/ssl
+
+# Copy the custom Apache configuration file
+COPY httpd-ssl.conf /usr/local/apache2/conf/extra/httpd-ssl.conf
+
+# Enable SSL and the custom configuration
+RUN apt-get update && apt-get install -y openssl && \
+    sed -i '/LoadModule ssl_module/s/^#//g' /usr/local/apache2/conf/httpd.conf && \
+    sed -i '/Include conf\/extra\/httpd-ssl.conf/s/^#//g' /usr/local/apache2/conf/httpd.conf
+
+# Define the log directory
+ENV APACHE_LOG_DIR /usr/local/apache2/logs
+
+# Expose the port the app runs on
+EXPOSE 443
