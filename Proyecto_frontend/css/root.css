@@ -128,7 +128,7 @@ input:focus {
   border-color: var(--secondary-color);
   outline: none;
 }
-      /* AComodar error de boton al final del form y ver el meduaqueris */
+
 textarea {
   width: 100%;
   padding: 0.5rem;
@@ -137,6 +137,8 @@ textarea {
   box-sizing: border-box;
   background-color: var(--background-color);
   color: var(--text-color);
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 textarea:focus {
