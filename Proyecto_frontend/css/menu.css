@@ -18,7 +18,7 @@
     background-color: var(--background-color);
     min-width: 300px;
     margin: 10px;
-    width: calc(33.333% - 20px);
+    width: calc(33.333% - 30px);
     border: 1px solid var(--border-color);
     border-radius: 10px;
     position: relative;
@@ -26,12 +26,12 @@
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: slideIn 0.5s ease-out;
+    display: flex;
+    flex-direction: column;
 }
 
 
 .client-menu-section > article > footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
     background-color: var(--footer-bg-color);
     border-bottom-left-radius: 10px;
@@ -39,18 +39,20 @@
     padding: 10px;
     text-align: center;
     color: var(--text-color);
+    margin-top: auto;
 }
 
 .client-menu-section > article > div {
     padding: 20px;
-    padding-bottom: 50px;
-    box-sizing: border-box;
+    flex: 1;
 }
+
 
 .client-menu-section > article > div > img {
     width: 100%;
     border-radius: 5px;
     object-fit: cover;
+    max-height: 200px;
 }
 
 @media (max-width: 600px) {
@@ -85,6 +87,7 @@
         opacity: 1;
     }
 }
+
 
 /*Menu admin, mostrar en forma de tabla */
 /* Faltaria el responsivo, borrar comentario si se implementa */
