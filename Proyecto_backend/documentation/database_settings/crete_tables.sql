@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`order` (
     REFERENCES `proyecto_informatico`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -87,7 +87,6 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`payment` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `proyecto_informatico`.`notification`
@@ -107,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`notification` (
     REFERENCES `proyecto_informatico`.`user` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -132,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `proyecto_informatico`.`comment` (
     REFERENCES `proyecto_informatico`.`order` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `proyecto_informatico`.`order_has_menu`

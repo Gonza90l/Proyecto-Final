@@ -1,0 +1,33 @@
+# Use the official Python image from the Docker Hub
+FROM python:3.9-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Install dependencies for mysqlclient
+RUN apt-get update && apt-get install -y \
+    default-libmysqlclient-dev \
+    build-essential \
+    pkg-config
+
+# Set environment variables for mysqlclient
+ENV MYSQLCLIENT_CFLAGS="-I/usr/include/mysql"
+ENV MYSQLCLIENT_LDFLAGS="-L/usr/lib/x86_64-linux-gnu -lmysqlclient"
+
+# Copy the requirements file into the container
+COPY src/requirements.txt requirements.txt
+
+# Install the dependencies
+RUN pip install -r requirements.txt
+
+# Copy the rest of the application code into the container
+COPY src /app
+
+# Copy the SSL certificates into the container
+COPY src/flaskr/ssl /app/flaskr/ssl
+
+# Expose the port the app runs on
+EXPOSE 5000
+
+# Define the command to run the application
+CMD ["python", "run.py"]
