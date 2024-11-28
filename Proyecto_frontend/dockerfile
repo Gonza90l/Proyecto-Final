@@ -7,6 +7,9 @@ COPY . /usr/local/apache2/htdocs/
 # Copy the SSL certificates into the container
 COPY ssl /usr/local/apache2/conf/ssl
 
+# Copia el archivo .htaccess al directorio raíz del servidor web
+COPY .htaccess /usr/local/apache2/htdocs/.htaccess
+
 # Copy the custom Apache configuration file
 COPY httpd-ssl.conf /usr/local/apache2/conf/extra/httpd-ssl.conf
 

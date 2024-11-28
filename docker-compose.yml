@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+  mariadb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=your_password
+      - MYSQL_DATABASE=proyecto_informatico
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'SELECT 1' | mysql -h localhost -uroot -p$${MYSQL_ROOT_PASSWORD} proyecto_informatico || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+
   flask:
     build:
       context: ./proyecto_backend
@@ -26,9 +42,7 @@ services:
       - SSL_CERTFILE=./flaskr/ssl/cert.pem
       - SSL_KEYFILE=./flaskr/ssl/key.pem
       - SECRET_KEY=6bec47eaa7caa760b7ce01e85740d98076c179d3f93c7b664e3c7c350a7df189
-    depends_on:
-      mariadb:
-        condition: service_healthy
+    restart: always
 
   apache:
     build:
@@ -36,22 +50,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "443:443"
-
-  mariadb:
-    image: mariadb:latest
-    environment:
-      - MYSQL_ROOT_PASSWORD=your_password
-      - MYSQL_DATABASE=proyecto_informatico
-    volumes:
-      - mariadb_data:/var/lib/mysql
-      - ./proyecto_backend/documentation/database_settings:/docker-entrypoint-initdb.d
-    ports:
-      - "3306:3306"
-    healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    restart: always
 
 volumes:
   mariadb_data:
