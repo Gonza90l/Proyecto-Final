@@ -9,7 +9,7 @@ class AdminDashboardHandler {
 
     async init() {
         //si es aDMIN
-        if (authService.getRole() != 'ADMIN') {
+        if (await authService.getRole() != 'admin') {
            return;
         }
         try {
