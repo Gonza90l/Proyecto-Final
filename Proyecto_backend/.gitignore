@@ -50,4 +50,4 @@ build/
 # Archivos de documentación
 docs/_build/
 
-src/uploads/
+#src/uploads/
