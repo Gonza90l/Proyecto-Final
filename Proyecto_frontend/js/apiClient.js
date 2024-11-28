@@ -4,6 +4,7 @@ export class ApiClient {
         this.baseURL = baseURL;
         this.token = token; //tomaomse el token del authService
         this.maxRetries = 3; // Número máximo de reintentos en caso de fallo
+        this.timeout = 20000; // Guardar el timeout en la instancia
     }
 
     _getHeaders(contentType = 'application/json') {
